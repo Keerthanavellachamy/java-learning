@@ -1,0 +1,919 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 29</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo .java {
+            color: #ff8a3d;
+        }
+
+        .logo .learn {
+            color: white;
+        }
+
+        .lesson-pill {
+            background: rgba(255, 138, 61, 0.12);
+            border: 1px solid rgba(255, 138, 61, 0.35);
+            color: #ffb07a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 77, 109, 0.12);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            color: #ff7f9a;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b8bfd4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            box-shadow:
+                0 0 45px rgba(255, 77, 109, 0.35),
+                0 0 90px rgba(255, 138, 61, 0.15);
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+            color: #c7cce0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 96.67%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ffb07a;
+            margin: 22px 0 12px;
+        }
+
+        p, li {
+            color: #c4c9da;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .code-editor {
+            background: #0d1117;
+            border: 1px solid #252b36;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #252b36;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword { color:#ff7b72; }
+        .type { color:#79c0ff; }
+        .variable { color:#d2a8ff; }
+        .string { color:#a5d6ff; }
+        .number { color:#ffa657; }
+        .function { color:#d2a8ff; }
+        .comment { color:#8b949e; }
+        .annotation { color:#7ee787; }
+
+        .output {
+            background: #0a0e16;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px 18px;
+            margin-top: 14px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9deea;
+        }
+
+        .info {
+            background: rgba(255,138,61,0.08);
+            border-left: 4px solid #ff8a3d;
+            padding: 17px;
+            margin-top: 18px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: #ffb07a;
+        }
+
+        td {
+            color: #c4c9da;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            color: white;
+            font-weight: 700;
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8d94a8;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            nav {
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <span class="java">Java</span><span class="learn">Learn</span>
+    </div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 29 / 30
+    </div>
+</nav>
+
+<main>
+
+    <section class="hero">
+        <div>
+            <div class="badge">DATA STRUCTURES • LESSON 29</div>
+
+            <h1>Collections + <span>OOP</span></h1>
+
+            <p>
+                Learn how Java Collections work with object-oriented
+                programming to store, manage, search, and process objects
+                efficiently.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            List&lt;T&gt;
+        </div>
+    </section>
+
+    <section class="progress-card">
+        <div class="progress-top">
+            <strong>Lesson 29 of 30</strong>
+            <span>96.67% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </section>
+
+    <section class="cards">
+
+        <div class="card">
+            <h2>What Are Collections?</h2>
+
+            <p>
+                The Java Collections Framework provides ready-made classes
+                and interfaces for storing and manipulating groups of objects.
+            </p>
+
+            <div class="info">
+                Collections are commonly used with OOP because they can store
+                objects created from your own classes.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Why Use Collections?</h2>
+
+            <ul>
+                <li>Store multiple objects</li>
+                <li>Search and sort data</li>
+                <li>Add and remove objects easily</li>
+                <li>Reduce manual array management</li>
+                <li>Build flexible applications</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Collection Hierarchy</h2>
+
+            <p>
+                Some of the most commonly used collection types are:
+            </p>
+
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Purpose</th>
+                </tr>
+
+                <tr>
+                    <td>List</td>
+                    <td>Ordered collection that allows duplicates</td>
+                </tr>
+
+                <tr>
+                    <td>Set</td>
+                    <td>Collection that does not allow duplicate elements</td>
+                </tr>
+
+                <tr>
+                    <td>Map</td>
+                    <td>Stores key-value pairs</td>
+                </tr>
+
+                <tr>
+                    <td>Queue</td>
+                    <td>Stores elements for processing in an ordered way</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>ArrayList</h2>
+
+            <p>
+                ArrayList is one of the most commonly used List implementations.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">import</span> java.util.ArrayList;
+
+<span class="type">ArrayList</span>&lt;<span class="type">String</span>&gt; names =
+        <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+
+names.<span class="function">add</span>(<span class="string">"Keerthana"</span>);
+names.<span class="function">add</span>(<span class="string">"Amirtha"</span>);
+names.<span class="function">add</span>(<span class="string">"Harshitha"</span>);
+
+System.out.println(names);</pre>
+            </div>
+
+            <div class="output">
+                [Keerthana, Amirtha, Harshitha]
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Common List Methods</h2>
+
+            <ul>
+                <li><strong>add()</strong> — adds an element</li>
+                <li><strong>get()</strong> — gets an element</li>
+                <li><strong>set()</strong> — updates an element</li>
+                <li><strong>remove()</strong> — removes an element</li>
+                <li><strong>size()</strong> — returns the number of elements</li>
+                <li><strong>contains()</strong> — checks for an element</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Working with Objects</h2>
+
+            <p>
+                Collections become especially useful when storing objects
+                created from your own classes.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    <span class="type">String</span> name;
+    <span class="keyword">int</span> mark;
+
+    <span class="type">Student</span>(<span class="type">String</span> name, <span class="keyword">int</span> mark) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.mark = mark;
+    }
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Store Student Objects in a List</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">ArrayList</span>&lt;<span class="type">Student</span>&gt; students =
+        <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+
+students.<span class="function">add</span>(
+        <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>, <span class="number">85</span>)
+);
+
+students.<span class="function">add</span>(
+        <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Amirtha"</span>, <span class="number">90</span>)
+);
+
+<span class="keyword">for</span> (<span class="type">Student</span> student : students) {
+    System.out.println(
+        student.name + <span class="string">" - "</span> + student.mark
+    );
+}</pre>
+            </div>
+
+            <div class="output">
+                Keerthana - 85<br>
+                Amirtha - 90
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>HashSet</h2>
+
+            <p>
+                HashSet stores unique elements and automatically prevents
+                duplicate values.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">HashSet</span>&lt;<span class="type">String</span>&gt; names =
+        <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();
+
+names.<span class="function">add</span>(<span class="string">"Java"</span>);
+names.<span class="function">add</span>(<span class="string">"Python"</span>);
+names.<span class="function">add</span>(<span class="string">"Java"</span>);
+
+System.out.println(names);</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>HashMap</h2>
+
+            <p>
+                HashMap stores data as key-value pairs.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">HashMap</span>&lt;<span class="type">Integer</span>, <span class="type">String</span>&gt; students =
+        <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+
+students.<span class="function">put</span>(<span class="number">101</span>, <span class="string">"Keerthana"</span>);
+students.<span class="function">put</span>(<span class="number">102</span>, <span class="string">"Amirtha"</span>);
+
+System.out.println(students.<span class="function">get</span>(<span class="number">101</span>));</pre>
+            </div>
+
+            <div class="output">
+                Keerthana
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Map with Objects</h2>
+
+            <p>
+                A Map can also store objects as values.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">HashMap</span>&lt;<span class="type">Integer</span>, <span class="type">Student</span>&gt; students =
+        <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+
+students.<span class="function">put</span>(
+    <span class="number">101</span>,
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>, <span class="number">85</span>)
+);
+
+<span class="type">Student</span> student = students.<span class="function">get</span>(<span class="number">101</span>);
+
+System.out.println(student.name);</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Iterator</h2>
+
+            <p>
+                Iterator can be used to safely traverse collection elements.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Iterator</span>&lt;<span class="type">String</span>&gt; it =
+        names.<span class="function">iterator</span>();
+
+<span class="keyword">while</span> (it.<span class="function">hasNext</span>()) {
+    System.out.println(it.<span class="function">next</span>());
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Enhanced for Loop</h2>
+
+            <p>
+                The enhanced for loop is a simple way to process objects
+                stored in a collection.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">for</span> (<span class="type">Student</span> s : students) {
+    System.out.println(s.name);
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Sorting Objects</h2>
+
+            <p>
+                Objects can be sorted using Comparator.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre>students.<span class="function">sort</span>(
+    (<span class="variable">a</span>, <span class="variable">b</span>) ->
+        Integer.<span class="function">compare</span>(b.mark, a.mark)
+);</pre>
+            </div>
+
+            <div class="info">
+                This example sorts students based on marks in descending order.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>List vs Set</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>List</th>
+                    <th>Set</th>
+                </tr>
+
+                <tr>
+                    <td>Order</td>
+                    <td>Maintained</td>
+                    <td>Usually not guaranteed</td>
+                </tr>
+
+                <tr>
+                    <td>Duplicates</td>
+                    <td>Allowed</td>
+                    <td>Not allowed</td>
+                </tr>
+
+                <tr>
+                    <td>Example</td>
+                    <td>ArrayList</td>
+                    <td>HashSet</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>List vs Map</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>List</th>
+                    <th>Map</th>
+                </tr>
+
+                <tr>
+                    <td>Storage</td>
+                    <td>Elements</td>
+                    <td>Key-Value pairs</td>
+                </tr>
+
+                <tr>
+                    <td>Access</td>
+                    <td>Index</td>
+                    <td>Key</td>
+                </tr>
+
+                <tr>
+                    <td>Example</td>
+                    <td>ArrayList</td>
+                    <td>HashMap</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card full">
+            <h2>OOP + Collections Example</h2>
+
+            <p>
+                A simple employee management example demonstrates how OOP
+                and collections work together.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Employee</span> {
+
+    <span class="keyword">private</span> <span class="type">String</span> name;
+    <span class="keyword">private</span> <span class="keyword">double</span> salary;
+
+    <span class="type">Employee</span>(<span class="type">String</span> name, <span class="keyword">double</span> salary) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.salary = salary;
+    }
+
+    <span class="type">String</span> <span class="function">getName</span>() {
+        <span class="keyword">return</span> name;
+    }
+
+    <span class="keyword">double</span> <span class="function">getSalary</span>() {
+        <span class="keyword">return</span> salary;
+    }
+}
+
+<span class="type">ArrayList</span>&lt;<span class="type">Employee</span>&gt; employees =
+        <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+
+employees.<span class="function">add</span>(
+    <span class="keyword">new</span> <span class="type">Employee</span>(<span class="string">"Keerthana"</span>, <span class="number">35000</span>)
+);
+
+employees.<span class="function">add</span>(
+    <span class="keyword">new</span> <span class="type">Employee</span>(<span class="string">"Amirtha"</span>, <span class="number">40000</span>)
+);
+
+<span class="keyword">for</span> (<span class="type">Employee</span> e : employees) {
+    System.out.println(
+        e.<span class="function">getName</span>() + <span class="string">" - "</span> +
+        e.<span class="function">getSalary</span>()
+    );
+}</pre>
+            </div>
+
+            <div class="output">
+                Keerthana - 35000.0<br>
+                Amirtha - 40000.0
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Generics + Collections</h2>
+
+            <p>
+                Collections use generics extensively to provide compile-time
+                type safety.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">List</span>&lt;<span class="type">Student</span>&gt; students =
+        <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();</pre>
+            </div>
+
+            <div class="info">
+                This means the list can contain Student objects only.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Choosing a Collection</h2>
+
+            <ul>
+                <li>Use <strong>ArrayList</strong> for ordered data.</li>
+                <li>Use <strong>HashSet</strong> for unique data.</li>
+                <li>Use <strong>HashMap</strong> for key-value data.</li>
+                <li>Use <strong>Queue</strong> when processing items in order.</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Important Points</h2>
+
+            <ul>
+                <li>Collections store groups of objects.</li>
+                <li>Generics provide type safety.</li>
+                <li>List allows duplicate elements.</li>
+                <li>Set prevents duplicate elements.</li>
+                <li>Map stores key-value pairs.</li>
+                <li>Collections can store custom class objects.</li>
+                <li>OOP and collections are commonly used together in real applications.</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What is the Java Collections Framework?</li>
+                <li>What is the difference between List and Set?</li>
+                <li>What is ArrayList?</li>
+                <li>What is HashSet?</li>
+                <li>What is HashMap?</li>
+                <li>How can a collection store custom objects?</li>
+                <li>What is an Iterator?</li>
+                <li>How do generics improve collections?</li>
+                <li>How can objects be sorted?</li>
+                <li>When would you use a Map instead of a List?</li>
+            </ol>
+        </div>
+
+        <div class="card full">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Build a simple <strong>Student Management System</strong>
+                using OOP and collections.
+            </p>
+
+            <h3>Requirements</h3>
+
+            <ul>
+                <li>Create a Student class.</li>
+                <li>Add name, roll number, and mark fields.</li>
+                <li>Store Student objects inside an ArrayList.</li>
+                <li>Add at least five students.</li>
+                <li>Display all students.</li>
+                <li>Find a student by roll number.</li>
+                <li>Sort students by marks.</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                Collections provide powerful ways to store and manage groups
+                of objects. When combined with OOP and generics, they help
+                create flexible, reusable, and type-safe Java applications.
+            </p>
+
+            <div class="info">
+                Next lesson: SOLID Principles & OOP Design — the final lesson
+                of the Java OOP Masterclass.
+            </div>
+        </div>
+
+    </section>
+
+    <div class="buttons">
+        <a href="lesson28.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson30.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>
+```

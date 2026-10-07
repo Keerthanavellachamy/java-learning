@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaLearn | Lesson 9</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8,11,20,0.75);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ff8a3d;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .lesson-number {
+            background: rgba(255,138,61,0.12);
+            color: #ff9d5c;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff9d5c;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.25);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb7ca;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .input-circle {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow:
+                0 0 30px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.12);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .card:hover {
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #b8c0d0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .learn-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 20px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .learn-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        .learn-item .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .learn-item h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .learn-item p {
+            font-size: 13px;
+            color: #9da7bb;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #171b27;
+            padding: 13px 18px;
+            border-radius: 12px 12px 0 0;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        pre {
+            background: #0d111a;
+            padding: 25px;
+            overflow-x: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            border: 1px solid #171b27;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .operator {
+            color: #ff9d5c;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            background: #10151f;
+            border: 1px solid rgba(255,138,61,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .output-title {
+            color: #ff9d5c;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .output p {
+            color: #d7dde8;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .note {
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255,138,61,0.08);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #ff9d5c;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: rgba(255,138,61,0.15);
+            color: #ff9d5c;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #b8c0d0;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .question {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .question-number {
+            color: #ff8a3d;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: #202533;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 90%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn.next {
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            border: none;
+            box-shadow: 0 8px 25px rgba(255,80,80,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: #687287;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 50px;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 20px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        Java<span>Learn</span>
+    </div>
+
+    <div class="lesson-number">
+        Lesson 09 / 10
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="tag">
+                ☕ JAVA BASICS
+            </div>
+
+            <h1>
+                Java<br>
+                <span>User Input</span>
+            </h1>
+
+            <p>
+                Learn how to accept information from the user using
+                the Scanner class in Java.
+            </p>
+
+        </div>
+
+
+        <div class="input-circle">
+            Scanner<br>
+            ⌨️
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="progress-info">
+
+            <span>Course Progress</span>
+
+            <span>9 / 10 Lessons</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT YOU LEARN -->
+
+    <section class="card">
+
+        <h2>What You'll Learn</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">⌨️</div>
+
+                <h3>User Input</h3>
+
+                <p>
+                    Understand how programs receive input.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔎</div>
+
+                <h3>Scanner</h3>
+
+                <p>
+                    Learn the Scanner class.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔤</div>
+
+                <h3>String Input</h3>
+
+                <p>
+                    Read text entered by the user.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔢</div>
+
+                <h3>Integer Input</h3>
+
+                <p>
+                    Read integer values.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔣</div>
+
+                <h3>Decimal Input</h3>
+
+                <p>
+                    Read decimal values.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🧮</div>
+
+                <h3>Practical Programs</h3>
+
+                <p>
+                    Build programs using user input.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT IS USER INPUT -->
+
+    <section class="card">
+
+        <h2>What is User Input?</h2>
+
+        <p>
+            User input means information entered by a person while
+            a program is running.
+        </p>
+
+        <div class="note">
+
+            <strong>💡 Example:</strong>
+
+            <p style="margin-top:10px;">
+                A program can ask the user to enter their name,
+                age, marks or phone number.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SCANNER -->
+
+    <section class="card">
+
+        <h2>Scanner Class</h2>
+
+        <p>
+            Java provides the <b>Scanner</b> class to read input
+            from the keyboard.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>ScannerExample.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+    }
+
+}</pre>
+
+
+        <div class="note">
+
+            <strong>Remember:</strong>
+
+            <p style="margin-top:10px;">
+                We need to import <b>java.util.Scanner</b> before
+                using the Scanner class.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- STRING INPUT -->
+
+    <section class="card">
+
+        <h2>Reading String Input</h2>
+
+        <p>
+            The <b>nextLine()</b> method reads a complete line of text.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>StringInput.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter your name:"</span>);
+
+        <span class="type">String</span> name = input.nextLine();
+
+        System.out.println(<span class="string">"Hello "</span> + name);
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                SAMPLE OUTPUT
+            </div>
+
+            <p>
+                Enter your name:<br>
+                Keerthana<br>
+                Hello Keerthana
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- INTEGER INPUT -->
+
+    <section class="card">
+
+        <h2>Reading Integer Input</h2>
+
+        <p>
+            Use <b>nextInt()</b> to read an integer value.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>IntegerInput.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter your age:"</span>);
+
+        <span class="type">int</span> age = input.nextInt();
+
+        System.out.println(<span class="string">"Your age is "</span> + age);
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                SAMPLE OUTPUT
+            </div>
+
+            <p>
+                Enter your age:<br>
+                20<br>
+                Your age is 20
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DECIMAL INPUT -->
+
+    <section class="card">
+
+        <h2>Reading Decimal Input</h2>
+
+        <p>
+            Use <b>nextDouble()</b> to read a decimal number.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>DecimalInput.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter your CGPA:"</span>);
+
+        <span class="type">double</span> cgpa = input.nextDouble();
+
+        System.out.println(<span class="string">"Your CGPA is "</span> + cgpa);
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                SAMPLE OUTPUT
+            </div>
+
+            <p>
+                Enter your CGPA:<br>
+                8.15<br>
+                Your CGPA is 8.15
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DIFFERENT METHODS -->
+
+    <section class="card">
+
+        <h2>Scanner Input Methods</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Method</th>
+                    <th>Input Type</th>
+                    <th>Example</th>
+                </tr>
+
+                <tr>
+                    <td>nextLine()</td>
+                    <td>String / complete line</td>
+                    <td>input.nextLine()</td>
+                </tr>
+
+                <tr>
+                    <td>next()</td>
+                    <td>Single word</td>
+                    <td>input.next()</td>
+                </tr>
+
+                <tr>
+                    <td>nextInt()</td>
+                    <td>Integer</td>
+                    <td>input.nextInt()</td>
+                </tr>
+
+                <tr>
+                    <td>nextDouble()</td>
+                    <td>Decimal number</td>
+                    <td>input.nextDouble()</td>
+                </tr>
+
+                <tr>
+                    <td>nextFloat()</td>
+                    <td>Float number</td>
+                    <td>input.nextFloat()</td>
+                </tr>
+
+                <tr>
+                    <td>nextLong()</td>
+                    <td>Long integer</td>
+                    <td>input.nextLong()</td>
+                </tr>
+
+                <tr>
+                    <td>nextBoolean()</td>
+                    <td>Boolean</td>
+                    <td>input.nextBoolean()</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- MULTIPLE INPUT -->
+
+    <section class="card">
+
+        <h2>Taking Multiple Inputs</h2>
+
+        <p>
+            We can take different values from the user in the same
+            program.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>StudentInput.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Student {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter your name:"</span>);
+
+        <span class="type">String</span> name = input.nextLine();
+
+        System.out.println(<span class="string">"Enter your age:"</span>);
+
+        <span class="type">int</span> age = input.nextInt();
+
+        System.out.println(<span class="string">"Enter your CGPA:"</span>);
+
+        <span class="type">double</span> cgpa = input.nextDouble();
+
+        System.out.println(<span class="string">"Name: "</span> + name);
+
+        System.out.println(<span class="string">"Age: "</span> + age);
+
+        System.out.println(<span class="string">"CGPA: "</span> + cgpa);
+
+    }
+
+}</pre>
+
+    </section>
+
+
+    <!-- ADDITION -->
+
+    <section class="card">
+
+        <h2>Practical Example — Addition</h2>
+
+        <p>
+            Let's create a program that takes two numbers from the
+            user and calculates their sum.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>AddNumbers.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> AddNumbers {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter first number:"</span>);
+
+        <span class="type">int</span> a = input.nextInt();
+
+        System.out.println(<span class="string">"Enter second number:"</span>);
+
+        <span class="type">int</span> b = input.nextInt();
+
+        <span class="type">int</span> sum = a + b;
+
+        System.out.println(<span class="string">"Sum = "</span> + sum);
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                SAMPLE OUTPUT
+            </div>
+
+            <p>
+                Enter first number:<br>
+                10<br>
+                Enter second number:<br>
+                20<br>
+                Sum = 30
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MARKS -->
+
+    <section class="card">
+
+        <h2>Practical Example — Student Marks</h2>
+
+        <p>
+            We can also use Scanner to calculate the total and average
+            of marks.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Marks.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">class</span> Marks {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        Scanner input = <span class="keyword">new</span> Scanner(System.in);
+
+        System.out.println(<span class="string">"Enter mark 1:"</span>);
+
+        <span class="type">int</span> mark1 = input.nextInt();
+
+        System.out.println(<span class="string">"Enter mark 2:"</span>);
+
+        <span class="type">int</span> mark2 = input.nextInt();
+
+        System.out.println(<span class="string">"Enter mark 3:"</span>);
+
+        <span class="type">int</span> mark3 = input.nextInt();
+
+        <span class="type">int</span> total = mark1 + mark2 + mark3;
+
+        <span class="type">double</span> average = total / <span class="number">3.0</span>;
+
+        System.out.println(<span class="string">"Total = "</span> + total);
+
+        System.out.println(<span class="string">"Average = "</span> + average);
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                SAMPLE OUTPUT
+            </div>
+
+            <p>
+                Enter mark 1:<br>
+                80<br>
+                Enter mark 2:<br>
+                90<br>
+                Enter mark 3:<br>
+                85<br>
+                Total = 255<br>
+                Average = 85.0
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- IMPORTANT NOTE -->
+
+    <section class="card">
+
+        <h2>Important Note</h2>
+
+        <div class="note">
+
+            <strong>⚠️ nextInt() and nextLine()</strong>
+
+            <p style="margin-top:10px;">
+                When using <b>nextInt()</b> before <b>nextLine()</b>,
+                you may need an extra <b>input.nextLine()</b> to consume
+                the remaining newline.
+            </p>
+
+        </div>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>InputFix.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span> age = input.nextInt();
+
+input.nextLine();
+
+<span class="type">String</span> name = input.nextLine();</pre>
+
+    </section>
+
+
+    <!-- PRACTICE -->
+
+    <section class="card">
+
+        <h2>Practice Questions</h2>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 01
+            </div>
+
+            <p>
+                Write a Java program to accept your name and display it.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 02
+            </div>
+
+            <p>
+                Write a program to accept two integers and print their
+                sum.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 03
+            </div>
+
+            <p>
+                Accept the length and width of a rectangle and calculate
+                its area.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 04
+            </div>
+
+            <p>
+                Accept three marks and calculate the total and average.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 05
+            </div>
+
+            <p>
+                Accept a student's name, age and CGPA and display all
+                the details.
+            </p>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>🎯 Challenge</strong>
+
+            <p style="margin-top:10px;">
+                Create a simple calculator that accepts two numbers
+                from the user and displays their addition, subtraction,
+                multiplication and division.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card">
+
+        <h2>Lesson Summary</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">⌨️</div>
+
+                <h3>User Input</h3>
+
+                <p>
+                    Allows users to enter information.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔎</div>
+
+                <h3>Scanner</h3>
+
+                <p>
+                    Reads input from the keyboard.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔤</div>
+
+                <h3>nextLine()</h3>
+
+                <p>
+                    Reads a complete line of text.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔢</div>
+
+                <h3>nextInt()</h3>
+
+                <p>
+                    Reads integer values.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔣</div>
+
+                <h3>nextDouble()</h3>
+
+                <p>
+                    Reads decimal values.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🧮</div>
+
+                <h3>Practical Programs</h3>
+
+                <p>
+                    Use input to build useful programs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="lesson8.html" class="btn">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson10.html" class="btn next">
+            Next Lesson →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        ☕ JavaLearn • Learn Java Step by Step
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1042 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Library Management System | JavaLearn</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #32145f 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #0b4f6c 0%,
+                    transparent 35%
+                ),
+                #080b14;
+
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(8, 11, 20, 0.9);
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 18px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .project-pill {
+            background: rgba(255,138,61,0.12);
+
+            border:
+                1px solid rgba(255,138,61,0.4);
+
+            padding: 9px 16px;
+
+            border-radius: 20px;
+
+            color: #ffb37a;
+
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 60px 0 80px;
+        }
+
+        .hero {
+            display: grid;
+
+            grid-template-columns:
+                1.3fr 0.7fr;
+
+            gap: 40px;
+
+            align-items: center;
+
+            margin-bottom: 50px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            color: #ff8a3d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 50px;
+
+            line-height: 1.1;
+
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero-text {
+            color: #b9c0d0;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            max-width: 700px;
+        }
+
+        .project-icon {
+            width: 220px;
+            height: 220px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a3d,
+                    #ff4d6d
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 75px;
+
+            box-shadow:
+                0 0 45px
+                rgba(255,138,61,0.35),
+
+                0 0 90px
+                rgba(255,77,109,0.18);
+        }
+
+        .stats {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 10px 16px;
+
+            border-radius: 12px;
+
+            color: #dce1ef;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .card {
+            background:
+                rgba(255,255,255,0.055);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(14px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+
+            color: #ff8a3d;
+        }
+
+        p {
+            color: #b9c0d0;
+
+            line-height: 1.7;
+        }
+
+        ul {
+            margin-left: 20px;
+
+            color: #c8cede;
+
+            line-height: 2;
+        }
+
+        li::marker {
+            color: #ff8a3d;
+        }
+
+        .info-box {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-left:
+                4px solid #ff8a3d;
+
+            background:
+                rgba(255,138,61,0.08);
+
+            border-radius: 10px;
+
+            color: #cfd5e3;
+
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #ffb37a;
+        }
+
+        .tech-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+        .tech {
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(121,192,255,0.1);
+
+            border:
+                1px solid
+                rgba(121,192,255,0.25);
+
+            color: #79c0ff;
+
+            font-size: 13px;
+        }
+
+        .features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 14px;
+
+            margin-top: 20px;
+        }
+
+        .feature {
+            padding: 18px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius: 12px;
+        }
+
+        .feature strong {
+            display: block;
+
+            color: #ff8a3d;
+
+            margin-bottom: 7px;
+        }
+
+        .navigation {
+            margin-top: 35px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+
+            padding: 13px 22px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background:
+                rgba(255,138,61,0.15);
+
+            border-color: #ff8a3d;
+
+            transform: translateY(-2px);
+        }
+
+        .btn.primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a3d,
+                    #ff4d6d
+                );
+
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            color: #8f98ab;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 38px;
+            }
+
+            .project-icon {
+                width: 180px;
+                height: 180px;
+
+                font-size: 60px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="project-pill">
+            Java Projects • Project 2 / 5
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+
+                <div class="badge">
+                    ADVANCED PROJECT • PROJECT 2
+                </div>
+
+                <h1>
+                    Library
+                    <span>Management</span>
+                    System
+                </h1>
+
+                <p class="hero-text">
+
+                    Build a complete Java-based Library Management
+                    System using Object-Oriented Programming,
+                    Collections, Exception Handling and
+                    book issue and return operations.
+
+                </p>
+
+
+                <div class="stats">
+
+                    <div class="stat">
+                        ⏱ 6 Weeks Course
+                    </div>
+
+                    <div class="stat">
+                        ☕ Java
+                    </div>
+
+                    <div class="stat">
+                        📚 Project 2 of 5
+                    </div>
+
+                    <div class="stat">
+                        ⭐ 4.9
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="project-icon">
+                📚
+            </div>
+
+        </section>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="cards">
+
+
+            <!-- OVERVIEW -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Overview
+                </h2>
+
+                <p>
+
+                    The Library Management System is a Java
+                    application designed to manage books,
+                    members and library transactions.
+
+                    The application allows the librarian to
+                    add books, register members, search books
+                    and manage book issue and return operations.
+
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        Project Goal:
+                    </strong>
+
+                    Create a practical Java application that
+                    manages a library's books, members and
+                    borrowing activities.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FEATURES -->
+
+            <div class="card">
+
+                <h2>
+                    Project Features
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Add new books
+                    </li>
+
+                    <li>
+                        View all books
+                    </li>
+
+                    <li>
+                        Search books
+                    </li>
+
+                    <li>
+                        Register members
+                    </li>
+
+                    <li>
+                        Issue books
+                    </li>
+
+                    <li>
+                        Return books
+                    </li>
+
+                    <li>
+                        Track available books
+                    </li>
+
+                    <li>
+                        Manage library records
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- CONCEPTS -->
+
+            <div class="card">
+
+                <h2>
+                    Java Concepts
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Classes and Objects
+                    </li>
+
+                    <li>
+                        Encapsulation
+                    </li>
+
+                    <li>
+                        Inheritance
+                    </li>
+
+                    <li>
+                        Polymorphism
+                    </li>
+
+                    <li>
+                        ArrayList
+                    </li>
+
+                    <li>
+                        Exception Handling
+                    </li>
+
+                    <li>
+                        File Handling
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- TECHNOLOGIES -->
+
+            <div class="card full">
+
+                <h2>
+                    Technologies Used
+                </h2>
+
+                <p>
+                    The project combines the following Java
+                    concepts and technologies.
+                </p>
+
+
+                <div class="tech-list">
+
+                    <span class="tech">
+                        Java
+                    </span>
+
+                    <span class="tech">
+                        OOP
+                    </span>
+
+                    <span class="tech">
+                        Collections
+                    </span>
+
+                    <span class="tech">
+                        ArrayList
+                    </span>
+
+                    <span class="tech">
+                        Interfaces
+                    </span>
+
+                    <span class="tech">
+                        Exception Handling
+                    </span>
+
+                    <span class="tech">
+                        File Handling
+                    </span>
+
+                    <span class="tech">
+                        CRUD
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MODULES -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Modules
+                </h2>
+
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📖 Book Management
+                        </strong>
+
+                        Add, view, search and manage
+                        library books.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            👤 Member Management
+                        </strong>
+
+                        Register and manage library
+                        members.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📤 Issue Book
+                        </strong>
+
+                        Issue available books to
+                        registered members.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📥 Return Book
+                        </strong>
+
+                        Return books and update
+                        their availability.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            🔍 Search
+                        </strong>
+
+                        Search books by ID, title
+                        or author.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📊 Library Records
+                        </strong>
+
+                        View current books and
+                        borrowing information.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROJECT STRUCTURE -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Structure
+                </h2>
+
+                <p>
+                    The project can be organized into separate
+                    Java classes for better code structure.
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        LibraryManagement/
+                    </strong>
+
+                    <br><br>
+
+                    ├── Book.java
+                    <br>
+
+                    ├── Member.java
+                    <br>
+
+                    ├── Library.java
+                    <br>
+
+                    └── Main.java
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROJECT FLOW -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Flow
+                </h2>
+
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <strong>
+                            01
+                        </strong>
+
+                        Add books to the library.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            02
+                        </strong>
+
+                        Register library members.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            03
+                        </strong>
+
+                        Search for available books.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            04
+                        </strong>
+
+                        Issue books to members.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            05
+                        </strong>
+
+                        Return issued books.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            06
+                        </strong>
+
+                        Display updated library records.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EXPECTED MENU -->
+
+            <div class="card full">
+
+                <h2>
+                    Application Menu
+                </h2>
+
+                <div class="info-box">
+
+                    <strong>
+                        LIBRARY MANAGEMENT SYSTEM
+                    </strong>
+
+                    <br><br>
+
+                    1. Add Book
+                    <br>
+
+                    2. View Books
+                    <br>
+
+                    3. Search Book
+                    <br>
+
+                    4. Add Member
+                    <br>
+
+                    5. Issue Book
+                    <br>
+
+                    6. Return Book
+                    <br>
+
+                    7. View Records
+                    <br>
+
+                    8. Exit
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PORTFOLIO -->
+
+            <div class="card full">
+
+                <h2>
+                    Portfolio Skills
+                </h2>
+
+                <p>
+                    After completing this project, you will
+                    demonstrate practical knowledge of Java
+                    application development.
+                </p>
+
+
+                <div class="tech-list">
+
+                    <span class="tech">
+                        Java OOP
+                    </span>
+
+                    <span class="tech">
+                        Collections
+                    </span>
+
+                    <span class="tech">
+                        CRUD
+                    </span>
+
+                    <span class="tech">
+                        Exception Handling
+                    </span>
+
+                    <span class="tech">
+                        File Management
+                    </span>
+
+                    <span class="tech">
+                        Problem Solving
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- NAVIGATION -->
+
+        <div class="navigation">
+
+            <a href="project1.html" class="btn">
+                ← Previous Project
+            </a>
+
+            <a href="project3.html" class="btn primary">
+                Next Project →
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        ☕ JavaLearn • Java Projects
+
+    </footer>
+
+
+</body>
+
+</html>
+```

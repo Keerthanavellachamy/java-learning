@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaLearn | Lesson 10</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8,11,20,0.75);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ff8a3d;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .lesson-number {
+            background: rgba(255,138,61,0.12);
+            color: #ff9d5c;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff9d5c;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.25);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb7ca;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .exception-circle {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow:
+                0 0 30px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.12);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .card:hover {
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #b8c0d0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .learn-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 20px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .learn-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        .learn-item .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .learn-item h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .learn-item p {
+            font-size: 13px;
+            color: #9da7bb;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #171b27;
+            padding: 13px 18px;
+            border-radius: 12px 12px 0 0;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        pre {
+            background: #0d111a;
+            padding: 25px;
+            overflow-x: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            border: 1px solid #171b27;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .operator {
+            color: #ff9d5c;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            background: #10151f;
+            border: 1px solid rgba(255,138,61,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .output-title {
+            color: #ff9d5c;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .output p {
+            color: #d7dde8;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .error-output {
+            background: rgba(255,77,109,0.07);
+            border: 1px solid rgba(255,77,109,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .error-title {
+            color: #ff6b81;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .error-output p {
+            color: #d7dde8;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .note {
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255,138,61,0.08);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #ff9d5c;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: rgba(255,138,61,0.15);
+            color: #ff9d5c;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #b8c0d0;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .question {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .question-number {
+            color: #ff8a3d;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: #202533;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn.next {
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            border: none;
+            box-shadow: 0 8px 25px rgba(255,80,80,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: #687287;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 50px;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .exception-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 20px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        Java<span>Learn</span>
+    </div>
+
+    <div class="lesson-number">
+        Lesson 10 / 10
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="tag">
+                ☕ JAVA BASICS
+            </div>
+
+            <h1>
+                Exception<br>
+                <span>Basics</span>
+            </h1>
+
+            <p>
+                Learn how Java handles unexpected problems using
+                exceptions, try-catch blocks and finally.
+            </p>
+
+        </div>
+
+
+        <div class="exception-circle">
+            try<br>
+            catch<br>
+            ⚠️
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="progress-info">
+
+            <span>Course Progress</span>
+
+            <span>10 / 10 Lessons</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT YOU LEARN -->
+
+    <section class="card">
+
+        <h2>What You'll Learn</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">⚠️</div>
+
+                <h3>Exceptions</h3>
+
+                <p>
+                    Understand what an exception is.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔴</div>
+
+                <h3>Errors</h3>
+
+                <p>
+                    Understand common runtime problems.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🛡️</div>
+
+                <h3>try-catch</h3>
+
+                <p>
+                    Handle exceptions safely.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔧</div>
+
+                <h3>finally</h3>
+
+                <p>
+                    Execute code after try-catch.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📢</div>
+
+                <h3>Exception Message</h3>
+
+                <p>
+                    Display useful error information.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">💻</div>
+
+                <h3>Practical Examples</h3>
+
+                <p>
+                    Handle common Java exceptions.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT IS EXCEPTION -->
+
+    <section class="card">
+
+        <h2>What is an Exception?</h2>
+
+        <p>
+            An exception is an unexpected problem that occurs while
+            a Java program is running.
+        </p>
+
+        <div class="note">
+
+            <strong>💡 Example:</strong>
+
+            <p style="margin-top:10px;">
+                Trying to divide a number by zero can cause an
+                exception.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- WITHOUT HANDLING -->
+
+    <section class="card">
+
+        <h2>Example Without Exception Handling</h2>
+
+        <p>
+            Consider the following program.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>ErrorExample.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="type">int</span> a = <span class="number">10</span>;
+
+        <span class="type">int</span> b = <span class="number">0</span>;
+
+        <span class="type">int</span> result = a / b;
+
+        System.out.println(result);
+
+    }
+
+}</pre>
+
+
+        <div class="error-output">
+
+            <div class="error-title">
+                ⚠️ ERROR
+            </div>
+
+            <p>
+                ArithmeticException: / by zero
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRY CATCH -->
+
+    <section class="card">
+
+        <h2>try-catch</h2>
+
+        <p>
+            The <b>try-catch</b> statement allows us to handle an
+            exception without stopping the entire program unexpectedly.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>TryCatch.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">try</span> {
+
+    <span class="type">int</span> result = <span class="number">10</span> / <span class="number">0</span>;
+
+}
+
+<span class="keyword">catch</span> (ArithmeticException e) {
+
+    System.out.println(<span class="string">"Cannot divide by zero"</span>);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Cannot divide by zero
+            </p>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>💡 Remember:</strong>
+
+            <p style="margin-top:10px;">
+                Code that may cause an exception is placed inside
+                <b>try</b>. The exception is handled inside
+                <b>catch</b>.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRY CATCH FULL PROGRAM -->
+
+    <section class="card">
+
+        <h2>Complete try-catch Program</h2>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Main.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="keyword">try</span> {
+
+            <span class="type">int</span> a = <span class="number">20</span>;
+
+            <span class="type">int</span> b = <span class="number">0</span>;
+
+            <span class="type">int</span> result = a / b;
+
+            System.out.println(result);
+
+        }
+
+        <span class="keyword">catch</span> (ArithmeticException e) {
+
+            System.out.println(
+                <span class="string">"Division by zero is not allowed"</span>
+            );
+
+        }
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Division by zero is not allowed
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINALLY -->
+
+    <section class="card">
+
+        <h2>finally Block</h2>
+
+        <p>
+            The <b>finally</b> block contains code that executes after
+            the try-catch process.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>FinallyExample.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">try</span> {
+
+    System.out.println(<span class="string">"Try block"</span>);
+
+}
+
+<span class="keyword">catch</span> (Exception e) {
+
+    System.out.println(<span class="string">"Exception occurred"</span>);
+
+}
+
+<span class="keyword">finally</span> {
+
+    System.out.println(<span class="string">"Finally block executed"</span>);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Try block<br>
+                Finally block executed
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- EXCEPTION MESSAGE -->
+
+    <section class="card">
+
+        <h2>Getting the Exception Message</h2>
+
+        <p>
+            The <b>getMessage()</b> method can be used to get a
+            message describing an exception.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Message.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">try</span> {
+
+    <span class="type">int</span> result = <span class="number">10</span> / <span class="number">0</span>;
+
+}
+
+<span class="keyword">catch</span> (ArithmeticException e) {
+
+    System.out.println(e.getMessage());
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                / by zero
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMMON EXCEPTIONS -->
+
+    <section class="card">
+
+        <h2>Common Java Exceptions</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Exception</th>
+                    <th>Cause</th>
+                </tr>
+
+                <tr>
+                    <td>ArithmeticException</td>
+                    <td>Invalid arithmetic operation such as division by zero.</td>
+                </tr>
+
+                <tr>
+                    <td>ArrayIndexOutOfBoundsException</td>
+                    <td>Trying to access an invalid array index.</td>
+                </tr>
+
+                <tr>
+                    <td>NullPointerException</td>
+                    <td>Trying to use a null object reference.</td>
+                </tr>
+
+                <tr>
+                    <td>NumberFormatException</td>
+                    <td>Invalid conversion from String to number.</td>
+                </tr>
+
+                <tr>
+                    <td>InputMismatchException</td>
+                    <td>Input does not match the expected type.</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ARRAY EXCEPTION -->
+
+    <section class="card">
+
+        <h2>Array Exception Example</h2>
+
+        <p>
+            An exception can also occur when we access an array
+            position that does not exist.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>ArrayError.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+
+        <span class="keyword">try</span> {
+
+            System.out.println(numbers[<span class="number">5</span>]);
+
+        }
+
+        <span class="keyword">catch</span> (ArrayIndexOutOfBoundsException e) {
+
+            System.out.println(<span class="string">"Invalid array index"</span>);
+
+        }
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Invalid array index
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MULTIPLE CATCH -->
+
+    <section class="card">
+
+        <h2>Multiple catch Blocks</h2>
+
+        <p>
+            A program can have multiple catch blocks to handle
+            different types of exceptions.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>MultipleCatch.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">try</span> {
+
+    <span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>};
+
+    System.out.println(numbers[<span class="number">5</span>]);
+
+}
+
+<span class="keyword">catch</span> (ArithmeticException e) {
+
+    System.out.println(<span class="string">"Arithmetic error"</span>);
+
+}
+
+<span class="keyword">catch</span> (ArrayIndexOutOfBoundsException e) {
+
+    System.out.println(<span class="string">"Array index error"</span>);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Array index error
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- STRUCTURE -->
+
+    <section class="card">
+
+        <h2>Exception Handling Structure</h2>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Structure</span>
+
+        </div>
+
+
+<pre><span class="keyword">try</span> {
+
+    <span class="comment">// Code that may cause an exception</span>
+
+}
+
+<span class="keyword">catch</span> (ExceptionType e) {
+
+    <span class="comment">// Code to handle the exception</span>
+
+}
+
+<span class="keyword">finally</span> {
+
+    <span class="comment">// Code that executes afterward</span>
+
+}</pre>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+
+    <section class="card">
+
+        <h2>Why Handle Exceptions?</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">🛡️</div>
+
+                <h3>Safe Program</h3>
+
+                <p>
+                    Prevent unexpected program termination.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🐞</div>
+
+                <h3>Easy Debugging</h3>
+
+                <p>
+                    Understand where problems occur.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">😊</div>
+
+                <h3>User Friendly</h3>
+
+                <p>
+                    Show meaningful messages to users.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRACTICE -->
+
+    <section class="card">
+
+        <h2>Practice Questions</h2>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 01
+            </div>
+
+            <p>
+                Write a program that handles division by zero using
+                try-catch.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 02
+            </div>
+
+            <p>
+                Create an array and handle an invalid array index
+                using try-catch.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 03
+            </div>
+
+            <p>
+                Write a program using try, catch and finally.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 04
+            </div>
+
+            <p>
+                Create a program that displays the exception message
+                using <b>getMessage()</b>.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 05
+            </div>
+
+            <p>
+                Create a program with two catch blocks to handle
+                different exceptions.
+            </p>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>🎯 Challenge</strong>
+
+            <p style="margin-top:10px;">
+                Create a calculator that accepts two numbers and
+                handles division by zero using exception handling.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card">
+
+        <h2>Lesson Summary</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">⚠️</div>
+
+                <h3>Exception</h3>
+
+                <p>
+                    An unexpected problem during program execution.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🛡️</div>
+
+                <h3>try</h3>
+
+                <p>
+                    Contains code that may cause an exception.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔧</div>
+
+                <h3>catch</h3>
+
+                <p>
+                    Handles the exception.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔄</div>
+
+                <h3>finally</h3>
+
+                <p>
+                    Executes after try-catch.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📢</div>
+
+                <h3>getMessage()</h3>
+
+                <p>
+                    Gets information about an exception.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">☕</div>
+
+                <h3>Java Basics Complete</h3>
+
+                <p>
+                    You completed all 10 Java Basics lessons.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COURSE COMPLETE -->
+
+    <section class="card">
+
+        <h2>Java Basics Completed 🎉</h2>
+
+        <p>
+            Congratulations! You have completed the Java Basics
+            course.
+        </p>
+
+        <div class="note">
+
+            <strong>🚀 What's Next?</strong>
+
+            <p style="margin-top:10px;">
+                Now you can continue with <b>Core Java</b> and learn
+                Object-Oriented Programming, Classes, Objects,
+                Constructors, Inheritance, Polymorphism and more.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="lesson9.html" class="btn">
+            ← Previous Lesson
+        </a>
+
+        <a href="/index.html" class="btn">
+            Finish Java Basics →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        ☕ JavaLearn • Learn Java Step by Step
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

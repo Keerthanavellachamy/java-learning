@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 24</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #d9def0;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            color: #ff8a3d;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b9c0d4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 35px rgba(255,138,61,0.35),
+                0 0 80px rgba(255,77,109,0.2);
+        }
+
+        .hero-visual div {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background: #101522;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 58px;
+            font-weight: 800;
+            color: #ff8a3d;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b9c0d4;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 16px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff8a3d;
+            margin: 20px 0 10px;
+        }
+
+        p, li {
+            color: #c5cbdd;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            background: #0d1117;
+            border: 1px solid #222938;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #e6edf3;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9def0;
+        }
+
+        .info {
+            margin-top: 18px;
+            padding: 16px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 8px;
+            color: #cbd1e2;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff8a3d;
+            background: rgba(255,255,255,0.05);
+        }
+
+        td {
+            color: #c5cbdd;
+        }
+
+        .challenge {
+            border: 1px dashed #ff8a3d;
+            background: rgba(255,138,61,0.05);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 45px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,77,109,0.25);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            color: #737b91;
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual div {
+                width: 135px;
+                height: 135px;
+                font-size: 45px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            main {
+                width: 92%;
+                padding-top: 35px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><span>Java</span>Learn</div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 24 / 30
+    </div>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div>
+            <div class="badge">NESTED CLASSES • LESSON 24</div>
+
+            <h1>Inner <span>Classes</span></h1>
+
+            <p>
+                Learn how Java allows one class to be declared inside another class
+                and how inner classes can access members of the outer class.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            <div>{ }</div>
+        </div>
+
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="progress-section">
+
+        <div class="progress-info">
+            <span>Lesson 24 of 30</span>
+            <span>80.00% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+    </section>
+
+    <div class="grid">
+
+        <!-- WHAT IS INNER CLASS -->
+        <section class="card">
+            <h2>What is an Inner Class?</h2>
+
+            <p>
+                An inner class is a class that is declared inside another class.
+                The class containing the inner class is called the
+                <strong>outer class</strong>.
+            </p>
+
+            <div class="info">
+                Inner classes are useful when a helper class belongs closely
+                to another class and does not need to be used independently.
+            </div>
+        </section>
+
+        <!-- WHY USE -->
+        <section class="card">
+            <h2>Why Use Inner Classes?</h2>
+
+            <ul>
+                <li>Group logically related classes together.</li>
+                <li>Improve code organization.</li>
+                <li>Hide helper implementation details.</li>
+                <li>Allow access to outer class members.</li>
+                <li>Improve encapsulation in suitable situations.</li>
+            </ul>
+        </section>
+
+        <!-- TYPES -->
+        <section class="card full">
+            <h2>Types of Nested Classes</h2>
+
+            <p>
+                Java supports different forms of classes declared inside another class.
+            </p>
+
+            <ul>
+                <li><strong>Member Inner Class</strong> – non-static class declared inside another class.</li>
+                <li><strong>Static Nested Class</strong> – static class declared inside another class.</li>
+                <li><strong>Local Inner Class</strong> – class declared inside a method or block.</li>
+                <li><strong>Anonymous Inner Class</strong> – class without a name, usually used for one-time implementation.</li>
+            </ul>
+
+            <div class="info">
+                Technically, a static nested class is a nested class but not an
+                "inner class" in the strict Java terminology. Non-static nested
+                classes are called inner classes.
+            </div>
+        </section>
+
+        <!-- MEMBER INNER CLASS -->
+        <section class="card full">
+            <h2>Member Inner Class</h2>
+
+            <p>
+                A member inner class is declared directly inside an outer class.
+                It can access the members of the outer class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Outer.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Outer</span> {
+    <span class="keyword">private int</span> value = <span class="number">10</span>;
+
+    <span class="keyword">class</span> <span class="type">Inner</span> {
+
+        <span class="keyword">void</span> <span class="function">display</span>() {
+            System.out.println(value);
+        }
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- CREATE OBJECT -->
+        <section class="card full">
+            <h2>Creating an Inner Class Object</h2>
+
+            <p>
+                To create an object of a non-static inner class, first create
+                an object of the outer class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Outer</span> outer = <span class="keyword">new</span> <span class="type">Outer</span>();
+
+<span class="type">Outer.Inner</span> inner = outer.<span class="keyword">new</span> <span class="type">Inner</span>();
+
+inner.display();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                10
+            </div>
+        </section>
+
+        <!-- PRIVATE MEMBERS -->
+        <section class="card">
+            <h2>Accessing Private Members</h2>
+
+            <p>
+                An inner class can directly access private members of its
+                outer class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Bank</span> {
+
+    <span class="keyword">private double</span> balance = <span class="number">5000</span>;
+
+    <span class="keyword">class</span> <span class="type">Account</span> {
+
+        <span class="keyword">void</span> <span class="function">showBalance</span>() {
+            System.out.println(balance);
+        }
+    }
+}</pre>
+            </div>
+
+            <div class="info">
+                The inner class can access the private <strong>balance</strong>
+                variable because it belongs to the same outer class context.
+            </div>
+        </section>
+
+        <!-- OUTER ACCESS -->
+        <section class="card">
+            <h2>Outer Class Accessing Inner Class</h2>
+
+            <p>
+                The outer class can create an object of its inner class and
+                call its methods.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Computer</span> {
+
+    <span class="keyword">class</span> <span class="type">Processor</span> {
+
+        <span class="keyword">void</span> <span class="function">start</span>() {
+            System.out.println(
+                <span class="string">"Processor started"</span>
+            );
+        }
+    }
+
+    <span class="keyword">void</span> <span class="function">run</span>() {
+
+        <span class="type">Processor</span> p = <span class="keyword">new</span> <span class="type">Processor</span>();
+
+        p.start();
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- STATIC NESTED -->
+        <section class="card full">
+            <h2>Static Nested Class</h2>
+
+            <p>
+                A static nested class is declared using the
+                <strong>static</strong> keyword.
+                It does not require an object of the outer class to be created.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Outer.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Outer</span> {
+
+    <span class="keyword">static int</span> value = <span class="number">20</span>;
+
+    <span class="keyword">static class</span> <span class="type">Nested</span> {
+
+        <span class="keyword">void</span> <span class="function">display</span>() {
+            System.out.println(value);
+        }
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- STATIC OBJECT -->
+        <section class="card">
+            <h2>Creating Static Nested Object</h2>
+
+            <p>
+                A static nested class can be accessed using the outer class name.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Outer.Nested</span> obj =
+    <span class="keyword">new</span> <span class="type">Outer.Nested</span>();
+
+obj.display();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                20
+            </div>
+        </section>
+
+        <!-- STATIC LIMITATION -->
+        <section class="card">
+            <h2>Static Nested Class Limitation</h2>
+
+            <p>
+                A static nested class can directly access static members of
+                the outer class.
+            </p>
+
+            <p style="margin-top:12px;">
+                It cannot directly access non-static instance members because
+                those members belong to an object of the outer class.
+            </p>
+
+            <div class="info">
+                <strong>Remember:</strong> Static nested classes do not need an
+                outer class object.
+            </div>
+        </section>
+
+        <!-- LOCAL INNER CLASS -->
+        <section class="card full">
+            <h2>Local Inner Class</h2>
+
+            <p>
+                A local inner class is declared inside a method, constructor,
+                or block. Its scope is limited to that location.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Outer</span> {
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+
+        <span class="keyword">class</span> <span class="type">Local</span> {
+
+            <span class="keyword">void</span> <span class="function">show</span>() {
+                System.out.println(
+                    <span class="string">"Local inner class"</span>
+                );
+            }
+        }
+
+        <span class="type">Local</span> obj = <span class="keyword">new</span> <span class="type">Local</span>();
+
+        obj.show();
+    }
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Local inner class
+            </div>
+        </section>
+
+        <!-- ANONYMOUS -->
+        <section class="card full">
+            <h2>Anonymous Inner Class</h2>
+
+            <p>
+                An anonymous inner class is a class without a name.
+                It is commonly used when an implementation is required only once.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Greeting</span> {
+
+    <span class="keyword">void</span> <span class="function">sayHello</span>();
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Greeting</span> greeting =
+            <span class="keyword">new</span> <span class="type">Greeting</span>() {
+
+                <span class="keyword">public void</span> <span class="function">sayHello</span>() {
+                    System.out.println(
+                        <span class="string">"Hello!"</span>
+                    );
+                }
+            };
+
+        greeting.sayHello();
+    }
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Hello!
+            </div>
+
+            <div class="info">
+                Anonymous inner classes are useful for short, one-time
+                implementations. We will explore them in more detail in
+                <strong>Lesson 25</strong>.
+            </div>
+        </section>
+
+        <!-- COMPARISON -->
+        <section class="card full">
+            <h2>Inner Class Comparison</h2>
+
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Declaration</th>
+                    <th>Common Use</th>
+                </tr>
+
+                <tr>
+                    <td>Member Inner Class</td>
+                    <td>Inside outer class</td>
+                    <td>Closely related helper functionality</td>
+                </tr>
+
+                <tr>
+                    <td>Static Nested Class</td>
+                    <td>Inside outer class with static</td>
+                    <td>Independent helper associated with outer class</td>
+                </tr>
+
+                <tr>
+                    <td>Local Inner Class</td>
+                    <td>Inside a method/block</td>
+                    <td>Temporary local functionality</td>
+                </tr>
+
+                <tr>
+                    <td>Anonymous Inner Class</td>
+                    <td>Class without a name</td>
+                    <td>One-time implementation</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- REAL WORLD -->
+        <section class="card">
+            <h2>Real-World Example</h2>
+
+            <p>
+                Imagine a computer that contains a processor.
+                The processor is strongly related to the computer,
+                so it can be represented using an inner class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Computer.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Computer</span> {
+
+    <span class="keyword">class</span> <span class="type">Processor</span> {
+
+        <span class="keyword">void</span> <span class="function">process</span>() {
+            System.out.println(
+                <span class="string">"Processing data..."</span>
+            );
+        }
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- IMPORTANT -->
+        <section class="card">
+            <h2>Important Points</h2>
+
+            <ul>
+                <li>Classes can be declared inside other classes.</li>
+                <li>Non-static nested classes are called inner classes.</li>
+                <li>Inner classes can access outer class members.</li>
+                <li>Member inner classes require an outer object.</li>
+                <li>Static nested classes do not require an outer object.</li>
+                <li>Local inner classes exist only within their method/block.</li>
+                <li>Anonymous classes do not have a class name.</li>
+            </ul>
+        </section>
+
+        <!-- PRACTICE -->
+        <section class="card">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What is an inner class?</li>
+                <li>What is a nested class?</li>
+                <li>What is the difference between inner and static nested classes?</li>
+                <li>How do you create a member inner class object?</li>
+                <li>Can an inner class access private outer class members?</li>
+                <li>What is a local inner class?</li>
+                <li>What is an anonymous inner class?</li>
+            </ol>
+        </section>
+
+        <!-- CHALLENGE -->
+        <section class="card challenge">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Create a Java program with an outer class called
+                <strong>School</strong>.
+            </p>
+
+            <br>
+
+            <p>
+                Create an inner class called <strong>Student</strong>
+                with a student name and a method to display the name.
+            </p>
+
+            <br>
+
+            <p>
+                Create the required objects and display the student's name.
+            </p>
+
+            <div class="info">
+                <strong>Expected idea:</strong>
+                School → Student → display student name
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                Inner classes allow Java programmers to place closely related
+                classes together. They can improve organization and encapsulation
+                and can directly access members of their outer class.
+            </p>
+
+            <br>
+
+            <p>
+                Java provides member inner classes, static nested classes,
+                local inner classes, and anonymous inner classes. Each type
+                is useful for a different programming situation.
+            </p>
+        </section>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="buttons">
+        <a href="lesson23.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson25.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>

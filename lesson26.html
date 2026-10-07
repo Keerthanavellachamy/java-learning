@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 26</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #d9def0;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            color: #ff8a3d;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b9c0d4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 35px rgba(255,138,61,0.35),
+                0 0 80px rgba(255,77,109,0.2);
+        }
+
+        .hero-visual div {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background: #101522;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 54px;
+            font-weight: 800;
+            color: #ff8a3d;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b9c0d4;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 86.67%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 16px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff8a3d;
+            margin: 20px 0 10px;
+        }
+
+        p, li {
+            color: #c5cbdd;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            background: #0d1117;
+            border: 1px solid #222938;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #c9d1d9;
+            font-size: 13px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #e6edf3;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .keyword {
+            color:#ff7b72;
+        }
+
+        .type {
+            color:#79c0ff;
+        }
+
+        .variable {
+            color:#d2a8ff;
+        }
+
+        .string {
+            color:#a5d6ff;
+        }
+
+        .number {
+            color:#ffa657;
+        }
+
+        .function {
+            color:#d2a8ff;
+        }
+
+        .comment {
+            color:#8b949e;
+        }
+
+        .annotation {
+            color:#7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9def0;
+        }
+
+        .info {
+            margin-top: 18px;
+            padding: 16px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 8px;
+            color: #cbd1e2;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #ff8a3d;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff8a3d;
+            background: rgba(255,255,255,0.05);
+        }
+
+        td {
+            color: #c5cbdd;
+        }
+
+        .challenge {
+            border: 1px dashed #ff8a3d;
+            background: rgba(255,138,61,0.05);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 45px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,77,109,0.25);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            color: #737b91;
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual div {
+                width: 135px;
+                height: 135px;
+                font-size: 42px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            main {
+                width: 92%;
+                padding-top: 35px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><span>Java</span>Learn</div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 26 / 30
+    </div>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div>
+            <div class="badge">ENUMERATION • LESSON 26</div>
+
+            <h1>Java <span>Enums</span></h1>
+
+            <p>
+                Learn how Java enums represent a fixed set of constants
+                and how to use them safely in object-oriented programs.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            <div>enum</div>
+        </div>
+
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="progress-section">
+
+        <div class="progress-info">
+            <span>Lesson 26 of 30</span>
+            <span>86.67% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+    </section>
+
+    <div class="grid">
+
+        <!-- WHAT IS ENUM -->
+        <section class="card">
+            <h2>What is an Enum?</h2>
+
+            <p>
+                An enum, short for <strong>enumeration</strong>, is a special
+                Java type used to represent a fixed collection of constants.
+            </p>
+
+            <div class="info">
+                Use an enum when a variable should have only a predefined
+                set of possible values.
+            </div>
+        </section>
+
+        <!-- EXAMPLES -->
+        <section class="card">
+            <h2>Real-World Examples</h2>
+
+            <ul>
+                <li>Days of the week</li>
+                <li>Months of the year</li>
+                <li>Order status</li>
+                <li>Traffic light colors</li>
+                <li>User roles</li>
+                <li>Payment status</li>
+            </ul>
+        </section>
+
+        <!-- BASIC ENUM -->
+        <section class="card full">
+            <h2>Creating an Enum</h2>
+
+            <p>
+                Use the <strong>enum</strong> keyword to create an enumeration.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Day.java</span>
+                </div>
+
+                <pre><span class="keyword">enum</span> <span class="type">Day</span> {
+
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+}</pre>
+            </div>
+
+            <p style="margin-top:18px;">
+                Each value inside the enum is called an
+                <span class="highlight">enum constant</span>.
+            </p>
+        </section>
+
+        <!-- ENUM VARIABLE -->
+        <section class="card">
+            <h2>Using an Enum</h2>
+
+            <p>
+                You can create a variable whose type is the enum.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> today = <span class="type">Day</span>.MONDAY;
+
+System.out.println(today);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                MONDAY
+            </div>
+        </section>
+
+        <!-- ENUM COMPARISON -->
+        <section class="card">
+            <h2>Enum Values</h2>
+
+            <p>
+                Enum constants are accessed using the enum type name
+                followed by a dot.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> day1 = <span class="type">Day</span>.MONDAY;
+
+<span class="type">Day</span> day2 = <span class="type">Day</span>.FRIDAY;
+
+System.out.println(day1);
+System.out.println(day2);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                MONDAY<br>
+                FRIDAY
+            </div>
+        </section>
+
+        <!-- IF -->
+        <section class="card full">
+            <h2>Enum with if Statement</h2>
+
+            <p>
+                Enums can be compared using normal control statements.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> day = <span class="type">Day</span>.SUNDAY;
+
+<span class="keyword">if</span> (day == <span class="type">Day</span>.SUNDAY) {
+
+    System.out.println(
+        <span class="string">"It's a holiday!"</span>
+    );
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                It's a holiday!
+            </div>
+        </section>
+
+        <!-- SWITCH -->
+        <section class="card full">
+            <h2>Enum with switch</h2>
+
+            <p>
+                The switch statement works especially well with enum values.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> day = <span class="type">Day</span>.MONDAY;
+
+<span class="keyword">switch</span> (day) {
+
+    <span class="keyword">case</span> MONDAY:
+        System.out.println(
+            <span class="string">"Start of the week"</span>
+        );
+        <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> FRIDAY:
+        System.out.println(
+            <span class="string">"Almost weekend"</span>
+        );
+        <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> SATURDAY:
+    <span class="keyword">case</span> SUNDAY:
+        System.out.println(
+            <span class="string">"Weekend"</span>
+        );
+        <span class="keyword">break</span>;
+
+    <span class="keyword">default</span>:
+        System.out.println(
+            <span class="string">"Working day"</span>
+        );
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Start of the week
+            </div>
+        </section>
+
+        <!-- VALUES -->
+        <section class="card">
+            <h2>values() Method</h2>
+
+            <p>
+                The <strong>values()</strong> method returns all constants
+                defined inside an enum.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">for</span> (<span class="type">Day</span> day : <span class="type">Day</span>.values()) {
+
+    System.out.println(day);
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                MONDAY<br>
+                TUESDAY<br>
+                WEDNESDAY<br>
+                THURSDAY<br>
+                FRIDAY<br>
+                SATURDAY<br>
+                SUNDAY
+            </div>
+        </section>
+
+        <!-- VALUEOF -->
+        <section class="card">
+            <h2>valueOf() Method</h2>
+
+            <p>
+                The <strong>valueOf()</strong> method converts a matching
+                string into an enum constant.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> day =
+    <span class="type">Day</span>.valueOf(<span class="string">"FRIDAY"</span>);
+
+System.out.println(day);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                FRIDAY
+            </div>
+
+            <div class="info">
+                The string must match the enum constant exactly,
+                including uppercase and lowercase letters.
+            </div>
+        </section>
+
+        <!-- ORDINAL -->
+        <section class="card">
+            <h2>ordinal() Method</h2>
+
+            <p>
+                The <strong>ordinal()</strong> method returns the position
+                of an enum constant.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="type">Day</span> day = <span class="type">Day</span>.WEDNESDAY;
+
+System.out.println(day.ordinal());</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                2
+            </div>
+
+            <div class="info">
+                Enum positions start from <strong>0</strong>.
+                MONDAY is 0, TUESDAY is 1, and WEDNESDAY is 2.
+            </div>
+        </section>
+
+        <!-- ENUM METHODS -->
+        <section class="card full">
+            <h2>Enums Can Have Methods</h2>
+
+            <p>
+                Enums are much more powerful than simple constants.
+                They can contain fields, constructors, and methods.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Level.java</span>
+                </div>
+
+                <pre><span class="keyword">enum</span> <span class="type">Level</span> {
+
+    LOW,
+    MEDIUM,
+    HIGH;
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+
+        System.out.println(
+            <span class="string">"Level: "</span> + <span class="keyword">this</span>
+        );
+    }
+}
+
+<span class="type">Level</span>.HIGH.display();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Level: HIGH
+            </div>
+        </section>
+
+        <!-- ENUM FIELDS -->
+        <section class="card full">
+            <h2>Enums with Fields</h2>
+
+            <p>
+                Each enum constant can have its own associated value.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Status.java</span>
+                </div>
+
+                <pre><span class="keyword">enum</span> <span class="type">Status</span> {
+
+    SUCCESS(<span class="number">200</span>),
+    NOT_FOUND(<span class="number">404</span>),
+    SERVER_ERROR(<span class="number">500</span>);
+
+    <span class="keyword">private int</span> code;
+
+    <span class="type">Status</span>(<span class="keyword">int</span> code) {
+
+        <span class="keyword">this</span>.code = code;
+    }
+
+    <span class="keyword">int</span> <span class="function">getCode</span>() {
+
+        <span class="keyword">return</span> code;
+    }
+}
+
+System.out.println(
+    <span class="type">Status</span>.SUCCESS.getCode()
+);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                200
+            </div>
+        </section>
+
+        <!-- ENUM CONSTRUCTOR -->
+        <section class="card">
+            <h2>Enum Constructors</h2>
+
+            <p>
+                An enum can have a constructor for initializing its fields.
+            </p>
+
+            <div class="info">
+                Enum constructors are implicitly private.
+                You cannot create enum objects using the
+                <strong>new</strong> keyword.
+            </div>
+        </section>
+
+        <!-- ENUM AND OOP -->
+        <section class="card">
+            <h2>Enums and OOP</h2>
+
+            <p>
+                Enums are useful in object-oriented programming because they
+                provide a type-safe way to represent fixed choices.
+            </p>
+
+            <ul>
+                <li>Enums can contain fields.</li>
+                <li>Enums can contain methods.</li>
+                <li>Enums can have constructors.</li>
+                <li>Enums can implement interfaces.</li>
+            </ul>
+        </section>
+
+        <!-- REAL WORLD -->
+        <section class="card full">
+            <h2>Real-World Example: Order Status</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Order.java</span>
+                </div>
+
+                <pre><span class="keyword">enum</span> <span class="type">OrderStatus</span> {
+
+    PLACED,
+    CONFIRMED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
+}
+
+<span class="type">OrderStatus</span> status =
+    <span class="type">OrderStatus</span>.SHIPPED;
+
+System.out.println(
+    <span class="string">"Order status: "</span> + status
+);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Order status: SHIPPED
+            </div>
+        </section>
+
+        <!-- ENUM VS CONSTANTS -->
+        <section class="card full">
+            <h2>Enum vs Integer Constants</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Enum</th>
+                    <th>Integer Constants</th>
+                </tr>
+
+                <tr>
+                    <td>Type Safety</td>
+                    <td>Strong type safety</td>
+                    <td>Less type-safe</td>
+                </tr>
+
+                <tr>
+                    <td>Readable</td>
+                    <td>Very readable</td>
+                    <td>Can be less readable</td>
+                </tr>
+
+                <tr>
+                    <td>Methods</td>
+                    <td>Can contain methods</td>
+                    <td>Cannot contain methods</td>
+                </tr>
+
+                <tr>
+                    <td>Fields</td>
+                    <td>Can contain fields</td>
+                    <td>Separate variables required</td>
+                </tr>
+
+                <tr>
+                    <td>Best Use</td>
+                    <td>Fixed set of choices</td>
+                    <td>Simple numeric values</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- ADVANTAGES -->
+        <section class="card">
+            <h2>Advantages of Enums</h2>
+
+            <ul>
+                <li>Easy to read.</li>
+                <li>Provides type safety.</li>
+                <li>Prevents invalid predefined values.</li>
+                <li>Can contain methods and fields.</li>
+                <li>Works well with switch statements.</li>
+            </ul>
+        </section>
+
+        <!-- LIMITATIONS -->
+        <section class="card">
+            <h2>Important Limitations</h2>
+
+            <ul>
+                <li>Enum constants are fixed after declaration.</li>
+                <li>You cannot create enum objects using new.</li>
+                <li>Adding too many fields or methods can make an enum complex.</li>
+                <li>ordinal() should not normally be used as a permanent database ID.</li>
+            </ul>
+        </section>
+
+        <!-- PRACTICE -->
+        <section class="card">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What is an enum in Java?</li>
+                <li>How do you declare an enum?</li>
+                <li>What is an enum constant?</li>
+                <li>What does values() return?</li>
+                <li>What is the use of valueOf()?</li>
+                <li>What does ordinal() return?</li>
+                <li>Can an enum contain methods?</li>
+                <li>Can an enum have a constructor?</li>
+            </ol>
+        </section>
+
+        <!-- CHALLENGE -->
+        <section class="card challenge">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Create an enum called <strong>TrafficLight</strong> with:
+            </p>
+
+            <br>
+
+            <ul>
+                <li>RED</li>
+                <li>YELLOW</li>
+                <li>GREEN</li>
+            </ul>
+
+            <br>
+
+            <p>
+                Use a switch statement to print:
+            </p>
+
+            <div class="output">
+                RED → Stop<br>
+                YELLOW → Get Ready<br>
+                GREEN → Go
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                Enums are special Java types used to represent a fixed set
+                of constants. They make programs easier to understand and
+                provide type-safe values.
+            </p>
+
+            <br>
+
+            <p>
+                Enums can also contain fields, constructors, and methods,
+                making them a useful part of object-oriented Java programming.
+            </p>
+        </section>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="buttons">
+        <a href="lesson25.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson27.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>

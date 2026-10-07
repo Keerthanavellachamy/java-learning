@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System | JavaLearn</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #32145f 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #0b4f6c 0%,
+                    transparent 35%
+                ),
+                #080b14;
+
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(8, 11, 20, 0.90);
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 18px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .project-pill {
+            background:
+                rgba(255, 138, 61, 0.12);
+
+            border:
+                1px solid rgba(255, 138, 61, 0.4);
+
+            padding: 9px 16px;
+
+            border-radius: 20px;
+
+            color: #ffb37a;
+
+            font-size: 14px;
+        }
+
+
+        /* MAIN */
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+
+            padding: 60px 0 80px;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            display: grid;
+
+            grid-template-columns:
+                1.3fr 0.7fr;
+
+            gap: 40px;
+
+            align-items: center;
+
+            margin-bottom: 50px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            color: #ff8a3d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 50px;
+
+            line-height: 1.1;
+
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero-text {
+            color: #b9c0d0;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            max-width: 700px;
+        }
+
+
+        /* PROJECT ICON */
+
+        .project-icon {
+            width: 220px;
+            height: 220px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a3d,
+                    #ff4d6d
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 75px;
+
+            box-shadow:
+                0 0 45px
+                rgba(255,138,61,0.35),
+
+                0 0 90px
+                rgba(255,77,109,0.18);
+        }
+
+
+        /* STATS */
+
+        .stats {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 10px 16px;
+
+            border-radius: 12px;
+
+            color: #dce1ef;
+        }
+
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .card {
+            background:
+                rgba(255,255,255,0.055);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(14px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+
+        /* HEADINGS */
+
+        h2 {
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ffb37a;
+
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #b9c0d0;
+
+            line-height: 1.7;
+        }
+
+
+        /* LIST */
+
+        ul {
+            margin-left: 20px;
+
+            color: #c8cede;
+
+            line-height: 2;
+        }
+
+        li::marker {
+            color: #ff8a3d;
+        }
+
+
+        /* INFO BOX */
+
+        .info-box {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-left:
+                4px solid #ff8a3d;
+
+            background:
+                rgba(255,138,61,0.08);
+
+            border-radius: 10px;
+
+            color: #cfd5e3;
+
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #ffb37a;
+        }
+
+
+        /* TECHNOLOGY TAGS */
+
+        .tech-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+        .tech {
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(121,192,255,0.1);
+
+            border:
+                1px solid
+                rgba(121,192,255,0.25);
+
+            color: #79c0ff;
+
+            font-size: 13px;
+        }
+
+
+        /* PROJECT OBJECTIVE */
+
+        .objective {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 20px;
+        }
+
+        .objective-box {
+            padding: 20px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+        }
+
+        .objective-box strong {
+            display: block;
+
+            color: #ff8a3d;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            color: #8f98ab;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .objective {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 38px;
+            }
+
+            .project-icon {
+                width: 180px;
+                height: 180px;
+                font-size: 60px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav>
+
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="project-pill">
+            Java Projects • Project 1 / 5
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main>
+
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+
+            <div>
+
+                <div class="badge">
+                    ADVANCED PROJECT • PROJECT 1
+                </div>
+
+
+                <h1>
+                    Student
+                    <span>Management</span>
+                    System
+                </h1>
+
+
+                <p class="hero-text">
+
+                    Build a complete Java-based Student Management
+                    System using Object-Oriented Programming,
+                    Collections, File Handling and CRUD operations.
+
+                </p>
+
+
+                <div class="stats">
+
+                    <div class="stat">
+                        ⏱ 6 Weeks Course
+                    </div>
+
+                    <div class="stat">
+                        ☕ Java
+                    </div>
+
+                    <div class="stat">
+                        📚 Project 1 of 5
+                    </div>
+
+                    <div class="stat">
+                        ⭐ 4.9
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="project-icon">
+
+                🎓
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- CONTENT CARDS -->
+
+        <section class="cards">
+
+
+            <!-- PROJECT OVERVIEW -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Overview
+                </h2>
+
+                <p>
+
+                    The Student Management System is a
+                    console-based Java application designed
+                    to manage student information.
+
+                    In this project, you will learn how to
+                    combine Java OOP concepts with Collections,
+                    CRUD operations and File Handling.
+
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>Project Goal:</strong>
+
+                    Create a working Java application that
+                    allows users to add, view, search, update
+                    and delete student records.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LEARNING OBJECTIVES -->
+
+            <div class="card">
+
+                <h2>
+                    Learning Objectives
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Understand real-world Java projects
+                    </li>
+
+                    <li>
+                        Apply Object-Oriented Programming
+                    </li>
+
+                    <li>
+                        Work with Java Collections
+                    </li>
+
+                    <li>
+                        Implement CRUD operations
+                    </li>
+
+                    <li>
+                        Handle user input
+                    </li>
+
+                    <li>
+                        Store data using files
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- PROJECT FEATURES -->
+
+            <div class="card">
+
+                <h2>
+                    Project Features
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Add Student
+                    </li>
+
+                    <li>
+                        View All Students
+                    </li>
+
+                    <li>
+                        Search Student
+                    </li>
+
+                    <li>
+                        Update Student
+                    </li>
+
+                    <li>
+                        Delete Student
+                    </li>
+
+                    <li>
+                        Calculate Grade
+                    </li>
+
+                    <li>
+                        Save Student Data
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- TECHNOLOGIES -->
+
+            <div class="card full">
+
+                <h2>
+                    Technologies & Concepts
+                </h2>
+
+                <p>
+                    The project uses the following Java
+                    technologies and programming concepts:
+                </p>
+
+
+                <div class="tech-list">
+
+                    <span class="tech">
+                        Java
+                    </span>
+
+                    <span class="tech">
+                        OOP
+                    </span>
+
+                    <span class="tech">
+                        Classes
+                    </span>
+
+                    <span class="tech">
+                        Objects
+                    </span>
+
+                    <span class="tech">
+                        Encapsulation
+                    </span>
+
+                    <span class="tech">
+                        ArrayList
+                    </span>
+
+                    <span class="tech">
+                        CRUD
+                    </span>
+
+                    <span class="tech">
+                        Exception Handling
+                    </span>
+
+                    <span class="tech">
+                        File Handling
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROJECT STRUCTURE -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Structure
+                </h2>
+
+                <p>
+                    We will create three Java files for this
+                    project.
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        StudentManagement/
+                    </strong>
+
+                    <br><br>
+
+                    ├── Student.java
+                    <br>
+                    ├── StudentManager.java
+                    <br>
+                    └── Main.java
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DEVELOPMENT PLAN -->
+
+            <div class="card full">
+
+                <h2>
+                    Development Plan
+                </h2>
+
+
+                <div class="objective">
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 1
+                        </strong>
+
+                        Create the Student class.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 2
+                        </strong>
+
+                        Add student fields.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 3
+                        </strong>
+
+                        Create constructors.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 4
+                        </strong>
+
+                        Add getters and setters.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 5
+                        </strong>
+
+                        Create ArrayList.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 6
+                        </strong>
+
+                        Add CRUD operations.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 7
+                        </strong>
+
+                        Add file handling.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 8
+                        </strong>
+
+                        Create the main menu.
+
+                    </div>
+
+
+                    <div class="objective-box">
+
+                        <strong>
+                            Step 9
+                        </strong>
+
+                        Test the project.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- WHAT YOU WILL BUILD -->
+
+            <div class="card full">
+
+                <h2>
+                    What You Will Build
+                </h2>
+
+                <p>
+
+                    At the end of this project, you will have
+                    a complete console-based Student Management
+                    System.
+
+                    The user will be able to interact with
+                    the application through a menu.
+
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        Example:
+                    </strong>
+
+                    <br><br>
+
+                    1. Add Student
+                    <br>
+                    2. View Students
+                    <br>
+                    3. Search Student
+                    <br>
+                    4. Update Student
+                    <br>
+                    5. Delete Student
+                    <br>
+                    6. Exit
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+    <div class="buttons" style="text-align:center; margin:30px 0;">
+    <a href="project2.html" class="btn" style="display:inline-block; padding:12px 24px; background:#ff8a3d; color:white; text-decoration:none; border-radius:8px;">
+        Next Project →
+    </a>
+</div>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        ☕ JavaLearn • Java Projects
+
+    </footer>
+
+
+</body>
+
+</html>
+```

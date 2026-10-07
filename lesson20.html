@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 20 - Packages | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            text-align: center;
+        }
+
+        .hero-visual-inner strong {
+            font-size: 38px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 66.67%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .folder {
+            background: #090d15;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff8a3d;
+            font-family: Consolas, monospace;
+            line-height: 1.8;
+            color: #dce3f7;
+            overflow-x: auto;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 29px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 20 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    JAVA ORGANIZATION • LESSON 20
+                </div>
+
+                <h1>
+                    <span>Packages</span>
+                </h1>
+
+                <p>
+                    Learn how Java packages organize related classes and
+                    interfaces, prevent naming conflicts, and make large
+                    applications easier to manage.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>pkg</strong>
+                    <small>organize code</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 20 of 30</span>
+                <span>66.67% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRODUCTION -->
+            <section class="card full">
+
+                <h2>What is a Package?</h2>
+
+                <p>
+                    A package is a group of related Java classes,
+                    interfaces, and other components.
+                </p>
+
+                <p style="margin-top:15px;">
+                    Packages help developers organize large Java projects
+                    into smaller and easier-to-manage sections.
+                </p>
+
+                <div class="info-box">
+                    <strong>Simple idea:</strong>
+                    Think of a package like a folder on your computer.
+                    Related Java files can be placed inside the same package.
+                </div>
+
+            </section>
+
+
+            <!-- WHY PACKAGES -->
+            <section class="card">
+
+                <h2>Why Use Packages?</h2>
+
+                <ul>
+                    <li>Organize related classes.</li>
+                    <li>Avoid naming conflicts.</li>
+                    <li>Control access to classes and members.</li>
+                    <li>Make large projects easier to maintain.</li>
+                    <li>Reuse code across applications.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- PACKAGE SYNTAX -->
+            <section class="card">
+
+                <h2>Package Syntax</h2>
+
+                <p>
+                    The <code>package</code> statement is normally written
+                    at the beginning of a Java source file.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">package</span> com.jav alearn.models;
+
+<span class="keyword">public class</span> <span class="type">Student</span> {
+
+    <span class="keyword">public void</span> <span class="function">display</span>() {
+        System.out.println(<span class="string">"Student class"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- CORRECT SYNTAX -->
+            <section class="card full">
+
+                <h2>Correct Package Name</h2>
+
+                <p>
+                    Package names are commonly written in lowercase letters.
+                    A reverse-domain style is often used in professional projects.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">package</span> com.jav alearn.models;</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Note:</strong>
+                    In the example above, remove the space if copying:
+                    <code>com.jav alearn.models</code> should be
+                    <code>com.jav alearn.models</code> only if that is the package name you created.
+                    For a simple project, names such as
+                    <code>com.jav aLearn.models</code> are best avoided.
+                </div>
+
+            </section>
+
+
+            <!-- SIMPLE PACKAGE -->
+            <section class="card full">
+
+                <h2>Creating a Simple Package</h2>
+
+                <p>
+                    Suppose we create a package called
+                    <code>students</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">package</span> students;
+
+<span class="keyword">public class</span> <span class="type">Student</span> {
+
+    <span class="keyword">public void</span> <span class="function">display</span>() {
+        System.out.println(<span class="string">"Student details"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOLDER STRUCTURE -->
+            <section class="card full">
+
+                <h2>Package Folder Structure</h2>
+
+                <p>
+                    The package structure can be represented like this:
+                </p>
+
+                <div class="folder">
+javaproject/
+│
+├── students/
+│   └── Student.java
+│
+└── Main.java
+                </div>
+
+                <p style="margin-top:18px;">
+                    The folder name and package name should correspond
+                    when using the standard Java project structure.
+                </p>
+
+            </section>
+
+
+            <!-- IMPORT -->
+            <section class="card full">
+
+                <h2>Importing a Package Class</h2>
+
+                <p>
+                    To use a public class from another package, Java provides
+                    the <code>import</code> statement.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">import</span> students.Student;
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Student</span> student =
+            <span class="keyword">new</span> <span class="type">Student</span>();
+
+        student.display();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Student details
+                </div>
+
+            </section>
+
+
+            <!-- FULL EXAMPLE -->
+            <section class="card">
+
+                <h2>Student.java</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">package</span> students;
+
+<span class="keyword">public class</span> <span class="type">Student</span> {
+
+    <span class="keyword">public void</span> <span class="function">display</span>() {
+        System.out.println(
+            <span class="string">"Welcome to Java"</span>
+        );
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <section class="card">
+
+                <h2>Main.java</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">import</span> students.Student;
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Student</span> s =
+            <span class="keyword">new</span> <span class="type">Student</span>();
+
+        s.display();
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- WILDCARD IMPORT -->
+            <section class="card full">
+
+                <h2>Importing All Classes</h2>
+
+                <p>
+                    You can import all accessible classes from a package
+                    using the wildcard symbol <code>*</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">import</span> students.*;
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Student</span> student =
+            <span class="keyword">new</span> <span class="type">Student</span>();
+
+        student.display();
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Tip:</strong>
+                    Importing a specific class is often clearer because
+                    it shows exactly which class your program uses.
+                </div>
+
+            </section>
+
+
+            <!-- BUILT IN PACKAGES -->
+            <section class="card full">
+
+                <h2>Built-in Java Packages</h2>
+
+                <p>
+                    Java provides many ready-made packages containing
+                    useful classes and interfaces.
+                </p>
+
+                <table>
+
+                    <tr>
+                        <th>Package</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+
+                    <tr>
+                        <td><code>java.lang</code></td>
+                        <td>Core Java classes</td>
+                        <td>String, Math, Object</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>java.util</code></td>
+                        <td>Utility and collection classes</td>
+                        <td>ArrayList, Scanner</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>java.io</code></td>
+                        <td>Input and output</td>
+                        <td>File, FileReader</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>java.time</code></td>
+                        <td>Date and time API</td>
+                        <td>LocalDate</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- JAVA LANG -->
+            <section class="card">
+
+                <h2>java.lang Package</h2>
+
+                <p>
+                    The <code>java.lang</code> package is automatically
+                    imported by Java.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">String</span> name = <span class="string">"Keerthana"</span>;
+
+System.out.println(name);</pre>
+
+                </div>
+
+                <p style="margin-top:15px;">
+                    You normally do not need to write:
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">import</span> java.lang.String;</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- JAVA UTIL -->
+            <section class="card">
+
+                <h2>java.util Package</h2>
+
+                <p>
+                    The <code>java.util</code> package contains many
+                    useful utility and collection classes.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">import</span> java.util.ArrayList;
+
+<span class="type">ArrayList</span>&lt;<span class="type">String</span>&gt; names =
+    <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+
+names.add(<span class="string">"Keerthana"</span>);
+names.add(<span class="string">"Amirtha"</span>);
+
+System.out.println(names);</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- SUBPACKAGES -->
+            <section class="card full">
+
+                <h2>Subpackages</h2>
+
+                <p>
+                    A package can contain subpackages. This allows
+                    applications to create a structured hierarchy.
+                </p>
+
+                <div class="folder">
+com.jav aLearn/
+│
+├── models/
+├── services/
+├── controllers/
+└── utilities/
+                </div>
+
+                <p style="margin-top:18px;">
+                    In a real application, each package can contain classes
+                    responsible for a particular part of the system.
+                </p>
+
+            </section>
+
+
+            <!-- PACKAGE AND ACCESS -->
+            <section class="card full">
+
+                <h2>Packages and Access Control</h2>
+
+                <p>
+                    Packages also work together with Java access modifiers.
+                    Members with default access can be accessed by classes
+                    in the same package.
+                </p>
+
+                <div class="info-box">
+                    <strong>Important:</strong>
+                    Access modifiers such as
+                    <code>public</code>, <code>private</code>,
+                    <code>protected</code>, and default access determine
+                    how classes and members can be used across packages.
+                </div>
+
+            </section>
+
+
+            <!-- FULL PROJECT STRUCTURE -->
+            <section class="card full">
+
+                <h2>Real Project Package Structure</h2>
+
+                <p>
+                    A larger Java application may organize its code like this:
+                </p>
+
+                <div class="folder">
+JavaApplication/
+│
+├── src/
+│   └── com/
+│       └── jav alearn/
+│           │
+│           ├── model/
+│           │   ├── Student.java
+│           │   └── Course.java
+│           │
+│           ├── service/
+│           │   └── StudentService.java
+│           │
+│           ├── controller/
+│           │   └── StudentController.java
+│           │
+│           └── Main.java
+                </div>
+
+                <div class="info-box">
+                    <strong>Real-world idea:</strong>
+                    Models represent data, services contain business logic,
+                    controllers handle application flow, and utility packages
+                    contain reusable helper code.
+                </div>
+
+            </section>
+
+
+            <!-- BENEFITS -->
+            <section class="card">
+
+                <h2>Benefits of Packages</h2>
+
+                <ul>
+                    <li>Better code organization.</li>
+                    <li>Reduced naming conflicts.</li>
+                    <li>Improved access control.</li>
+                    <li>Easier maintenance.</li>
+                    <li>Better project structure.</li>
+                    <li>Reusable code.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- IMPORTANT RULES -->
+            <section class="card">
+
+                <h2>Important Rules</h2>
+
+                <ul>
+                    <li>The package statement comes before class declarations.</li>
+                    <li>Only one package statement is normally used per source file.</li>
+                    <li>Package names are commonly written in lowercase.</li>
+                    <li>Use <code>import</code> to access classes from other packages.</li>
+                    <li><code>java.lang</code> is automatically imported.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is a package in Java?</li>
+                    <li>Why are packages used?</li>
+                    <li>Which keyword is used to create a package?</li>
+                    <li>What is the purpose of the import statement?</li>
+                    <li>What does <code>*</code> mean in an import statement?</li>
+                    <li>Name two built-in Java packages.</li>
+                    <li>Which package is automatically imported?</li>
+                    <li>What are subpackages?</li>
+                    <li>How do packages help with access control?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a simple Java project using packages.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create a package named <code>students</code>.</li>
+                    <li>Create a class <code>Student</code> inside it.</li>
+                    <li>Add a method <code>display()</code>.</li>
+                    <li>Create a separate <code>Main</code> class.</li>
+                    <li>Import the <code>Student</code> class.</li>
+                    <li>Create a Student object.</li>
+                    <li>Call the <code>display()</code> method.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Understand how classes are organized and accessed
+                    using Java packages.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Packages are an important part of Java project
+                    organization. They group related classes and interfaces
+                    and help developers build maintainable applications.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Packages group related Java classes.</li>
+                    <li>The <code>package</code> keyword defines a package.</li>
+                    <li>The <code>import</code> keyword allows access to classes from another package.</li>
+                    <li>Java provides many built-in packages.</li>
+                    <li>Packages help avoid naming conflicts.</li>
+                    <li>Packages work together with access modifiers.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Access Modifiers</strong> and understand
+                    <code>public</code>, <code>private</code>,
+                    <code>protected</code>, and default access.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson19.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson21.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

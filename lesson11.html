@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11 - super Keyword | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-visual-inner strong {
+            font-size: 48px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 36.67%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 38px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 11 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    INHERITANCE • LESSON 11
+                </div>
+
+                <h1>
+                    The <span>super</span> Keyword
+                </h1>
+
+                <p>
+                    Learn how to use the <strong>super</strong> keyword
+                    to access parent class variables, methods, and constructors
+                    from a child class.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>super</strong>
+                    <small>Parent Access</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 11 of 30</span>
+                <span>36.67% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- WHAT IS SUPER -->
+            <section class="card full">
+
+                <h2>What is the super Keyword?</h2>
+
+                <p>
+                    The <strong>super</strong> keyword in Java is used inside
+                    a child class to refer to its immediate parent class.
+                </p>
+
+                <p style="margin-top:12px;">
+                    It is mainly used to access:
+                </p>
+
+                <ul style="margin-top:10px;">
+                    <li>Parent class variables</li>
+                    <li>Parent class methods</li>
+                    <li>Parent class constructors</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    <br>
+                    <code>this</code> refers to the current class,
+                    while <code>super</code> refers to the immediate parent class.
+                </div>
+
+            </section>
+
+
+            <!-- WHY SUPER -->
+            <section class="card">
+
+                <h2>Why Use super?</h2>
+
+                <p>
+                    The <strong>super</strong> keyword is useful when a child
+                    class needs to work with members inherited from its parent.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Resolve variable name conflicts</li>
+                    <li>Call an overridden parent method</li>
+                    <li>Call a parent constructor</li>
+                    <li>Reuse existing parent class functionality</li>
+                </ul>
+
+            </section>
+
+
+            <!-- VARIABLE -->
+            <section class="card">
+
+                <h2>Accessing Parent Variable</h2>
+
+                <p>
+                    When both parent and child classes have variables with
+                    the same name, <code>super</code> can be used to access
+                    the parent variable.
+                </p>
+
+            </section>
+
+
+            <section class="card full">
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+    <span class="type">String</span> name = <span class="string">"Animal"</span>;
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="type">String</span> name = <span class="string">"Dog"</span>;
+
+    <span class="keyword">void</span> <span class="function">showNames</span>() {
+        System.out.println(name);
+        System.out.println(<span class="keyword">super</span>.name);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog
+Animal
+                </div>
+
+                <div class="info-box">
+                    <strong>Explanation:</strong>
+                    <br>
+                    <code>name</code> refers to the child class variable,
+                    while <code>super.name</code> refers to the parent class variable.
+                </div>
+
+            </section>
+
+
+            <!-- METHOD -->
+            <section class="card full">
+
+                <h2>Calling Parent Class Method</h2>
+
+                <p>
+                    When a child class overrides a parent method,
+                    <code>super.methodName()</code> can be used to call
+                    the original parent implementation.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Animal makes a sound"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+
+        <span class="keyword">super</span>.sound();
+
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Animal makes a sound
+Dog barks
+                </div>
+
+            </section>
+
+
+            <!-- CONSTRUCTOR -->
+            <section class="card full">
+
+                <h2>Calling Parent Constructor</h2>
+
+                <p>
+                    The <code>super()</code> statement is used to call
+                    the constructor of the immediate parent class.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="type">Animal</span>() {
+        System.out.println(<span class="string">"Animal constructor"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="type">Dog</span>() {
+
+        <span class="keyword">super</span>();
+
+        System.out.println(<span class="string">"Dog constructor"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Animal constructor
+Dog constructor
+                </div>
+
+            </section>
+
+
+            <!-- SUPER CONSTRUCTOR RULES -->
+            <section class="card">
+
+                <h2>super() Rules</h2>
+
+                <ul>
+                    <li><code>super()</code> must be the first statement inside a constructor.</li>
+                    <li>It calls the immediate parent constructor.</li>
+                    <li>If no constructor call is written, Java may insert <code>super()</code> automatically.</li>
+                    <li>The parent constructor executes before the child constructor.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- EXECUTION ORDER -->
+            <section class="card">
+
+                <h2>Constructor Execution Order</h2>
+
+                <p>
+                    When an object of a child class is created,
+                    the parent constructor runs first.
+                </p>
+
+                <div class="info-box">
+                    <strong>Order:</strong>
+                    <br><br>
+                    Parent Constructor
+                    →
+                    Child Constructor
+                </div>
+
+            </section>
+
+
+            <!-- THIS VS SUPER -->
+            <section class="card full">
+
+                <h2>this vs super</h2>
+
+                <table>
+
+                    <tr>
+                        <th>this</th>
+                        <th>super</th>
+                    </tr>
+
+                    <tr>
+                        <td>Refers to the current class object</td>
+                        <td>Refers to the immediate parent class</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>this.variable</code> accesses current class variable</td>
+                        <td><code>super.variable</code> accesses parent variable</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>this.method()</code> calls current class method</td>
+                        <td><code>super.method()</code> calls parent method</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>this()</code> calls current class constructor</td>
+                        <td><code>super()</code> calls parent class constructor</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- REAL WORLD EXAMPLE -->
+            <section class="card full">
+
+                <h2>Real-World Example</h2>
+
+                <p>
+                    Imagine a <strong>Vehicle</strong> class and a
+                    <strong>Car</strong> class.
+                    The car inherits common vehicle information but can
+                    also add its own details.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Vehicle</span> {
+
+    <span class="type">String</span> brand = <span class="string">"Toyota"</span>;
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+        System.out.println(<span class="string">"This is a vehicle"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Car</span> <span class="keyword">extends</span> <span class="type">Vehicle</span> {
+
+    <span class="keyword">void</span> <span class="function">showDetails</span>() {
+
+        System.out.println(<span class="keyword">super</span>.brand);
+
+        <span class="keyword">super</span>.display();
+
+        System.out.println(<span class="string">"This is a car"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Car</span> car = <span class="keyword">new</span> <span class="type">Car</span>();
+
+        car.showDetails();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Toyota
+This is a vehicle
+This is a car
+                </div>
+
+            </section>
+
+
+            <!-- IMPORTANT POINTS -->
+            <section class="card">
+
+                <h2>Important Points</h2>
+
+                <ul>
+                    <li><code>super</code> refers to the immediate parent class.</li>
+                    <li><code>super.variable</code> accesses a parent variable.</li>
+                    <li><code>super.method()</code> calls a parent method.</li>
+                    <li><code>super()</code> calls a parent constructor.</li>
+                    <li><code>super()</code> must be the first statement in a constructor.</li>
+                    <li>It is commonly used with inheritance and method overriding.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- COMMON MISTAKES -->
+            <section class="card">
+
+                <h2>Common Mistakes</h2>
+
+                <ul>
+                    <li>Using <code>super()</code> outside a constructor.</li>
+                    <li>Writing <code>super()</code> after another constructor statement.</li>
+                    <li>Trying to use <code>super</code> to access a static context incorrectly.</li>
+                    <li>Confusing <code>super</code> with <code>this</code>.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is the purpose of the <code>super</code> keyword?</li>
+                    <li>How can you access a parent class variable?</li>
+                    <li>How do you call a parent class method?</li>
+                    <li>What does <code>super()</code> do?</li>
+                    <li>Where must <code>super()</code> appear in a constructor?</li>
+                    <li>What is the difference between <code>this</code> and <code>super</code>?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a Java program using <strong>Person</strong>
+                    and <strong>Student</strong> classes.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create a <code>Person</code> class with a <code>name</code> variable.</li>
+                    <li>Create a constructor in <code>Person</code> to initialize the name.</li>
+                    <li>Create a <code>display()</code> method in <code>Person</code>.</li>
+                    <li>Create a <code>Student</code> class that extends <code>Person</code>.</li>
+                    <li>Use <code>super()</code> to call the parent constructor.</li>
+                    <li>Use <code>super.display()</code> to call the parent method.</li>
+                    <li>Display student-specific information.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Practice using <code>super</code> with variables,
+                    methods, and constructors.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    The <strong>super</strong> keyword is an important part
+                    of inheritance in Java. It allows a child class to
+                    access members of its immediate parent class.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li><code>super.variable</code> → parent variable</li>
+                    <li><code>super.method()</code> → parent method</li>
+                    <li><code>super()</code> → parent constructor</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Polymorphism</strong> and how one interface
+                    can represent different forms of objects.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson10.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson12.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

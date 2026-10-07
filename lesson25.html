@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 25</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #d9def0;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            color: #ff8a3d;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b9c0d4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 35px rgba(255,138,61,0.35),
+                0 0 80px rgba(255,77,109,0.2);
+        }
+
+        .hero-visual div {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background: #101522;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 800;
+            color: #ff8a3d;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b9c0d4;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 83.33%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 16px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff8a3d;
+            margin: 20px 0 10px;
+        }
+
+        p, li {
+            color: #c5cbdd;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            background: #0d1117;
+            border: 1px solid #222938;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #c9d1d9;
+            font-size: 13px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #e6edf3;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9def0;
+        }
+
+        .info {
+            margin-top: 18px;
+            padding: 16px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 8px;
+            color: #cbd1e2;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #ff8a3d;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff8a3d;
+            background: rgba(255,255,255,0.05);
+        }
+
+        td {
+            color: #c5cbdd;
+        }
+
+        .challenge {
+            border: 1px dashed #ff8a3d;
+            background: rgba(255,138,61,0.05);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 45px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,77,109,0.25);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            color: #737b91;
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual div {
+                width: 135px;
+                height: 135px;
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            main {
+                width: 92%;
+                padding-top: 35px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><span>Java</span>Learn</div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 25 / 30
+    </div>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div>
+            <div class="badge">ANONYMOUS CLASSES • LESSON 25</div>
+
+            <h1>Anonymous <span>Classes</span></h1>
+
+            <p>
+                Learn how Java lets you create a class without giving it a name
+                and use it immediately for a one-time implementation.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            <div>() { }</div>
+        </div>
+
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="progress-section">
+
+        <div class="progress-info">
+            <span>Lesson 25 of 30</span>
+            <span>83.33% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+    </section>
+
+    <div class="grid">
+
+        <!-- INTRODUCTION -->
+        <section class="card">
+            <h2>What is an Anonymous Class?</h2>
+
+            <p>
+                An anonymous class is a class that does not have a name.
+                It is declared and instantiated at the same time.
+            </p>
+
+            <div class="info">
+                Anonymous classes are mainly useful when you need a small,
+                one-time implementation of a class, abstract class, or interface.
+            </div>
+        </section>
+
+        <!-- WHY -->
+        <section class="card">
+            <h2>Why Use Anonymous Classes?</h2>
+
+            <ul>
+                <li>Useful for one-time implementations.</li>
+                <li>Reduces the need to create a separate class.</li>
+                <li>Useful when implementing an interface quickly.</li>
+                <li>Can override methods immediately.</li>
+                <li>Commonly used with event handling and callbacks.</li>
+            </ul>
+        </section>
+
+        <!-- BASIC SYNTAX -->
+        <section class="card full">
+            <h2>Basic Syntax</h2>
+
+            <p>
+                The basic structure of an anonymous class looks like this:
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Syntax.java</span>
+                </div>
+
+                <pre><span class="type">Type</span> object = <span class="keyword">new</span> <span class="type">Type</span>() {
+
+    <span class="comment">// Override or implement methods here</span>
+
+};</pre>
+            </div>
+
+            <div class="info">
+                Notice the semicolon <strong>;</strong> after the closing
+                curly brace. The anonymous class is created as part of an
+                object expression.
+            </div>
+        </section>
+
+        <!-- INTERFACE -->
+        <section class="card full">
+            <h2>Anonymous Class with Interface</h2>
+
+            <p>
+                One of the most common uses is implementing an interface
+                without creating a separate class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Greeting</span> {
+
+    <span class="keyword">void</span> <span class="function">sayHello</span>();
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Greeting</span> greeting =
+            <span class="keyword">new</span> <span class="type">Greeting</span>() {
+
+                <span class="keyword">public void</span> <span class="function">sayHello</span>() {
+
+                    System.out.println(
+                        <span class="string">"Hello from Java!"</span>
+                    );
+                }
+            };
+
+        greeting.sayHello();
+    }
+}</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Hello from Java!
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="card">
+            <h2>How It Works</h2>
+
+            <ol>
+                <li>Define an interface or class.</li>
+                <li>Use the <strong>new</strong> keyword.</li>
+                <li>Open curly braces.</li>
+                <li>Implement or override the required methods.</li>
+                <li>Close the braces with a semicolon.</li>
+            </ol>
+        </section>
+
+        <!-- NORMAL VS ANONYMOUS -->
+        <section class="card">
+            <h2>Normal Class vs Anonymous Class</h2>
+
+            <p>
+                A normal class has a name and can be reused.
+                An anonymous class has no name and is generally created
+                for a single use.
+            </p>
+
+            <div class="info">
+                <strong>Normal class:</strong> Better when the implementation
+                is reused in multiple places.
+                <br><br>
+                <strong>Anonymous class:</strong> Useful for short,
+                one-time implementations.
+            </div>
+        </section>
+
+        <!-- NORMAL CLASS -->
+        <section class="card">
+            <h2>Using a Normal Class</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(
+            <span class="string">"Animal sound"</span>
+        );
+    }
+}
+
+<span class="type">Animal</span> a = <span class="keyword">new</span> <span class="type">Animal</span>();
+
+a.sound();</pre>
+            </div>
+        </section>
+
+        <!-- ANONYMOUS CLASS OVERRIDE -->
+        <section class="card">
+            <h2>Anonymous Class with Method Override</h2>
+
+            <p>
+                An anonymous class can extend a normal class and override
+                its methods.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(
+            <span class="string">"Animal sound"</span>
+        );
+    }
+}
+
+<span class="type">Animal</span> dog = <span class="keyword">new</span> <span class="type">Animal</span>() {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+
+        System.out.println(
+            <span class="string">"Dog barks"</span>
+        );
+    }
+};
+
+dog.sound();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Dog barks
+            </div>
+        </section>
+
+        <!-- ABSTRACT CLASS -->
+        <section class="card full">
+            <h2>Anonymous Class with Abstract Class</h2>
+
+            <p>
+                Anonymous classes can also provide an implementation
+                for an abstract class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="keyword">abstract class</span> <span class="type">Shape</span> {
+
+    <span class="keyword">abstract void</span> <span class="function">draw</span>();
+}
+
+<span class="type">Shape</span> shape = <span class="keyword">new</span> <span class="type">Shape</span>() {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">draw</span>() {
+
+        System.out.println(
+            <span class="string">"Drawing a circle"</span>
+        );
+    }
+};
+
+shape.draw();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Drawing a circle
+            </div>
+        </section>
+
+        <!-- MULTIPLE METHODS -->
+        <section class="card">
+            <h2>Multiple Methods</h2>
+
+            <p>
+                An anonymous class can implement multiple methods defined
+                by its parent type.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Calculator</span> {
+
+    <span class="keyword">void</span> <span class="function">add</span>();
+
+    <span class="keyword">void</span> <span class="function">subtract</span>();
+}
+
+<span class="type">Calculator</span> c = <span class="keyword">new</span> <span class="type">Calculator</span>() {
+
+    <span class="keyword">public void</span> <span class="function">add</span>() {
+        System.out.println(<span class="string">"Addition"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">subtract</span>() {
+        System.out.println(<span class="string">"Subtraction"</span>);
+    }
+};</pre>
+            </div>
+        </section>
+
+        <!-- PARAMETERS -->
+        <section class="card">
+            <h2>Using Variables</h2>
+
+            <p>
+                Anonymous classes can use variables from the surrounding
+                context when those local variables are final or effectively final.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">final int</span> number = <span class="number">10</span>;
+
+<span class="type">Runnable</span> task = <span class="keyword">new</span> <span class="type">Runnable</span>() {
+
+    <span class="keyword">public void</span> <span class="function">run</span>() {
+
+        System.out.println(number);
+    }
+};
+
+task.run();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                10
+            </div>
+        </section>
+
+        <!-- RUNNABLE -->
+        <section class="card full">
+            <h2>Anonymous Class with Runnable</h2>
+
+            <p>
+                The <strong>Runnable</strong> interface is a common example
+                of anonymous classes.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Runnable</span> task = <span class="keyword">new</span> <span class="type">Runnable</span>() {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">run</span>() {
+
+        System.out.println(
+            <span class="string">"Task is running"</span>
+        );
+    }
+};
+
+task.run();</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Task is running
+            </div>
+        </section>
+
+        <!-- LAMBDA -->
+        <section class="card full">
+            <h2>Anonymous Class vs Lambda</h2>
+
+            <p>
+                When an interface is a functional interface, Java often allows
+                a shorter lambda expression instead of an anonymous class.
+            </p>
+
+            <h3>Anonymous Class</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Anonymous.java</span>
+                </div>
+
+                <pre><span class="type">Runnable</span> task = <span class="keyword">new</span> <span class="type">Runnable</span>() {
+
+    <span class="keyword">public void</span> <span class="function">run</span>() {
+        System.out.println(
+            <span class="string">"Hello"</span>
+        );
+    }
+};</pre>
+            </div>
+
+            <h3>Lambda Expression</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Lambda.java</span>
+                </div>
+
+                <pre><span class="type">Runnable</span> task =
+    () -> System.out.println(<span class="string">"Hello"</span>);</pre>
+            </div>
+
+            <div class="info">
+                Lambda expressions are shorter, but anonymous classes are
+                still useful when you need more complex class behavior or
+                when working with abstract classes.
+            </div>
+        </section>
+
+        <!-- COMPARISON TABLE -->
+        <section class="card full">
+            <h2>Comparison</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Normal Class</th>
+                    <th>Anonymous Class</th>
+                </tr>
+
+                <tr>
+                    <td>Class Name</td>
+                    <td>Has a name</td>
+                    <td>No name</td>
+                </tr>
+
+                <tr>
+                    <td>Reusability</td>
+                    <td>Highly reusable</td>
+                    <td>Usually one-time use</td>
+                </tr>
+
+                <tr>
+                    <td>Code Size</td>
+                    <td>Can be larger</td>
+                    <td>Useful for short implementations</td>
+                </tr>
+
+                <tr>
+                    <td>Object Creation</td>
+                    <td>Separate object creation</td>
+                    <td>Class and object created together</td>
+                </tr>
+
+                <tr>
+                    <td>Common Use</td>
+                    <td>General application logic</td>
+                    <td>Callbacks and one-time behavior</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- ADVANTAGES -->
+        <section class="card">
+            <h2>Advantages</h2>
+
+            <ul>
+                <li>Short and convenient for small implementations.</li>
+                <li>No need to create a separate class file.</li>
+                <li>Useful for callbacks.</li>
+                <li>Useful for overriding behavior quickly.</li>
+            </ul>
+        </section>
+
+        <!-- LIMITATIONS -->
+        <section class="card">
+            <h2>Limitations</h2>
+
+            <ul>
+                <li>Cannot be reused easily by name.</li>
+                <li>Large anonymous classes can reduce readability.</li>
+                <li>Cannot define a constructor because it has no name.</li>
+                <li>A separate named class is better for complex behavior.</li>
+            </ul>
+        </section>
+
+        <!-- IMPORTANT -->
+        <section class="card full">
+            <h2>Important Points</h2>
+
+            <ul>
+                <li>An anonymous class has no class name.</li>
+                <li>It is declared and instantiated at the same time.</li>
+                <li>It can extend a class.</li>
+                <li>It can implement an interface.</li>
+                <li>It can override methods.</li>
+                <li>It is generally used for one-time implementations.</li>
+                <li>Functional interfaces can often be implemented using lambdas instead.</li>
+            </ul>
+        </section>
+
+        <!-- PRACTICE -->
+        <section class="card">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What is an anonymous class?</li>
+                <li>Why does an anonymous class not have a name?</li>
+                <li>How do you create an anonymous class?</li>
+                <li>Can an anonymous class implement an interface?</li>
+                <li>Can an anonymous class extend a class?</li>
+                <li>What is the difference between a normal class and an anonymous class?</li>
+                <li>How are anonymous classes related to lambda expressions?</li>
+            </ol>
+        </section>
+
+        <!-- CHALLENGE -->
+        <section class="card challenge">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Create an interface called <strong>Payment</strong>
+                with a method called <strong>pay()</strong>.
+            </p>
+
+            <br>
+
+            <p>
+                Use an anonymous class to implement the interface and print:
+            </p>
+
+            <div class="output">
+                Payment successful!
+            </div>
+
+            <div class="info">
+                <strong>Hint:</strong>
+                Create a <code>Payment</code> reference and use
+                <code>new Payment() { ... }</code>.
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                Anonymous classes are unnamed classes created at the point
+                where they are needed. They are useful for implementing an
+                interface or extending a class for a single use.
+            </p>
+
+            <br>
+
+            <p>
+                They are especially useful for short implementations,
+                callbacks, and method overriding. For larger reusable
+                functionality, a normal named class is usually easier to maintain.
+            </p>
+        </section>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="buttons">
+        <a href="lesson24.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson26.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>

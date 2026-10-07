@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>JavaLearn | Lesson 2</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8,11,20,0.75);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ff8a3d;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .lesson-number {
+            background: rgba(255,138,61,0.12);
+            color: #ff9d5c;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        /* HERO */
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff9d5c;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.25);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb7ca;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        /* VARIABLE ICON */
+
+        .java-circle {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80px;
+            font-weight: bold;
+            box-shadow:
+                0 0 30px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.12);
+        }
+
+        /* CARDS */
+
+        .card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .card:hover {
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #b8c0d0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* LEARN GRID */
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .learn-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 20px;
+            border-radius: 14px;
+        }
+
+        .learn-item .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .learn-item h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .learn-item p {
+            font-size: 13px;
+            color: #9da7bb;
+        }
+
+        /* DATA TYPE TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: rgba(255,138,61,0.15);
+            color: #ff9d5c;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #b8c0d0;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* CODE */
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #171b27;
+            padding: 13px 18px;
+            border-radius: 12px 12px 0 0;
+            color: #9da7bb;
+            font-size: 13px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        pre {
+            background: #0d111a;
+            padding: 25px;
+            overflow-x: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            border: 1px solid #171b27;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        /* NOTE */
+
+        .note {
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255,138,61,0.08);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #ff9d5c;
+        }
+
+        /* PROGRESS */
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: #202533;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 10px;
+        }
+
+        /* NAVIGATION */
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn.next {
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            border: none;
+            box-shadow: 0 8px 25px rgba(255,80,80,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: #687287;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 50px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .java-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 55px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        Java<span>Learn</span>
+    </div>
+
+    <div class="lesson-number">
+        Lesson 02 / 10
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="tag">
+                ☕ JAVA BASICS
+            </div>
+
+            <h1>
+                Variables &<br>
+                <span>Data Types</span>
+            </h1>
+
+            <p>
+                Learn how Java stores information using variables
+                and understand the most commonly used data types.
+            </p>
+
+        </div>
+
+
+        <div class="java-circle">
+            x = 10
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="progress-info">
+
+            <span>Course Progress</span>
+
+            <span>2 / 10 Lessons</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT YOU LEARN -->
+
+    <section class="card">
+
+        <h2>What You'll Learn</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">📦</div>
+
+                <h3>Variables</h3>
+
+                <p>
+                    Learn how to store values in Java.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔢</div>
+
+                <h3>Data Types</h3>
+
+                <p>
+                    Understand different types of data.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">💻</div>
+
+                <h3>Examples</h3>
+
+                <p>
+                    Practice creating variables in Java.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- VARIABLES -->
+
+    <section class="card">
+
+        <h2>What is a Variable?</h2>
+
+        <p>
+            A variable is a named storage location used to hold
+            a value in a Java program.
+        </p>
+
+        <p style="margin-top:15px;">
+            Think of a variable like a box. The box has a name
+            and it stores some information inside it.
+        </p>
+
+    </section>
+
+
+    <!-- SYNTAX -->
+
+    <section class="card">
+
+        <h2>Variable Syntax</h2>
+
+        <div class="code-header">
+
+            <div class="dots">
+
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+
+            </div>
+
+            <span>Variable.java</span>
+
+        </div>
+
+<pre><span class="type">dataType</span> <span class="variable">variableName</span> = value;</pre>
+
+        <div class="note">
+
+            <strong>💡 Example</strong>
+
+            <p style="margin-top:8px;">
+                <b>int age = 20;</b>
+            </p>
+
+            <p>
+                Here, <b>int</b> is the data type,
+                <b>age</b> is the variable name,
+                and <b>20</b> is the value.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DATA TYPES -->
+
+    <section class="card">
+
+        <h2>Common Data Types</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Data Type</th>
+                    <th>Used For</th>
+                    <th>Example</th>
+                </tr>
+
+                <tr>
+                    <td>int</td>
+                    <td>Whole numbers</td>
+                    <td>20</td>
+                </tr>
+
+                <tr>
+                    <td>double</td>
+                    <td>Decimal numbers</td>
+                    <td>85.5</td>
+                </tr>
+
+                <tr>
+                    <td>float</td>
+                    <td>Decimal numbers</td>
+                    <td>10.5f</td>
+                </tr>
+
+                <tr>
+                    <td>char</td>
+                    <td>Single character</td>
+                    <td>'A'</td>
+                </tr>
+
+                <tr>
+                    <td>boolean</td>
+                    <td>True or false</td>
+                    <td>true</td>
+                </tr>
+
+                <tr>
+                    <td>String</td>
+                    <td>Text</td>
+                    <td>"Java"</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- EXAMPLE -->
+
+    <section class="card">
+
+        <h2>Example Program</h2>
+
+        <div class="code-header">
+
+            <div class="dots">
+
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+
+            </div>
+
+            <span>Main.java</span>
+
+        </div>
+
+<pre><span class="keyword">class</span> Main {
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="type">String</span> <span class="variable">name</span> =
+            <span class="string">"Keerthana"</span>;
+
+        <span class="type">int</span> <span class="variable">age</span> =
+            <span class="number">20</span>;
+
+        <span class="type">double</span> <span class="variable">mark</span> =
+            <span class="number">85.5</span>;
+
+        <span class="type">char</span> <span class="variable">grade</span> =
+            <span class="string">'A'</span>;
+
+        <span class="type">boolean</span> <span class="variable">student</span> =
+            <span class="keyword">true</span>;
+
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(mark);
+        System.out.println(grade);
+        System.out.println(student);
+
+    }
+
+}</pre>
+
+    </section>
+
+
+    <!-- IMPORTANT NOTE -->
+
+    <section class="card">
+
+        <h2>Important Points</h2>
+
+        <div class="note">
+
+            <strong>💡 Remember</strong>
+
+            <p style="margin-top:10px;">
+                Java is a strongly typed language. This means
+                every variable must have a data type.
+            </p>
+
+        </div>
+
+        <div class="note">
+
+            <strong>⚡ Example</strong>
+
+            <p style="margin-top:10px;">
+                <b>int age = 20;</b> is valid because 20 is
+                a whole number.
+            </p>
+
+        </div>
+
+        <div class="note">
+
+            <strong>⚠️ Be Careful</strong>
+
+            <p style="margin-top:10px;">
+                Java is case-sensitive. For example,
+                <b>Age</b> and <b>age</b> are different variables.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="lesson1.html" class="btn">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson3.html" class="btn next">
+            Next Lesson →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        ☕ JavaLearn • Learn Java Step by Step
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

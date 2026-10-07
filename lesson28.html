@@ -1,0 +1,934 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 28</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo .java {
+            color: #ff8a3d;
+        }
+
+        .logo .learn {
+            color: white;
+        }
+
+        .lesson-pill {
+            background: rgba(255, 138, 61, 0.12);
+            border: 1px solid rgba(255, 138, 61, 0.35);
+            color: #ffb07a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 77, 109, 0.12);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            color: #ff7f9a;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b8bfd4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            font-weight: 800;
+            box-shadow:
+                0 0 45px rgba(255, 77, 109, 0.35),
+                0 0 90px rgba(255, 138, 61, 0.15);
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+            color: #c7cce0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 93.33%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ffb07a;
+            margin: 22px 0 12px;
+        }
+
+        p, li {
+            color: #c4c9da;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .code-editor {
+            background: #0d1117;
+            border: 1px solid #252b36;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #252b36;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword { color:#ff7b72; }
+        .type { color:#79c0ff; }
+        .variable { color:#d2a8ff; }
+        .string { color:#a5d6ff; }
+        .number { color:#ffa657; }
+        .function { color:#d2a8ff; }
+        .comment { color:#8b949e; }
+        .annotation { color:#7ee787; }
+
+        .output {
+            background: #0a0e16;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px 18px;
+            margin-top: 14px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9deea;
+        }
+
+        .info {
+            background: rgba(255,138,61,0.08);
+            border-left: 4px solid #ff8a3d;
+            padding: 17px;
+            margin-top: 18px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: #ffb07a;
+        }
+
+        td {
+            color: #c4c9da;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            color: white;
+            font-weight: 700;
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8d94a8;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            nav {
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <span class="java">Java</span><span class="learn">Learn</span>
+    </div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 28 / 30
+    </div>
+</nav>
+
+<main>
+
+    <section class="hero">
+        <div>
+            <div class="badge">TYPE SAFETY • LESSON 28</div>
+
+            <h1>Java <span>Generics</span></h1>
+
+            <p>
+                Learn how generics provide type safety and help you create
+                reusable classes, methods, interfaces, and collections.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            &lt;T&gt;
+        </div>
+    </section>
+
+    <section class="progress-card">
+        <div class="progress-top">
+            <strong>Lesson 28 of 30</strong>
+            <span>93.33% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </section>
+
+    <section class="cards">
+
+        <div class="card">
+            <h2>What Are Generics?</h2>
+
+            <p>
+                Generics allow a class, interface, or method to work with
+                different data types while maintaining type safety.
+            </p>
+
+            <div class="info">
+                Instead of writing separate classes for String, Integer,
+                Double, etc., one generic class can handle different types.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Why Use Generics?</h2>
+
+            <ul>
+                <li>Provides type safety</li>
+                <li>Reduces unnecessary casting</li>
+                <li>Creates reusable code</li>
+                <li>Makes APIs cleaner</li>
+                <li>Catches type errors at compile time</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Generic Class</h2>
+
+            <p>
+                A generic class uses a type parameter such as
+                <strong>T</strong>.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Box</span>&lt;<span class="type">T</span>&gt; {
+    <span class="keyword">private</span> <span class="type">T</span> value;
+
+    <span class="keyword">void</span> <span class="function">setValue</span>(<span class="type">T</span> value) {
+        <span class="keyword">this</span>.value = value;
+    }
+
+    <span class="type">T</span> <span class="function">getValue</span>() {
+        <span class="keyword">return</span> value;
+    }
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Using a Generic Class</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Box</span>&lt;<span class="type">String</span>&gt; box = <span class="keyword">new</span> <span class="type">Box</span>&lt;&gt;();
+
+box.<span class="function">setValue</span>(<span class="string">"Java"</span>);
+
+System.out.println(box.<span class="function">getValue</span>());</pre>
+            </div>
+
+            <div class="output">
+                Java
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Generic Class with Integer</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Box</span>&lt;<span class="type">Integer</span>&gt; box = <span class="keyword">new</span> <span class="type">Box</span>&lt;&gt;();
+
+box.<span class="function">setValue</span>(<span class="number">100</span>);
+
+System.out.println(box.<span class="function">getValue</span>());</pre>
+            </div>
+
+            <div class="output">
+                100
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Common Type Parameter Names</h2>
+
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Meaning</th>
+                </tr>
+
+                <tr>
+                    <td>T</td>
+                    <td>Type</td>
+                </tr>
+
+                <tr>
+                    <td>E</td>
+                    <td>Element</td>
+                </tr>
+
+                <tr>
+                    <td>K</td>
+                    <td>Key</td>
+                </tr>
+
+                <tr>
+                    <td>V</td>
+                    <td>Value</td>
+                </tr>
+
+                <tr>
+                    <td>N</td>
+                    <td>Number</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card full">
+            <h2>Generic Methods</h2>
+
+            <p>
+                A generic method can accept different data types without
+                creating separate methods.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Printer</span> {
+
+    <span class="keyword">static</span> &lt;<span class="type">T</span>&gt; <span class="keyword">void</span>
+    <span class="function">print</span>(<span class="type">T</span> value) {
+        System.out.println(value);
+    }
+}</pre>
+            </div>
+
+            <h3>Using the Generic Method</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Printer</span>.<span class="function">print</span>(<span class="string">"Hello"</span>);
+<span class="type">Printer</span>.<span class="function">print</span>(<span class="number">100</span>);</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Generic Method with Two Parameters</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">static</span> &lt;<span class="type">T</span>&gt;
+<span class="keyword">void</span> <span class="function">display</span>(<span class="type">T</span> a, <span class="type">T</span> b) {
+
+    System.out.println(a);
+    System.out.println(b);
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Generic Interface</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Container</span>&lt;<span class="type">T</span>&gt; {
+
+    <span class="keyword">void</span> <span class="function">add</span>(<span class="type">T</span> item);
+
+    <span class="type">T</span> <span class="function">get</span>();
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Implementing a Generic Interface</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">StringContainer</span>
+        <span class="keyword">implements</span> <span class="type">Container</span>&lt;<span class="type">String</span>&gt; {
+
+    <span class="keyword">private</span> <span class="type">String</span> value;
+
+    <span class="keyword">public void</span> <span class="function">add</span>(<span class="type">String</span> item) {
+        value = item;
+    }
+
+    <span class="keyword">public</span> <span class="type">String</span> <span class="function">get</span>() {
+        <span class="keyword">return</span> value;
+    }
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Bounded Generics</h2>
+
+            <p>
+                Bounded generics restrict the types that can be used as a
+                type parameter.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Calculator</span>&lt;<span class="type">T</span>
+        <span class="keyword">extends</span> <span class="type">Number</span>&gt; {
+
+    <span class="keyword">private</span> <span class="type">T</span> value;
+
+    <span class="type">Calculator</span>(<span class="type">T</span> value) {
+        <span class="keyword">this</span>.value = value;
+    }
+
+    <span class="keyword">double</span> <span class="function">getDoubleValue</span>() {
+        <span class="keyword">return</span> value.<span class="function">doubleValue</span>();
+    }
+}</pre>
+            </div>
+
+            <h3>Example</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Calculator</span>&lt;<span class="type">Integer</span>&gt;
+        c = <span class="keyword">new</span> <span class="type">Calculator</span>&lt;&gt;(<span class="number">50</span>);</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Multiple Bounds</h2>
+
+            <p>
+                A type parameter can have one class bound and multiple
+                interface bounds.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre>&lt;<span class="type">T</span>
+<span class="keyword">extends</span> <span class="type">Number</span>
+&amp; <span class="type">Comparable</span>&lt;<span class="type">T</span>&gt;&gt;</pre>
+            </div>
+
+            <div class="info">
+                The class must come first, followed by interfaces.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Wildcards</h2>
+
+            <p>Wildcards represent an unknown type.</p>
+
+            <ul>
+                <li><strong>?</strong> — unknown type</li>
+                <li><strong>? extends Number</strong> — upper bound</li>
+                <li><strong>? super Integer</strong> — lower bound</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Unbounded Wildcard</h2>
+
+            <p>
+                The <strong>?</strong> wildcard allows a method to work with
+                a list of any type.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">static void</span>
+<span class="function">displayList</span>(<span class="type">List</span>&lt;?&gt; list) {
+
+    <span class="keyword">for</span> (<span class="type">Object</span> item : list) {
+        System.out.println(item);
+    }
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Upper Bounded Wildcard</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">static double</span>
+<span class="function">sum</span>(
+    <span class="type">List</span>&lt;? <span class="keyword">extends</span> <span class="type">Number</span>&gt; list) {
+
+    <span class="keyword">double</span> total = <span class="number">0</span>;
+
+    <span class="keyword">for</span> (<span class="type">Number</span> n : list) {
+        total += n.<span class="function">doubleValue</span>();
+    }
+
+    <span class="keyword">return</span> total;
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Lower Bounded Wildcard</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">static void</span>
+<span class="function">addNumbers</span>(
+    <span class="type">List</span>&lt;? <span class="keyword">super</span> <span class="type">Integer</span>&gt; list) {
+
+    list.<span class="function">add</span>(<span class="number">10</span>);
+    list.<span class="function">add</span>(<span class="number">20</span>);
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Generic vs Non-Generic Code</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Generics</th>
+                    <th>Non-Generics</th>
+                </tr>
+
+                <tr>
+                    <td>Type Safety</td>
+                    <td>High</td>
+                    <td>Lower</td>
+                </tr>
+
+                <tr>
+                    <td>Casting</td>
+                    <td>Usually not required</td>
+                    <td>Often required</td>
+                </tr>
+
+                <tr>
+                    <td>Code Reuse</td>
+                    <td>High</td>
+                    <td>Lower</td>
+                </tr>
+
+                <tr>
+                    <td>Compile-Time Checking</td>
+                    <td>Yes</td>
+                    <td>Limited</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card full">
+            <h2>Real-World Example: Repository</h2>
+
+            <p>
+                Generics are useful when building reusable components such as
+                repositories, services, and data containers.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Repository</span>&lt;<span class="type">T</span>&gt; {
+
+    <span class="keyword">private</span> <span class="type">T</span> data;
+
+    <span class="keyword">void</span> <span class="function">save</span>(<span class="type">T</span> data) {
+        <span class="keyword">this</span>.data = data;
+    }
+
+    <span class="type">T</span> <span class="function">find</span>() {
+        <span class="keyword">return</span> data;
+    }
+}</pre>
+            </div>
+
+            <h3>Using the Repository</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">Repository</span>&lt;<span class="type">String</span>&gt; names =
+        <span class="keyword">new</span> <span class="type">Repository</span>&lt;&gt;();
+
+names.<span class="function">save</span>(<span class="string">"Keerthana"</span>);
+
+System.out.println(names.<span class="function">find</span>());</pre>
+            </div>
+
+            <div class="output">
+                Keerthana
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Type Erasure</h2>
+
+            <p>
+                Java implements generics mainly through a process called
+                type erasure.
+            </p>
+
+            <ul>
+                <li>Generic type information is mostly removed at runtime.</li>
+                <li><code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code> are both Lists at runtime.</li>
+                <li>You cannot normally create <code>new T()</code>.</li>
+                <li>Primitive types cannot be used as generic arguments.</li>
+            </ul>
+
+            <div class="info">
+                Use wrapper classes such as Integer instead of int.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Important Points</h2>
+
+            <ul>
+                <li>Generics improve type safety.</li>
+                <li>Use <strong>&lt;T&gt;</strong> for a type parameter.</li>
+                <li>Generic classes can work with different types.</li>
+                <li>Methods can also be generic.</li>
+                <li>Wildcards represent unknown types.</li>
+                <li>Bounds restrict allowed types.</li>
+                <li>Generics are widely used in collections.</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What are generics in Java?</li>
+                <li>Why are generics useful?</li>
+                <li>What does &lt;T&gt; represent?</li>
+                <li>What is a generic class?</li>
+                <li>What is a generic method?</li>
+                <li>What is a bounded type parameter?</li>
+                <li>What is the difference between extends and super?</li>
+                <li>What is an unbounded wildcard?</li>
+                <li>What is type erasure?</li>
+                <li>Why can't primitive types be used directly with generics?</li>
+            </ol>
+        </div>
+
+        <div class="card full">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Create a generic class called <strong>Pair&lt;K,V&gt;</strong>.
+                It should store a key and a value.
+            </p>
+
+            <h3>Requirements</h3>
+
+            <ul>
+                <li>Create key and value fields.</li>
+                <li>Create a constructor.</li>
+                <li>Create getters for key and value.</li>
+                <li>Create a display method.</li>
+                <li>Test the class with String and Integer.</li>
+            </ul>
+
+            <div class="info">
+                Example: Pair&lt;String, Integer&gt; can store a student's
+                name and mark.
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                Generics make Java programs safer, reusable, and easier to
+                maintain. They allow classes, interfaces, methods, and
+                collections to work with different data types while
+                providing compile-time type checking.
+            </p>
+
+            <div class="info">
+                Next lesson: Collections + OOP Integration.
+            </div>
+        </div>
+
+    </section>
+
+    <div class="buttons">
+        <a href="lesson27.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson29.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>
+```

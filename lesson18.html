@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 18 - Multiple Interfaces | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-visual-inner strong {
+            font-size: 42px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 60%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 18 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    INTERFACES • LESSON 18
+                </div>
+
+                <h1>
+                    <span>Multiple Interfaces</span>
+                </h1>
+
+                <p>
+                    Learn how a single Java class can implement multiple
+                    interfaces and combine different contracts into one
+                    flexible object.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>2+</strong>
+                    <small>Interfaces</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 18 of 30</span>
+                <span>60% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRODUCTION -->
+            <section class="card full">
+
+                <h2>What are Multiple Interfaces?</h2>
+
+                <p>
+                    Java does not allow a class to extend multiple classes.
+                    However, a class can implement multiple interfaces.
+                </p>
+
+                <div class="info-box">
+                    <strong>Simple idea:</strong>
+                    <br><br>
+                    One class → Multiple interfaces → Multiple responsibilities
+                </div>
+
+                <p style="margin-top:18px;">
+                    This feature allows Java classes to combine behaviors
+                    from different interfaces without using multiple
+                    class inheritance.
+                </p>
+
+            </section>
+
+
+            <!-- BASIC SYNTAX -->
+            <section class="card full">
+
+                <h2>Basic Syntax</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Printable</span> {
+    <span class="keyword">void</span> <span class="function">print</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Scannable</span> {
+    <span class="keyword">void</span> <span class="function">scan</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Printer</span>
+        <span class="keyword">implements</span> <span class="type">Printable</span>, <span class="type">Scannable</span> {
+
+    <span class="keyword">public void</span> <span class="function">print</span>() {
+        System.out.println(<span class="string">"Printing document"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">scan</span>() {
+        System.out.println(<span class="string">"Scanning document"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- COMMA SYNTAX -->
+            <section class="card">
+
+                <h2>Using Commas</h2>
+
+                <p>
+                    Multiple interfaces are separated by commas after
+                    the <code>implements</code> keyword.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Machine</span>
+    <span class="keyword">implements</span>
+    <span class="type">Printable</span>,
+    <span class="type">Scannable</span> {
+
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- WHY -->
+            <section class="card">
+
+                <h2>Why Use Multiple Interfaces?</h2>
+
+                <ul>
+                    <li>Combines different behaviors.</li>
+                    <li>Supports flexible designs.</li>
+                    <li>Encourages loose coupling.</li>
+                    <li>Avoids multiple class inheritance.</li>
+                    <li>Allows one class to follow multiple contracts.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- COMPLETE EXAMPLE -->
+            <section class="card full">
+
+                <h2>Complete Example</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Printable</span> {
+
+    <span class="keyword">void</span> <span class="function">print</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Scannable</span> {
+
+    <span class="keyword">void</span> <span class="function">scan</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Printer</span>
+        <span class="keyword">implements</span> <span class="type">Printable</span>, <span class="type">Scannable</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">print</span>() {
+        System.out.println(<span class="string">"Printing document"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">scan</span>() {
+        System.out.println(<span class="string">"Scanning document"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Printer</span> printer =
+            <span class="keyword">new</span> <span class="type">Printer</span>();
+
+        printer.print();
+        printer.scan();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Printing document
+Scanning document
+                </div>
+
+            </section>
+
+
+            <!-- THREE INTERFACES -->
+            <section class="card full">
+
+                <h2>Implementing Three Interfaces</h2>
+
+                <p>
+                    A class can implement more than two interfaces.
+                    The number of interfaces is not limited to two.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Printable</span> {
+    <span class="keyword">void</span> <span class="function">print</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Scannable</span> {
+    <span class="keyword">void</span> <span class="function">scan</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Faxable</span> {
+    <span class="keyword">void</span> <span class="function">fax</span>();
+}
+
+<span class="keyword">class</span> <span class="type">OfficeMachine</span>
+        <span class="keyword">implements</span> <span class="type">Printable</span>,
+        <span class="type">Scannable</span>, <span class="type">Faxable</span> {
+
+    <span class="keyword">public void</span> <span class="function">print</span>() {
+        System.out.println(<span class="string">"Printing"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">scan</span>() {
+        System.out.println(<span class="string">"Scanning"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">fax</span>() {
+        System.out.println(<span class="string">"Sending fax"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- INTERFACE REFERENCES -->
+            <section class="card">
+
+                <h2>Interface References</h2>
+
+                <p>
+                    The same object can be referenced using different
+                    interface types.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Printer</span> printer =
+    <span class="keyword">new</span> <span class="type">Printer</span>();
+
+<span class="type">Printable</span> p = printer;
+<span class="type">Scannable</span> s = printer;
+
+p.print();
+s.scan();</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- FLEXIBILITY -->
+            <section class="card">
+
+                <h2>Flexible Design</h2>
+
+                <p>
+                    Interface references allow code to focus on the
+                    behavior it needs instead of depending on a specific
+                    implementation class.
+                </p>
+
+                <div class="info-box">
+                    <strong>Example:</strong>
+                    A method that only needs printing can accept a
+                    <code>Printable</code> reference.
+                </div>
+
+            </section>
+
+
+            <!-- REAL WORLD -->
+            <section class="card full">
+
+                <h2>Real-World Example: Smartphone</h2>
+
+                <p>
+                    A smartphone can perform many different roles.
+                    We can represent each capability with a separate
+                    interface.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Camera</span> {
+    <span class="keyword">void</span> <span class="function">takePhoto</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">MusicPlayer</span> {
+    <span class="keyword">void</span> <span class="function">playMusic</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Phone</span> {
+    <span class="keyword">void</span> <span class="function">makeCall</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Smartphone</span>
+        <span class="keyword">implements</span> <span class="type">Camera</span>,
+        <span class="type">MusicPlayer</span>, <span class="type">Phone</span> {
+
+    <span class="keyword">public void</span> <span class="function">takePhoto</span>() {
+        System.out.println(<span class="string">"Photo taken"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">playMusic</span>() {
+        System.out.println(<span class="string">"Music playing"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">makeCall</span>() {
+        System.out.println(<span class="string">"Calling..."</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- MULTIPLE INHERITANCE -->
+            <section class="card full">
+
+                <h2>Multiple Inheritance Through Interfaces</h2>
+
+                <p>
+                    Java does not support multiple inheritance through
+                    classes.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="comment">// Not allowed</span>
+
+<span class="keyword">class</span> <span class="type">C</span>
+    <span class="keyword">extends</span> <span class="type">A</span>, <span class="type">B</span> {
+}</pre>
+
+                </div>
+
+                <p style="margin-top:18px;">
+                    But Java allows a class to implement multiple interfaces.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">C</span>
+    <span class="keyword">implements</span> <span class="type">A</span>, <span class="type">B</span> {
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- METHOD REQUIREMENT -->
+            <section class="card">
+
+                <h2>Implement All Required Methods</h2>
+
+                <p>
+                    If a class implements multiple interfaces, it must
+                    provide implementations for all required abstract
+                    methods unless the class itself is abstract.
+                </p>
+
+            </section>
+
+
+            <!-- ABSTRACT CLASS + INTERFACES -->
+            <section class="card">
+
+                <h2>Abstract Class + Interfaces</h2>
+
+                <p>
+                    A class can extend one class and implement multiple
+                    interfaces at the same time.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">SmartCar</span>
+    <span class="keyword">extends</span> <span class="type">Vehicle</span>
+    <span class="keyword">implements</span> <span class="type">GPS</span>, <span class="type">Bluetooth</span> {
+
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- BENEFITS -->
+            <section class="card">
+
+                <h2>Benefits</h2>
+
+                <ul>
+                    <li>Supports multiple contracts.</li>
+                    <li>Encourages modular design.</li>
+                    <li>Improves flexibility.</li>
+                    <li>Supports loose coupling.</li>
+                    <li>Promotes reusable behavior.</li>
+                    <li>Avoids multiple class inheritance.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- IMPORTANT RULES -->
+            <section class="card">
+
+                <h2>Important Rules</h2>
+
+                <ul>
+                    <li>Use commas between interface names.</li>
+                    <li>Use <code>implements</code> only once.</li>
+                    <li>Implement all required methods.</li>
+                    <li>Implemented interface methods must be public.</li>
+                    <li>A class can extend one class and implement many interfaces.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- COMPARISON -->
+            <section class="card full">
+
+                <h2>Single vs Multiple Interfaces</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Feature</th>
+                        <th>Single Interface</th>
+                        <th>Multiple Interfaces</th>
+                    </tr>
+
+                    <tr>
+                        <td>Number of interfaces</td>
+                        <td>One</td>
+                        <td>Two or more</td>
+                    </tr>
+
+                    <tr>
+                        <td>Syntax</td>
+                        <td><code>implements A</code></td>
+                        <td><code>implements A, B</code></td>
+                    </tr>
+
+                    <tr>
+                        <td>Responsibilities</td>
+                        <td>One main contract</td>
+                        <td>Multiple contracts</td>
+                    </tr>
+
+                    <tr>
+                        <td>Flexibility</td>
+                        <td>Good</td>
+                        <td>Higher for multiple capabilities</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>Can a Java class implement multiple interfaces?</li>
+                    <li>Which keyword is used to implement interfaces?</li>
+                    <li>How are multiple interfaces separated?</li>
+                    <li>Can a class extend one class and implement multiple interfaces?</li>
+                    <li>Why does Java support multiple interfaces?</li>
+                    <li>What happens if a class does not implement all required methods?</li>
+                    <li>Can the same object be referenced using different interface types?</li>
+                    <li>What is the difference between multiple inheritance through classes and interfaces?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a class called <strong>SmartDevice</strong>
+                    that implements three interfaces.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create interface <code>Camera</code> with <code>takePhoto()</code>.</li>
+                    <li>Create interface <code>MusicPlayer</code> with <code>playMusic()</code>.</li>
+                    <li>Create interface <code>GPS</code> with <code>navigate()</code>.</li>
+                    <li>Create <code>SmartDevice</code> implementing all three.</li>
+                    <li>Implement all methods.</li>
+                    <li>Create an object and call all three methods.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Practice combining multiple independent behaviors
+                    into one Java class.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Multiple interfaces allow a Java class to combine
+                    different contracts and behaviors. This is one of
+                    the main ways Java supports multiple inheritance of
+                    type.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>A class can implement multiple interfaces.</li>
+                    <li>Interface names are separated using commas.</li>
+                    <li>All required methods must be implemented.</li>
+                    <li>A class can extend one class and implement multiple interfaces.</li>
+                    <li>Multiple interfaces provide flexible and modular designs.</li>
+                    <li>They help avoid the problems of multiple class inheritance.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Default & Static Interface Methods</strong>
+                    introduced in modern Java.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson17.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson19.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

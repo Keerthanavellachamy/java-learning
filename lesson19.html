@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 19 - Default & Static Interface Methods | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            text-align: center;
+        }
+
+        .hero-visual-inner strong {
+            font-size: 35px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 63.33%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 27px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 19 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    INTERFACES • LESSON 19
+                </div>
+
+                <h1>
+                    <span>Default & Static</span><br>
+                    Interface Methods
+                </h1>
+
+                <p>
+                    Learn how modern Java interfaces can contain default
+                    and static methods, and understand when and how to use them.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>default</strong>
+                    <small>static()</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 19 of 30</span>
+                <span>63.33% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRO -->
+            <section class="card full">
+
+                <h2>Why Default and Static Methods?</h2>
+
+                <p>
+                    Older Java interfaces mainly contained abstract methods
+                    that implementing classes had to provide.
+                </p>
+
+                <p style="margin-top:15px;">
+                    Modern Java allows interfaces to contain
+                    <strong>default methods</strong> and
+                    <strong>static methods</strong> with method bodies.
+                </p>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    <br><br>
+                    Abstract method → no body
+                    <br>
+                    Default method → has a body and can be inherited
+                    <br>
+                    Static method → belongs to the interface itself
+                </div>
+
+            </section>
+
+
+            <!-- DEFAULT METHOD -->
+            <section class="card full">
+
+                <h2>What is a Default Method?</h2>
+
+                <p>
+                    A default method is a method inside an interface that
+                    contains an implementation.
+                </p>
+
+                <p style="margin-top:15px;">
+                    It is declared using the <code>default</code> keyword.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>();
+
+    <span class="keyword">default void</span> <span class="function">sleep</span>() {
+        System.out.println(<span class="string">"Animal is sleeping"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- DEFAULT EXAMPLE -->
+            <section class="card">
+
+                <h2>Using a Default Method</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>();
+
+    <span class="keyword">default void</span> <span class="function">sleep</span>() {
+        System.out.println(<span class="string">"Animal is sleeping"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span>
+        <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Dog</span> dog = <span class="keyword">new</span> <span class="type">Dog</span>();
+
+        dog.sound();
+        dog.sleep();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog barks
+Animal is sleeping
+                </div>
+
+            </section>
+
+
+            <!-- WHY DEFAULT -->
+            <section class="card">
+
+                <h2>Why Use Default Methods?</h2>
+
+                <p>
+                    Default methods allow developers to add new behavior
+                    to an existing interface without forcing every
+                    implementing class to immediately provide an implementation.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Provides reusable behavior.</li>
+                    <li>Helps maintain backward compatibility.</li>
+                    <li>Allows interfaces to evolve.</li>
+                    <li>Reduces repeated code.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- OVERRIDING DEFAULT -->
+            <section class="card full">
+
+                <h2>Overriding a Default Method</h2>
+
+                <p>
+                    A class can override a default method if it needs
+                    different behavior.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">default void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Animal makes a sound"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span>
+        <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Result:</strong>
+                    The class-specific implementation takes priority
+                    over the inherited default implementation.
+                </div>
+
+            </section>
+
+
+            <!-- STATIC METHOD -->
+            <section class="card full">
+
+                <h2>What is a Static Interface Method?</h2>
+
+                <p>
+                    A static method in an interface belongs to the interface
+                    itself. It is not inherited by implementing classes.
+                </p>
+
+                <p style="margin-top:15px;">
+                    Static interface methods are called using the
+                    <strong>interface name</strong>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Calculator</span> {
+
+    <span class="keyword">static int</span> <span class="function">square</span>(<span class="type">int</span> n) {
+        <span class="keyword">return</span> n * n;
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATIC EXAMPLE -->
+            <section class="card">
+
+                <h2>Calling Static Method</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Calculator</span> {
+
+    <span class="keyword">static int</span> <span class="function">square</span>(<span class="type">int</span> n) {
+        <span class="keyword">return</span> n * n;
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">int</span> result =
+            Calculator.square(<span class="number">5</span>);
+
+        System.out.println(result);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+25
+                </div>
+
+            </section>
+
+
+            <!-- NOT OBJECT -->
+            <section class="card">
+
+                <h2>Static Methods Are Not Object Methods</h2>
+
+                <p>
+                    A static interface method should be called using the
+                    interface name rather than an implementing object.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Calculator</span>.square(<span class="number">5</span>);</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    Static interface methods belong to the interface.
+                </div>
+
+            </section>
+
+
+            <!-- COMPLETE EXAMPLE -->
+            <section class="card full">
+
+                <h2>Default and Static Methods Together</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Vehicle</span> {
+
+    <span class="keyword">default void</span> <span class="function">start</span>() {
+        System.out.println(<span class="string">"Vehicle started"</span>);
+    }
+
+    <span class="keyword">static void</span> <span class="function">info</span>() {
+        System.out.println(<span class="string">"Vehicles are used for transportation"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Car</span>
+        <span class="keyword">implements</span> <span class="type">Vehicle</span> {
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Car</span> car = <span class="keyword">new</span> <span class="type">Car</span>();
+
+        car.start();
+
+        Vehicle.info();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Vehicle started
+Vehicles are used for transportation
+                </div>
+
+            </section>
+
+
+            <!-- MULTIPLE INTERFACES -->
+            <section class="card full">
+
+                <h2>Default Methods with Multiple Interfaces</h2>
+
+                <p>
+                    When two interfaces provide default methods with the
+                    same signature, the implementing class must resolve
+                    the conflict.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">A</span> {
+
+    <span class="keyword">default void</span> <span class="function">show</span>() {
+        System.out.println(<span class="string">"A"</span>);
+    }
+}
+
+<span class="keyword">interface</span> <span class="type">B</span> {
+
+    <span class="keyword">default void</span> <span class="function">show</span>() {
+        System.out.println(<span class="string">"B"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">C</span>
+        <span class="keyword">implements</span> <span class="type">A</span>, <span class="type">B</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">show</span>() {
+        System.out.println(<span class="string">"C"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Why?</strong>
+                    Java requires the class to resolve the ambiguity
+                    instead of automatically choosing one interface.
+                </div>
+
+            </section>
+
+
+            <!-- SUPER INTERFACE -->
+            <section class="card full">
+
+                <h2>Calling a Specific Default Method</h2>
+
+                <p>
+                    If two interfaces contain the same default method,
+                    the implementing class can explicitly call a particular
+                    interface's default method using
+                    <code>InterfaceName.super.method()</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">A</span> {
+
+    <span class="keyword">default void</span> <span class="function">show</span>() {
+        System.out.println(<span class="string">"A show"</span>);
+    }
+}
+
+<span class="keyword">interface</span> <span class="type">B</span> {
+
+    <span class="keyword">default void</span> <span class="function">show</span>() {
+        System.out.println(<span class="string">"B show"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">C</span>
+        <span class="keyword">implements</span> <span class="type">A</span>, <span class="type">B</span> {
+
+    <span class="keyword">public void</span> <span class="function">show</span>() {
+
+        A.super.show();
+        B.super.show();
+
+        System.out.println(<span class="string">"C show"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+A show
+B show
+C show
+                </div>
+
+            </section>
+
+
+            <!-- COMPARISON -->
+            <section class="card full">
+
+                <h2>Default vs Static Methods</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Feature</th>
+                        <th>Default Method</th>
+                        <th>Static Method</th>
+                    </tr>
+
+                    <tr>
+                        <td>Keyword</td>
+                        <td><code>default</code></td>
+                        <td><code>static</code></td>
+                    </tr>
+
+                    <tr>
+                        <td>Has body</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+
+                    <tr>
+                        <td>Can be inherited?</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+
+                    <tr>
+                        <td>Called using</td>
+                        <td>Object</td>
+                        <td>Interface name</td>
+                    </tr>
+
+                    <tr>
+                        <td>Can be overridden?</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- IMPORTANT POINTS -->
+            <section class="card">
+
+                <h2>Important Points</h2>
+
+                <ul>
+                    <li>Default methods have a method body.</li>
+                    <li>Static methods belong to the interface.</li>
+                    <li>Default methods can be overridden.</li>
+                    <li>Static interface methods cannot be overridden.</li>
+                    <li>Static methods are called using the interface name.</li>
+                    <li>Default method conflicts must be resolved.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- USE CASES -->
+            <section class="card">
+
+                <h2>Common Use Cases</h2>
+
+                <ul>
+                    <li>Adding new functionality to existing interfaces.</li>
+                    <li>Providing reusable default behavior.</li>
+                    <li>Creating utility methods inside interfaces.</li>
+                    <li>Maintaining backward compatibility.</li>
+                    <li>Reducing duplicate implementation code.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is a default method?</li>
+                    <li>Which keyword is used for a default method?</li>
+                    <li>Can a default method have a body?</li>
+                    <li>Can a class override a default method?</li>
+                    <li>What is a static interface method?</li>
+                    <li>How do you call a static interface method?</li>
+                    <li>Can a static interface method be overridden?</li>
+                    <li>What happens when two interfaces have the same default method?</li>
+                    <li>How can you call a specific interface's default method?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create an interface called <strong>Bank</strong>.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create a default method <code>showBankName()</code>.</li>
+                    <li>Create a static method <code>bankRules()</code>.</li>
+                    <li>Create an abstract method <code>getInterestRate()</code>.</li>
+                    <li>Create a class <code>SBI</code> implementing the interface.</li>
+                    <li>Override <code>getInterestRate()</code>.</li>
+                    <li>Call the default method using an object.</li>
+                    <li>Call the static method using the interface name.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Practice all three interface method types:
+                    abstract, default, and static.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Modern Java interfaces can contain default and static
+                    methods in addition to abstract methods.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Default methods contain an implementation.</li>
+                    <li>Default methods can be inherited and overridden.</li>
+                    <li>Static methods belong directly to the interface.</li>
+                    <li>Static methods are called using the interface name.</li>
+                    <li>Static methods cannot be overridden.</li>
+                    <li>Default method conflicts must be resolved by the implementing class.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Packages</strong> and how Java organizes
+                    classes and interfaces into reusable groups.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson18.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson20.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

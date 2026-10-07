@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaLearn | Lesson 6</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8,11,20,0.75);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ff8a3d;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .lesson-number {
+            background: rgba(255,138,61,0.12);
+            color: #ff9d5c;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff9d5c;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.25);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb7ca;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .array-circle {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow:
+                0 0 30px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.12);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .card:hover {
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #b8c0d0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .learn-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 20px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .learn-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        .learn-item .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .learn-item h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .learn-item p {
+            font-size: 13px;
+            color: #9da7bb;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #171b27;
+            padding: 13px 18px;
+            border-radius: 12px 12px 0 0;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        pre {
+            background: #0d111a;
+            padding: 25px;
+            overflow-x: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            border: 1px solid #171b27;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .operator {
+            color: #ff9d5c;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            background: #10151f;
+            border: 1px solid rgba(255,138,61,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .output-title {
+            color: #ff9d5c;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .output p {
+            color: #d7dde8;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .note {
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255,138,61,0.08);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #ff9d5c;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: rgba(255,138,61,0.15);
+            color: #ff9d5c;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #b8c0d0;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .question {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .question-number {
+            color: #ff8a3d;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: #202533;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn.next {
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            border: none;
+            box-shadow: 0 8px 25px rgba(255,80,80,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: #687287;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 50px;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .array-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 22px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        Java<span>Learn</span>
+    </div>
+
+    <div class="lesson-number">
+        Lesson 06 / 10
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="tag">
+                ☕ JAVA BASICS
+            </div>
+
+            <h1>
+                Java<br>
+                <span>Arrays</span>
+            </h1>
+
+            <p>
+                Learn how to store multiple values of the same type
+                inside a single variable using arrays in Java.
+            </p>
+
+        </div>
+
+
+        <div class="array-circle">
+            [ 10, 20, 30 ]
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="progress-info">
+
+            <span>Course Progress</span>
+
+            <span>6 / 10 Lessons</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT YOU LEARN -->
+
+    <section class="card">
+
+        <h2>What You'll Learn</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">📦</div>
+
+                <h3>Array Basics</h3>
+
+                <p>
+                    Understand what an array is.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📝</div>
+
+                <h3>Creating Arrays</h3>
+
+                <p>
+                    Learn different ways to create arrays.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔢</div>
+
+                <h3>Index</h3>
+
+                <p>
+                    Access individual array elements.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🔄</div>
+
+                <h3>Array Looping</h3>
+
+                <p>
+                    Use loops to process array elements.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📏</div>
+
+                <h3>length</h3>
+
+                <p>
+                    Find the size of an array.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🧮</div>
+
+                <h3>2D Arrays</h3>
+
+                <p>
+                    Work with rows and columns.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT IS ARRAY -->
+
+    <section class="card">
+
+        <h2>What is an Array?</h2>
+
+        <p>
+            An array is a collection of values of the same data type
+            stored under one variable name.
+        </p>
+
+        <div class="note">
+
+            <strong>💡 Simple Example</strong>
+
+            <p style="margin-top:10px;">
+                Instead of creating five separate variables for five
+                marks, we can store all five marks inside one array.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CREATING ARRAY -->
+
+    <section class="card">
+
+        <h2>Creating an Array</h2>
+
+        <p>
+            There are different ways to create an array in Java.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>ArrayExample.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>};</pre>
+
+
+        <div class="note">
+
+            <strong>Remember:</strong>
+
+            <p style="margin-top:10px;">
+                All elements in this array are integers.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- INDEX -->
+
+    <section class="card">
+
+        <h2>Array Index</h2>
+
+        <p>
+            Array indexing starts from <b>0</b>, not 1.
+        </p>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Index</th>
+                    <th>Value</th>
+                </tr>
+
+                <tr>
+                    <td>0</td>
+                    <td>10</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>20</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>30</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>40</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>50</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>⚠️ Important</strong>
+
+            <p style="margin-top:10px;">
+                The first element is always at index <b>0</b>.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACCESS ELEMENT -->
+
+    <section class="card">
+
+        <h2>Accessing Array Elements</h2>
+
+        <p>
+            We can access an element using its index number.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>AccessArray.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+
+System.out.println(numbers[<span class="number">0</span>]);
+System.out.println(numbers[<span class="number">1</span>]);
+System.out.println(numbers[<span class="number">2</span>]);</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                10<br>
+                20<br>
+                30
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- UPDATE -->
+
+    <section class="card">
+
+        <h2>Updating an Array Element</h2>
+
+        <p>
+            We can change the value of an array element by using
+            its index.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>UpdateArray.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+
+numbers[<span class="number">1</span>] = <span class="number">50</span>;
+
+System.out.println(numbers[<span class="number">1</span>]);</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                50
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ARRAY LOOP -->
+
+    <section class="card">
+
+        <h2>Loop Through an Array</h2>
+
+        <p>
+            A for loop can be used to access every element
+            of an array.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>LoopArray.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>};
+
+<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>;
+     i <span class="operator">&lt;</span> numbers.length;
+     i<span class="operator">++</span>) {
+
+    System.out.println(numbers[i]);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                10<br>
+                20<br>
+                30<br>
+                40
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- LENGTH -->
+
+    <section class="card">
+
+        <h2>Array length</h2>
+
+        <p>
+            The <b>length</b> property tells us how many elements
+            are present in an array.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Length.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[] numbers = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>};
+
+System.out.println(numbers.length);</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                4
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 2D ARRAY -->
+
+    <section class="card">
+
+        <h2>Two-Dimensional Array</h2>
+
+        <p>
+            A two-dimensional array stores data in rows and columns.
+            It is similar to a table or matrix.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>TwoDArray.java</span>
+
+        </div>
+
+
+<pre><span class="type">int</span>[][] numbers = {
+
+    {<span class="number">1</span>, <span class="number">2</span>},
+    {<span class="number">3</span>, <span class="number">4</span>}
+
+};
+
+System.out.println(numbers[<span class="number">0</span>][<span class="number">1</span>]);</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                2
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ARRAY TYPES -->
+
+    <section class="card">
+
+        <h2>Types of Arrays</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Type</th>
+                    <th>Example</th>
+                    <th>Use</th>
+                </tr>
+
+                <tr>
+                    <td>1D Array</td>
+                    <td>int[] numbers</td>
+                    <td>Store a list of values</td>
+                </tr>
+
+                <tr>
+                    <td>2D Array</td>
+                    <td>int[][] numbers</td>
+                    <td>Store rows and columns</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRACTICE -->
+
+    <section class="card">
+
+        <h2>Practice Questions</h2>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 01
+            </div>
+
+            <p>
+                Create an integer array containing five numbers
+                and print all the elements.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 02
+            </div>
+
+            <p>
+                Create an array of marks and print the third element.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 03
+            </div>
+
+            <p>
+                Create an array containing 10, 20, 30, 40 and 50.
+                Change 30 to 100.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 04
+            </div>
+
+            <p>
+                Write a program using a for loop to print every
+                element of an array.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 05
+            </div>
+
+            <p>
+                Create a two-dimensional array with 2 rows and
+                3 columns.
+            </p>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>🎯 Challenge</strong>
+
+            <p style="margin-top:10px;">
+                Create an array of five numbers and find the
+                largest number using a loop.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card">
+
+        <h2>Lesson Summary</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+                <div class="icon">📦</div>
+                <h3>Array</h3>
+                <p>Stores multiple values of the same type.</p>
+            </div>
+
+            <div class="learn-item">
+                <div class="icon">🔢</div>
+                <h3>Index</h3>
+                <p>Starts from zero.</p>
+            </div>
+
+            <div class="learn-item">
+                <div class="icon">📏</div>
+                <h3>length</h3>
+                <p>Returns the number of elements.</p>
+            </div>
+
+            <div class="learn-item">
+                <div class="icon">🔄</div>
+                <h3>Loop</h3>
+                <p>Can process every array element.</p>
+            </div>
+
+            <div class="learn-item">
+                <div class="icon">🧮</div>
+                <h3>2D Array</h3>
+                <p>Stores data in rows and columns.</p>
+            </div>
+
+            <div class="learn-item">
+                <div class="icon">💻</div>
+                <h3>Practice</h3>
+                <p>Build programs using arrays.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="lesson5.html" class="btn">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson7.html" class="btn next">
+            Next Lesson →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        ☕ JavaLearn • Learn Java Step by Step
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

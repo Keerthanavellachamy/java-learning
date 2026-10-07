@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaLearn | Lesson 7</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8,11,20,0.75);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ff8a3d;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .lesson-number {
+            background: rgba(255,138,61,0.12);
+            color: #ff9d5c;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff9d5c;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.25);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb7ca;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .method-circle {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow:
+                0 0 30px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.12);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .card:hover {
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #b8c0d0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .learn-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 20px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .learn-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,138,61,0.3);
+        }
+
+        .learn-item .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .learn-item h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .learn-item p {
+            font-size: 13px;
+            color: #9da7bb;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #171b27;
+            padding: 13px 18px;
+            border-radius: 12px 12px 0 0;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+        }
+
+        pre {
+            background: #0d111a;
+            padding: 25px;
+            overflow-x: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            border: 1px solid #171b27;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .operator {
+            color: #ff9d5c;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            background: #10151f;
+            border: 1px solid rgba(255,138,61,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .output-title {
+            color: #ff9d5c;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .output p {
+            color: #d7dde8;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .note {
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255,138,61,0.08);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #ff9d5c;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: rgba(255,138,61,0.15);
+            color: #ff9d5c;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: #b8c0d0;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .question {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .question-number {
+            color: #ff8a3d;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9da7bb;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: #202533;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .btn.next {
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            border: none;
+            box-shadow: 0 8px 25px rgba(255,80,80,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            color: #687287;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 50px;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .method-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 20px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        Java<span>Learn</span>
+    </div>
+
+    <div class="lesson-number">
+        Lesson 07 / 10
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="tag">
+                ☕ JAVA BASICS
+            </div>
+
+            <h1>
+                Java<br>
+                <span>Methods</span>
+            </h1>
+
+            <p>
+                Learn how to divide your Java program into reusable
+                blocks of code using methods.
+            </p>
+
+        </div>
+
+
+        <div class="method-circle">
+            method()<br>
+            { }
+        </div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="progress-info">
+
+            <span>Course Progress</span>
+
+            <span>7 / 10 Lessons</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT YOU LEARN -->
+
+    <section class="card">
+
+        <h2>What You'll Learn</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">🧩</div>
+
+                <h3>Methods</h3>
+
+                <p>
+                    Understand reusable blocks of code.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📐</div>
+
+                <h3>Syntax</h3>
+
+                <p>
+                    Learn how to create a method.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📞</div>
+
+                <h3>Calling Methods</h3>
+
+                <p>
+                    Learn how to execute a method.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📥</div>
+
+                <h3>Parameters</h3>
+
+                <p>
+                    Pass values into methods.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📤</div>
+
+                <h3>Return Values</h3>
+
+                <p>
+                    Return data from methods.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🚀</div>
+
+                <h3>Reuse Code</h3>
+
+                <p>
+                    Avoid writing the same code repeatedly.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT IS METHOD -->
+
+    <section class="card">
+
+        <h2>What is a Method?</h2>
+
+        <p>
+            A method is a block of code that performs a specific task.
+            Methods help us organize programs and reuse code.
+        </p>
+
+        <div class="note">
+
+            <strong>💡 Simple Example</strong>
+
+            <p style="margin-top:10px;">
+                If you need to print a welcome message many times,
+                you can create one method and call it whenever needed.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- BASIC METHOD -->
+
+    <section class="card">
+
+        <h2>Creating a Method</h2>
+
+        <p>
+            A simple Java method can be created inside a class.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>MethodExample.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">static void</span> <span class="variable">welcome</span>() {
+
+    System.out.println(<span class="string">"Welcome to Java!"</span>);
+
+}</pre>
+
+
+        <div class="note">
+
+            <strong>Remember:</strong>
+
+            <p style="margin-top:10px;">
+                The method above is named <b>welcome</b>.
+                It does not return a value, so we use <b>void</b>.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CALLING METHOD -->
+
+    <section class="card">
+
+        <h2>Calling a Method</h2>
+
+        <p>
+            Creating a method does not execute it.
+            We need to call the method.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>CallingMethod.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">class</span> Main {
+
+    <span class="keyword">static void</span> <span class="variable">welcome</span>() {
+
+        System.out.println(<span class="string">"Welcome to Java!"</span>);
+
+    }
+
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="variable">welcome</span>();
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Welcome to Java!
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PARAMETERS -->
+
+    <section class="card">
+
+        <h2>Method Parameters</h2>
+
+        <p>
+            Parameters allow us to send values into a method.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Parameter.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">static void</span> <span class="variable">greet</span>(String name) {
+
+    System.out.println(<span class="string">"Hello "</span> + name);
+
+}
+
+
+<span class="keyword">public static void</span> main(String[] args) {
+
+    <span class="variable">greet</span>(<span class="string">"Keerthana"</span>);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                Hello Keerthana
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MULTIPLE PARAMETERS -->
+
+    <section class="card">
+
+        <h2>Multiple Parameters</h2>
+
+        <p>
+            A method can have more than one parameter.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>MultipleParameters.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">static void</span> <span class="variable">add</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+
+    System.out.println(a + b);
+
+}
+
+
+<span class="keyword">public static void</span> main(String[] args) {
+
+    <span class="variable">add</span>(<span class="number">10</span>, <span class="number">20</span>);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                30
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- RETURN VALUE -->
+
+    <section class="card">
+
+        <h2>Return Value</h2>
+
+        <p>
+            A method can return a value using the <b>return</b>
+            keyword.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>ReturnValue.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">static int</span> <span class="variable">add</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+
+    <span class="keyword">return</span> a + b;
+
+}
+
+
+<span class="keyword">public static void</span> main(String[] args) {
+
+    <span class="type">int</span> result = <span class="variable">add</span>(<span class="number">10</span>, <span class="number">20</span>);
+
+    System.out.println(result);
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                30
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- VOID -->
+
+    <section class="card">
+
+        <h2>void Method</h2>
+
+        <p>
+            A method with the keyword <b>void</b> does not return
+            a value.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>VoidMethod.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">static void</span> <span class="variable">display</span>() {
+
+    System.out.println(<span class="string">"Hello Java"</span>);
+
+}</pre>
+
+
+        <div class="note">
+
+            <strong>💡 Remember:</strong>
+
+            <p style="margin-top:10px;">
+                <b>void</b> means the method does not return a value.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- METHOD SYNTAX -->
+
+    <section class="card">
+
+        <h2>Method Syntax</h2>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Syntax</span>
+
+        </div>
+
+
+<pre><span class="keyword">static</span> returnType methodName(parameters) {
+
+    <span class="comment">// method body</span>
+
+    <span class="keyword">return</span> value;
+
+}</pre>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Part</th>
+                    <th>Meaning</th>
+                </tr>
+
+                <tr>
+                    <td>static</td>
+                    <td>Allows the method to be called without creating an object.</td>
+                </tr>
+
+                <tr>
+                    <td>returnType</td>
+                    <td>Type of value returned by the method.</td>
+                </tr>
+
+                <tr>
+                    <td>methodName</td>
+                    <td>Name of the method.</td>
+                </tr>
+
+                <tr>
+                    <td>parameters</td>
+                    <td>Values received by the method.</td>
+                </tr>
+
+                <tr>
+                    <td>return</td>
+                    <td>Sends a value back to the caller.</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRACTICAL EXAMPLE -->
+
+    <section class="card">
+
+        <h2>Practical Example</h2>
+
+        <p>
+            Here is a simple calculator using separate methods.
+        </p>
+
+
+        <div class="code-header">
+
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <span>Calculator.java</span>
+
+        </div>
+
+
+<pre><span class="keyword">class</span> Calculator {
+
+    <span class="keyword">static int</span> <span class="variable">add</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+
+        <span class="keyword">return</span> a + b;
+
+    }
+
+
+    <span class="keyword">static int</span> <span class="variable">multiply</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+
+        <span class="keyword">return</span> a * b;
+
+    }
+
+
+    <span class="keyword">public static void</span> main(String[] args) {
+
+        System.out.println(<span class="variable">add</span>(<span class="number">10</span>, <span class="number">20</span>));
+
+        System.out.println(<span class="variable">multiply</span>(<span class="number">5</span>, <span class="number">4</span>));
+
+    }
+
+}</pre>
+
+
+        <div class="output">
+
+            <div class="output-title">
+                OUTPUT
+            </div>
+
+            <p>
+                30<br>
+                20
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+
+    <section class="card">
+
+        <h2>Why Use Methods?</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">♻️</div>
+
+                <h3>Reusable</h3>
+
+                <p>
+                    Write code once and use it many times.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🧹</div>
+
+                <h3>Organized</h3>
+
+                <p>
+                    Keep your program clean and structured.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🐞</div>
+
+                <h3>Easy Debugging</h3>
+
+                <p>
+                    Find and fix problems more easily.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRACTICE -->
+
+    <section class="card">
+
+        <h2>Practice Questions</h2>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 01
+            </div>
+
+            <p>
+                Create a method named <b>hello()</b> that prints
+                "Hello Java".
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 02
+            </div>
+
+            <p>
+                Create a method that accepts two integers and
+                prints their sum.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 03
+            </div>
+
+            <p>
+                Create a method that accepts two numbers and
+                returns their multiplication.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 04
+            </div>
+
+            <p>
+                Create a method that accepts a person's name
+                and prints a welcome message.
+            </p>
+
+        </div>
+
+
+        <div class="question">
+
+            <div class="question-number">
+                Question 05
+            </div>
+
+            <p>
+                Create a calculator using separate methods for
+                addition, subtraction, multiplication and division.
+            </p>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>🎯 Challenge</strong>
+
+            <p style="margin-top:10px;">
+                Create a method called <b>isEven()</b> that accepts
+                an integer and returns <b>true</b> if the number is
+                even and <b>false</b> if it is odd.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="card">
+
+        <h2>Lesson Summary</h2>
+
+        <div class="learn-grid">
+
+            <div class="learn-item">
+
+                <div class="icon">🧩</div>
+
+                <h3>Method</h3>
+
+                <p>
+                    A reusable block of code.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📞</div>
+
+                <h3>Call</h3>
+
+                <p>
+                    Executes the method.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📥</div>
+
+                <h3>Parameter</h3>
+
+                <p>
+                    Receives values.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">📤</div>
+
+                <h3>Return</h3>
+
+                <p>
+                    Sends a value back.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">🚫</div>
+
+                <h3>void</h3>
+
+                <p>
+                    Does not return a value.
+                </p>
+
+            </div>
+
+
+            <div class="learn-item">
+
+                <div class="icon">♻️</div>
+
+                <h3>Reusable</h3>
+
+                <p>
+                    Reduces repeated code.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="lesson6.html" class="btn">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson8.html" class="btn next">
+            Next Lesson →
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        ☕ JavaLearn • Learn Java Step by Step
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

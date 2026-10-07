@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 21 - Access Modifiers | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            text-align: center;
+        }
+
+        .hero-visual-inner strong {
+            font-size: 36px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 70%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 28px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 21 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    ACCESS CONTROL • LESSON 21
+                </div>
+
+                <h1>
+                    <span>Access Modifiers</span>
+                </h1>
+
+                <p>
+                    Learn how Java controls access to classes, methods,
+                    variables, and constructors using public, private,
+                    protected, and default access.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>4</strong>
+                    <small>access levels</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 21 of 30</span>
+                <span>70% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRODUCTION -->
+            <section class="card full">
+
+                <h2>What are Access Modifiers?</h2>
+
+                <p>
+                    Access modifiers are Java keywords that control where
+                    classes, variables, methods, and constructors can be
+                    accessed.
+                </p>
+
+                <div class="info-box">
+                    <strong>Simple idea:</strong>
+                    Access modifiers act like security levels for your code.
+                    They decide who can use a particular class or member.
+                </div>
+
+            </section>
+
+
+            <!-- TYPES -->
+            <section class="card full">
+
+                <h2>Four Access Levels</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Modifier</th>
+                        <th>Same Class</th>
+                        <th>Same Package</th>
+                        <th>Subclass</th>
+                        <th>Other Package</th>
+                    </tr>
+
+                    <tr>
+                        <td><code>private</code></td>
+                        <td>✓</td>
+                        <td>✗</td>
+                        <td>✗</td>
+                        <td>✗</td>
+                    </tr>
+
+                    <tr>
+                        <td>default</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>Limited</td>
+                        <td>✗</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>protected</code></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>Limited</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>public</code></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- PRIVATE -->
+            <section class="card">
+
+                <h2>private</h2>
+
+                <p>
+                    A <code>private</code> member can be accessed only
+                    inside the same class.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    <span class="keyword">private</span> <span class="type">String</span> name;
+
+    <span class="keyword">private void</span> <span class="function">display</span>() {
+        System.out.println(name);
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    Private members are hidden from other classes.
+                </div>
+
+            </section>
+
+
+            <!-- PUBLIC -->
+            <section class="card">
+
+                <h2>public</h2>
+
+                <p>
+                    A <code>public</code> member can be accessed from
+                    anywhere where the class itself is accessible.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">public class</span> <span class="type">Student</span> {
+
+    <span class="keyword">public void</span> <span class="function">display</span>() {
+        System.out.println(
+            <span class="string">"Student"</span>
+        );
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- DEFAULT -->
+            <section class="card">
+
+                <h2>Default Access</h2>
+
+                <p>
+                    When no access modifier is written, Java gives the
+                    member package-private or default access.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    <span class="type">String</span> name;
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+        System.out.println(name);
+    }
+}</pre>
+
+                </div>
+
+                <p style="margin-top:15px;">
+                    Default members can be accessed by classes in the
+                    same package.
+                </p>
+
+            </section>
+
+
+            <!-- PROTECTED -->
+            <section class="card">
+
+                <h2>protected</h2>
+
+                <p>
+                    A <code>protected</code> member can be accessed inside
+                    the same package and by subclasses in other packages.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Person</span> {
+
+    <span class="keyword">protected</span> <span class="type">String</span> name;
+
+    <span class="keyword">protected void</span> <span class="function">display</span>() {
+        System.out.println(name);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- PRIVATE EXAMPLE -->
+            <section class="card full">
+
+                <h2>Example of private Access</h2>
+
+                <p>
+                    A common use of <code>private</code> is encapsulation.
+                    Data is hidden and accessed through public methods.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">BankAccount</span> {
+
+    <span class="keyword">private double</span> balance = <span class="number">5000</span>;
+
+    <span class="keyword">public double</span> <span class="function">getBalance</span>() {
+        <span class="keyword">return</span> balance;
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">BankAccount</span> account =
+            <span class="keyword">new</span> <span class="type">BankAccount</span>();
+
+        System.out.println(account.getBalance());
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+5000.0
+                </div>
+
+            </section>
+
+
+            <!-- PROTECTED EXAMPLE -->
+            <section class="card full">
+
+                <h2>protected with Inheritance</h2>
+
+                <p>
+                    Protected members are especially useful when working
+                    with inheritance.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">protected</span> <span class="type">String</span> name =
+        <span class="string">"Dog"</span>;
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">showName</span>() {
+        System.out.println(name);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Dog</span> dog =
+            <span class="keyword">new</span> <span class="type">Dog</span>();
+
+        dog.showName();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog
+                </div>
+
+            </section>
+
+
+            <!-- CLASS ACCESS -->
+            <section class="card full">
+
+                <h2>Access Modifiers for Classes</h2>
+
+                <p>
+                    Top-level classes can normally use only
+                    <code>public</code> or default access.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">public class</span> <span class="type">Student</span> {
+}
+
+<span class="keyword">class</span> <span class="type">Course</span> {
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Important:</strong>
+                    A top-level class cannot be declared
+                    <code>private</code> or <code>protected</code>.
+                </div>
+
+            </section>
+
+
+            <!-- COMPARISON -->
+            <section class="card full">
+
+                <h2>Access Modifier Comparison</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Modifier</th>
+                        <th>Visibility</th>
+                        <th>Common Use</th>
+                    </tr>
+
+                    <tr>
+                        <td><code>private</code></td>
+                        <td>Same class only</td>
+                        <td>Hide internal data</td>
+                    </tr>
+
+                    <tr>
+                        <td>default</td>
+                        <td>Same package</td>
+                        <td>Package-level functionality</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>protected</code></td>
+                        <td>Same package + subclasses</td>
+                        <td>Inheritance</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>public</code></td>
+                        <td>Everywhere</td>
+                        <td>Public API / accessible methods</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- ENCAPSULATION -->
+            <section class="card">
+
+                <h2>Access Modifiers & Encapsulation</h2>
+
+                <p>
+                    Access modifiers are strongly connected to
+                    encapsulation.
+                </p>
+
+                <p style="margin-top:15px;">
+                    Usually, important data is kept
+                    <code>private</code> and accessed through methods.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">private</span> <span class="type">double</span> salary;
+
+<span class="keyword">public double</span> <span class="function">getSalary</span>() {
+    <span class="keyword">return</span> salary;
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- BEST PRACTICES -->
+            <section class="card">
+
+                <h2>Best Practices</h2>
+
+                <ul>
+                    <li>Keep fields private whenever possible.</li>
+                    <li>Expose only what other classes need.</li>
+                    <li>Use public methods carefully.</li>
+                    <li>Use protected mainly when inheritance requires it.</li>
+                    <li>Use default access for package-specific functionality.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is an access modifier?</li>
+                    <li>How many access levels does Java provide?</li>
+                    <li>What does private mean?</li>
+                    <li>What does public mean?</li>
+                    <li>What is default access?</li>
+                    <li>When is protected access useful?</li>
+                    <li>Can a top-level class be private?</li>
+                    <li>Which modifier provides the most visibility?</li>
+                    <li>Why are fields commonly declared private?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a class called <code>Employee</code> with
+                    different access levels.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create a private variable <code>salary</code>.</li>
+                    <li>Create a public method <code>showSalary()</code>.</li>
+                    <li>Create a protected variable <code>department</code>.</li>
+                    <li>Create a default variable <code>name</code>.</li>
+                    <li>Create a Main class to test the accessible members.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Understand exactly where each access modifier
+                    allows a class member to be used.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Access modifiers control visibility and protect the
+                    internal structure of Java classes.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li><code>private</code> → same class only.</li>
+                    <li>default → same package.</li>
+                    <li><code>protected</code> → same package and subclasses.</li>
+                    <li><code>public</code> → accessible from anywhere.</li>
+                    <li>Access modifiers are important for encapsulation.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn
+                    <strong>Exception Handling</strong> and understand how
+                    Java handles errors without crashing the entire program.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson20.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson22.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

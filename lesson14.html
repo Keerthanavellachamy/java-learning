@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 14 - Dynamic Method Dispatch | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-visual-inner strong {
+            font-size: 32px;
+            color: #ff8a3d;
+            text-align: center;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 14px;
+            margin-top: 7px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 46.67%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .flow-box {
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #f5f7ff;
+            text-align: center;
+        }
+
+        .arrow {
+            color: #ff8a3d;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 26px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 14 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    RUNTIME POLYMORPHISM • LESSON 14
+                </div>
+
+                <h1>
+                    Dynamic Method <span>Dispatch</span>
+                </h1>
+
+                <p>
+                    Learn how Java decides at runtime which overridden method
+                    should execute when a parent class reference points to
+                    a child class object.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>Runtime</strong>
+                    <small>Method Selection</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 14 of 30</span>
+                <span>46.67% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRODUCTION -->
+            <section class="card full">
+
+                <h2>What is Dynamic Method Dispatch?</h2>
+
+                <p>
+                    <strong>Dynamic Method Dispatch</strong> is the mechanism
+                    by which Java selects an overridden method at
+                    <strong>runtime</strong>.
+                </p>
+
+                <p style="margin-top:12px;">
+                    It happens when a parent class reference is used to refer
+                    to an object of a child class.
+                </p>
+
+                <div class="info-box">
+                    <strong>Simple idea:</strong>
+                    <br><br>
+                    Parent Reference → Child Object → Overridden Method
+                </div>
+
+            </section>
+
+
+            <!-- BASIC EXAMPLE -->
+            <section class="card full">
+
+                <h2>Basic Example</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Animal sound"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Animal</span> animal = <span class="keyword">new</span> <span class="type">Dog</span>();
+
+        animal.sound();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog barks
+                </div>
+
+                <div class="info-box">
+                    <strong>Why?</strong>
+                    <br>
+                    The reference is <code>Animal</code>, but the actual
+                    object is <code>Dog</code>. Java therefore executes
+                    the overridden <code>Dog.sound()</code> method.
+                </div>
+
+            </section>
+
+
+            <!-- FLOW -->
+            <section class="card full">
+
+                <h2>How Dynamic Dispatch Works</h2>
+
+                <div class="flow">
+
+                    <div class="flow-box">
+                        Animal Reference
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="flow-box">
+                        Dog Object
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="flow-box">
+                        sound()
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="flow-box">
+                        Dog.sound()
+                    </div>
+
+                </div>
+
+                <p style="text-align:center; margin-top:20px;">
+                    The method is selected based on the actual object,
+                    not only on the reference type.
+                </p>
+
+            </section>
+
+
+            <!-- PARENT REFERENCE -->
+            <section class="card">
+
+                <h2>Parent Reference</h2>
+
+                <p>
+                    A parent class reference can store the reference of
+                    a child class object.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Animal</span> animal;
+
+animal = <span class="keyword">new</span> <span class="type">Dog</span>();
+
+animal.sound();</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Reference Type:</strong> Animal
+                    <br>
+                    <strong>Actual Object:</strong> Dog
+                </div>
+
+            </section>
+
+
+            <!-- DIFFERENT OBJECTS -->
+            <section class="card">
+
+                <h2>Different Child Objects</h2>
+
+                <p>
+                    The same parent reference can point to different
+                    child objects at different times.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Animal</span> animal;
+
+animal = <span class="keyword">new</span> <span class="type">Dog</span>();
+animal.sound();
+
+animal = <span class="keyword">new</span> <span class="type">Cat</span>();
+animal.sound();</pre>
+
+                </div>
+
+                <div class="output">
+Dog barks
+Cat meows
+                </div>
+
+            </section>
+
+
+            <!-- COMPLETE EXAMPLE -->
+            <section class="card full">
+
+                <h2>Complete Example</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Animal makes a sound"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Cat</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Cat meows"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Cow</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Cow moos"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Animal</span> animal;
+
+        animal = <span class="keyword">new</span> <span class="type">Dog</span>();
+        animal.sound();
+
+        animal = <span class="keyword">new</span> <span class="type">Cat</span>();
+        animal.sound();
+
+        animal = <span class="keyword">new</span> <span class="type">Cow</span>();
+        animal.sound();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog barks
+Cat meows
+Cow moos
+                </div>
+
+            </section>
+
+
+            <!-- RUNTIME DECISION -->
+            <section class="card">
+
+                <h2>Runtime Decision</h2>
+
+                <p>
+                    Java determines the method implementation based on
+                    the actual object created at runtime.
+                </p>
+
+                <div class="info-box">
+                    <strong>Example:</strong>
+                    <br><br>
+                    <code>Animal a = new Dog();</code>
+                    <br><br>
+                    Runtime object → <strong>Dog</strong>
+                    <br>
+                    Executed method → <strong>Dog.sound()</strong>
+                </div>
+
+            </section>
+
+
+            <!-- STATIC METHODS -->
+            <section class="card">
+
+                <h2>Important Note</h2>
+
+                <p>
+                    Dynamic method dispatch applies to overridden
+                    instance methods.
+                </p>
+
+                <p style="margin-top:12px;">
+                    Static methods are not overridden in the same way;
+                    they are associated with the class.
+                </p>
+
+            </section>
+
+
+            <!-- UPCASTING -->
+            <section class="card full">
+
+                <h2>Dynamic Dispatch and Upcasting</h2>
+
+                <p>
+                    Assigning a child object to a parent class reference
+                    is commonly called <strong>upcasting</strong>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Dog</span> dog = <span class="keyword">new</span> <span class="type">Dog</span>();
+
+<span class="type">Animal</span> animal = dog;
+
+animal.sound();</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Upcasting:</strong>
+                    Child object → Parent reference
+                </div>
+
+            </section>
+
+
+            <!-- ADVANTAGES -->
+            <section class="card">
+
+                <h2>Advantages</h2>
+
+                <ul>
+                    <li>Supports runtime polymorphism.</li>
+                    <li>Makes code flexible and extensible.</li>
+                    <li>Allows one parent reference to work with many child classes.</li>
+                    <li>Reduces dependency on specific child classes.</li>
+                    <li>Supports reusable object-oriented designs.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- IMPORTANT -->
+            <section class="card">
+
+                <h2>Important Points</h2>
+
+                <ul>
+                    <li>It works with inheritance.</li>
+                    <li>The child class must override the parent method.</li>
+                    <li>The reference can be of the parent type.</li>
+                    <li>The actual object determines the overridden method.</li>
+                    <li>The decision happens at runtime.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- COMPARISON -->
+            <section class="card full">
+
+                <h2>Method Overloading vs Dynamic Dispatch</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Feature</th>
+                        <th>Method Overloading</th>
+                        <th>Dynamic Method Dispatch</th>
+                    </tr>
+
+                    <tr>
+                        <td>Type</td>
+                        <td>Compile-time polymorphism</td>
+                        <td>Run-time polymorphism</td>
+                    </tr>
+
+                    <tr>
+                        <td>Method</td>
+                        <td>Same name, different parameters</td>
+                        <td>Overridden method</td>
+                    </tr>
+
+                    <tr>
+                        <td>Inheritance</td>
+                        <td>Not required</td>
+                        <td>Required</td>
+                    </tr>
+
+                    <tr>
+                        <td>Decision</td>
+                        <td>Compile time</td>
+                        <td>Runtime</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is Dynamic Method Dispatch?</li>
+                    <li>When does dynamic method dispatch occur?</li>
+                    <li>What is the role of the parent class reference?</li>
+                    <li>Which object determines the method executed at runtime?</li>
+                    <li>What is upcasting?</li>
+                    <li>Can a parent reference point to a child object?</li>
+                    <li>How is Dynamic Method Dispatch related to polymorphism?</li>
+                    <li>Do static methods participate in dynamic method dispatch?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a <strong>Vehicle</strong> parent class with a
+                    <code>start()</code> method.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create <code>Car</code>, <code>Bike</code>, and <code>Bus</code> classes.</li>
+                    <li>Make all three classes extend <code>Vehicle</code>.</li>
+                    <li>Override the <code>start()</code> method in each class.</li>
+                    <li>Create a <code>Vehicle</code> reference.</li>
+                    <li>Assign different vehicle objects to the reference.</li>
+                    <li>Call <code>start()</code> for each object.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Understand how the same parent reference can execute
+                    different child implementations at runtime.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Dynamic Method Dispatch allows Java to choose an
+                    overridden method at runtime based on the actual
+                    object rather than only the reference type.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Parent reference can point to child object.</li>
+                    <li>Child methods can override parent methods.</li>
+                    <li>The actual object decides which method executes.</li>
+                    <li>It is the foundation of runtime polymorphism.</li>
+                    <li>It commonly works together with upcasting.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Abstraction</strong> and how to hide unnecessary
+                    implementation details while showing only essential features.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson13.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson15.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

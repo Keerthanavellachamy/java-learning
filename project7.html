@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker | JavaLearn</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #32145f 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #0b4f6c 0%,
+                    transparent 35%
+                ),
+                #080b14;
+
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(8, 11, 20, 0.9);
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 18px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .project-pill {
+            background: rgba(255,138,61,0.12);
+
+            border:
+                1px solid rgba(255,138,61,0.4);
+
+            padding: 9px 16px;
+
+            border-radius: 20px;
+
+            color: #ffb37a;
+
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 60px 0 80px;
+        }
+
+        .hero {
+            display: grid;
+
+            grid-template-columns:
+                1.3fr 0.7fr;
+
+            gap: 40px;
+
+            align-items: center;
+
+            margin-bottom: 50px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            color: #ff8a3d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 50px;
+
+            line-height: 1.1;
+
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero-text {
+            color: #b9c0d0;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            max-width: 700px;
+        }
+
+        .project-icon {
+            width: 220px;
+            height: 220px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a3d,
+                    #ff4d6d
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 75px;
+
+            box-shadow:
+                0 0 45px
+                rgba(255,138,61,0.35),
+
+                0 0 90px
+                rgba(255,77,109,0.18);
+        }
+
+        .stats {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            padding: 10px 16px;
+
+            border-radius: 12px;
+
+            color: #dce1ef;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .card {
+            background:
+                rgba(255,255,255,0.055);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(14px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+
+            color: #ff8a3d;
+        }
+
+        p {
+            color: #b9c0d0;
+
+            line-height: 1.7;
+        }
+
+        ul {
+            margin-left: 20px;
+
+            color: #c8cede;
+
+            line-height: 2;
+        }
+
+        li::marker {
+            color: #ff8a3d;
+        }
+
+        .info-box {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-left:
+                4px solid #ff8a3d;
+
+            background:
+                rgba(255,138,61,0.08);
+
+            border-radius: 10px;
+
+            color: #cfd5e3;
+
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #ffb37a;
+        }
+
+        .tech-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+        .tech {
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(121,192,255,0.1);
+
+            border:
+                1px solid
+                rgba(121,192,255,0.25);
+
+            color: #79c0ff;
+
+            font-size: 13px;
+        }
+
+        .features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 14px;
+
+            margin-top: 20px;
+        }
+
+        .feature {
+            padding: 18px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius: 12px;
+        }
+
+        .feature strong {
+            display: block;
+
+            color: #ff8a3d;
+
+            margin-bottom: 7px;
+        }
+
+        .navigation {
+            margin-top: 35px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+
+            padding: 13px 22px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background:
+                rgba(255,138,61,0.15);
+
+            border-color: #ff8a3d;
+
+            transform: translateY(-2px);
+        }
+
+        .btn.primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a3d,
+                    #ff4d6d
+                );
+
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            color: #8f98ab;
+        }
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 38px;
+            }
+
+            .project-icon {
+                width: 180px;
+                height: 180px;
+
+                font-size: 60px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="project-pill">
+            Java Projects • Project 6 / 6
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+
+                <div class="badge">
+                    ADVANCED PROJECT • PROJECT 6
+                </div>
+
+                <h1>
+                    Expense
+                    <span>Tracker</span>
+                </h1>
+
+                <p class="hero-text">
+
+                    Build a Java-based Expense Tracker
+                    Application using Streams, JDBC,
+                    expense categorisation and monthly
+                    spending analysis.
+
+                </p>
+
+
+                <div class="stats">
+
+                    <div class="stat">
+                        ⏱ 6 Weeks Course
+                    </div>
+
+                    <div class="stat">
+                        ☕ Java
+                    </div>
+
+                    <div class="stat">
+                        📚 Project 6 of 6
+                    </div>
+
+                    <div class="stat">
+                        ⭐ 4.9
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="project-icon">
+                💰
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT -->
+
+        <section class="cards">
+
+
+            <!-- OVERVIEW -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Overview
+                </h2>
+
+                <p>
+
+                    The Expense Tracker is a Java application
+                    that allows users to record, manage and
+                    analyse their daily expenses.
+
+                    Users can categorise expenses and view
+                    monthly spending summaries to understand
+                    their financial activities.
+
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        Project Goal:
+                    </strong>
+
+                    Create an expense management system
+                    while applying Java Streams, JDBC,
+                    Collections and object-oriented programming.
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURES -->
+
+            <div class="card">
+
+                <h2>
+                    Project Features
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Add New Expense
+                    </li>
+
+                    <li>
+                        Update Expense
+                    </li>
+
+                    <li>
+                        Delete Expense
+                    </li>
+
+                    <li>
+                        View All Expenses
+                    </li>
+
+                    <li>
+                        Expense Categories
+                    </li>
+
+                    <li>
+                        Monthly Expense Summary
+                    </li>
+
+                    <li>
+                        Search Expenses
+                    </li>
+
+                    <li>
+                        Total Spending Calculation
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- CONCEPTS -->
+
+            <div class="card">
+
+                <h2>
+                    Java Concepts
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Classes and Objects
+                    </li>
+
+                    <li>
+                        Encapsulation
+                    </li>
+
+                    <li>
+                        Collections
+                    </li>
+
+                    <li>
+                        ArrayList
+                    </li>
+
+                    <li>
+                        Java Streams
+                    </li>
+
+                    <li>
+                        Lambda Expressions
+                    </li>
+
+                    <li>
+                        JDBC
+                    </li>
+
+                    <li>
+                        Exception Handling
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- TECHNOLOGIES -->
+
+            <div class="card full">
+
+                <h2>
+                    Technologies Used
+                </h2>
+
+                <p>
+
+                    The Expense Tracker combines Java
+                    programming with database connectivity
+                    and stream-based data processing.
+
+                </p>
+
+
+                <div class="tech-list">
+
+                    <span class="tech">
+                        Java
+                    </span>
+
+                    <span class="tech">
+                        OOP
+                    </span>
+
+                    <span class="tech">
+                        Collections
+                    </span>
+
+                    <span class="tech">
+                        ArrayList
+                    </span>
+
+                    <span class="tech">
+                        Streams
+                    </span>
+
+                    <span class="tech">
+                        JDBC
+                    </span>
+
+                    <span class="tech">
+                        SQL
+                    </span>
+
+                    <span class="tech">
+                        Exception Handling
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MODULES -->
+
+            <div class="card full">
+
+                <h2>
+                    Expense Tracker Modules
+                </h2>
+
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <strong>
+                            👤 User Module
+                        </strong>
+
+                        Users can manage their expense
+                        records.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            💵 Expense Module
+                        </strong>
+
+                        Add, update and delete individual
+                        expense records.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            🏷 Category Module
+                        </strong>
+
+                        Organise expenses into different
+                        categories.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📅 Date Module
+                        </strong>
+
+                        Store and filter expenses based
+                        on dates.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            📊 Report Module
+                        </strong>
+
+                        Generate monthly spending
+                        summaries.
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            💰 Budget Module
+                        </strong>
+
+                        Compare spending against a
+                        planned budget.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXPENSE CATEGORIES -->
+
+            <div class="card">
+
+                <h2>
+                    Expense Categories
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Food
+                    </li>
+
+                    <li>
+                        Travel
+                    </li>
+
+                    <li>
+                        Shopping
+                    </li>
+
+                    <li>
+                        Education
+                    </li>
+
+                    <li>
+                        Bills
+                    </li>
+
+                    <li>
+                        Entertainment
+                    </li>
+
+                    <li>
+                        Other
+                    </li>
+
+                </ul>
+
+                <div class="info-box">
+
+                    Categories can be stored and filtered
+                    using Java Collections and Streams.
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORT -->
+
+            <div class="card">
+
+                <h2>
+                    Expense Reports
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Daily Expenses
+                    </li>
+
+                    <li>
+                        Weekly Expenses
+                    </li>
+
+                    <li>
+                        Monthly Expenses
+                    </li>
+
+                    <li>
+                        Category-wise Spending
+                    </li>
+
+                    <li>
+                        Total Spending
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- PROJECT STRUCTURE -->
+
+            <div class="card full">
+
+                <h2>
+                    Project Structure
+                </h2>
+
+                <p>
+
+                    The application can be divided into
+                    separate Java classes.
+
+                </p>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        ExpenseTracker/
+                    </strong>
+
+                    <br><br>
+
+                    ├── Expense.java
+                    <br>
+
+                    ├── User.java
+                    <br>
+
+                    ├── Category.java
+                    <br>
+
+                    ├── ExpenseManager.java
+                    <br>
+
+                    ├── DatabaseConnection.java
+                    <br>
+
+                    ├── ReportManager.java
+                    <br>
+
+                    ├── BudgetManager.java
+                    <br>
+
+                    └── Main.java
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION FLOW -->
+
+            <div class="card full">
+
+                <h2>
+                    Application Flow
+                </h2>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        EXPENSE TRACKER
+                    </strong>
+
+                    <br><br>
+
+                    1. Start Application
+                    <br>
+
+                    2. Enter User Details
+                    <br>
+
+                    3. Add Expense
+                    <br>
+
+                    4. Select Expense Category
+                    <br>
+
+                    5. Enter Amount
+                    <br>
+
+                    6. Save Expense
+                    <br>
+
+                    7. View Expense Records
+                    <br>
+
+                    8. Filter Expenses
+                    <br>
+
+                    9. Generate Monthly Report
+                    <br>
+
+                    10. Analyse Total Spending
+
+                </div>
+
+            </div>
+
+
+            <!-- PORTFOLIO -->
+
+            <div class="card full">
+
+                <h2>
+                    Portfolio Skills
+                </h2>
+
+                <p>
+
+                    This project demonstrates your ability
+                    to develop a practical Java application
+                    using database connectivity, Java Streams,
+                    Collections and expense data management.
+
+                </p>
+
+
+                <div class="tech-list">
+
+                    <span class="tech">
+                        Java
+                    </span>
+
+                    <span class="tech">
+                        OOP
+                    </span>
+
+                    <span class="tech">
+                        Streams
+                    </span>
+
+                    <span class="tech">
+                        JDBC
+                    </span>
+
+                    <span class="tech">
+                        SQL
+                    </span>
+
+                    <span class="tech">
+                        Collections
+                    </span>
+
+                    <span class="tech">
+                        Data Management
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- NAVIGATION -->
+
+        
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        ☕ JavaLearn • Java Projects
+
+    </footer>
+
+
+</body>
+
+</html>

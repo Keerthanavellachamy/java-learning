@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 17 - Interfaces | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-visual-inner strong {
+            font-size: 42px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 56.67%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 17 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    ABSTRACTION • LESSON 17
+                </div>
+
+                <h1>
+                    <span>Interfaces</span>
+                </h1>
+
+                <p>
+                    Learn how Java interfaces define a contract for classes,
+                    support abstraction, and allow flexible object-oriented
+                    designs.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>IF</strong>
+                    <small>Interface</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 17 of 30</span>
+                <span>56.67% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- WHAT IS INTERFACE -->
+            <section class="card full">
+
+                <h2>What is an Interface?</h2>
+
+                <p>
+                    An interface in Java is a blueprint that defines a
+                    contract that implementing classes must follow.
+                </p>
+
+                <div class="info-box">
+                    <strong>Simple idea:</strong>
+                    <br><br>
+                    Interface = What a class must do
+                    <br>
+                    Class = How the class does it
+                </div>
+
+                <p style="margin-top:18px;">
+                    Interfaces are one of the important tools used to achieve
+                    abstraction and loose coupling in Java.
+                </p>
+
+            </section>
+
+
+            <!-- SYNTAX -->
+            <section class="card full">
+
+                <h2>Basic Interface Syntax</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- IMPLEMENTS -->
+            <section class="card">
+
+                <h2>implements Keyword</h2>
+
+                <p>
+                    A class uses the <code>implements</code> keyword to
+                    implement an interface.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Vehicle</span> {
+    <span class="keyword">void</span> <span class="function">start</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Car</span> <span class="keyword">implements</span> <span class="type">Vehicle</span> {
+
+    <span class="keyword">public void</span> <span class="function">start</span>() {
+        System.out.println(<span class="string">"Car starts"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- INTERFACE METHODS -->
+            <section class="card">
+
+                <h2>Interface Methods</h2>
+
+                <p>
+                    Traditionally, interface methods without a body
+                    represent behavior that implementing classes must provide.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">eat</span>();
+    <span class="keyword">void</span> <span class="function">sleep</span>();
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Important:</strong>
+                    The implementing class must provide implementations
+                    for the required abstract methods.
+                </div>
+
+            </section>
+
+
+            <!-- COMPLETE EXAMPLE -->
+            <section class="card full">
+
+                <h2>Complete Interface Example</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+
+    <span class="keyword">void</span> <span class="function">sound</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Dog</span> dog = <span class="keyword">new</span> <span class="type">Dog</span>();
+
+        dog.sound();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Dog barks
+                </div>
+
+            </section>
+
+
+            <!-- INTERFACE REFERENCE -->
+            <section class="card">
+
+                <h2>Interface Reference</h2>
+
+                <p>
+                    An interface reference can refer to an object of a
+                    class that implements that interface.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="type">Animal</span> animal =
+    <span class="keyword">new</span> <span class="type">Dog</span>();
+
+animal.sound();</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Benefit:</strong>
+                    This supports flexible and loosely coupled code.
+                </div>
+
+            </section>
+
+
+            <!-- MULTIPLE IMPLEMENTATIONS -->
+            <section class="card">
+
+                <h2>Multiple Implementations</h2>
+
+                <p>
+                    Multiple classes can implement the same interface,
+                    with each class providing its own behavior.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Animal</span> {
+    <span class="keyword">void</span> <span class="function">sound</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Dog barks"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Cat</span> <span class="keyword">implements</span> <span class="type">Animal</span> {
+
+    <span class="keyword">public void</span> <span class="function">sound</span>() {
+        System.out.println(<span class="string">"Cat meows"</span>);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- PUBLIC METHODS -->
+            <section class="card full">
+
+                <h2>Why public is Used?</h2>
+
+                <p>
+                    Interface methods are public by contract. Therefore,
+                    when a class implements an interface method, the method
+                    cannot reduce its visibility.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Vehicle</span> {
+
+    <span class="keyword">void</span> <span class="function">start</span>();
+}
+
+<span class="keyword">class</span> <span class="type">Car</span> <span class="keyword">implements</span> <span class="type">Vehicle</span> {
+
+    <span class="keyword">public void</span> <span class="function">start</span>() {
+        System.out.println(<span class="string">"Car starts"</span>);
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    Use <code>public</code> when implementing interface
+                    methods.
+                </div>
+
+            </section>
+
+
+            <!-- CONSTANTS -->
+            <section class="card">
+
+                <h2>Variables in Interfaces</h2>
+
+                <p>
+                    Variables declared in an interface are constants.
+                    They are implicitly <code>public static final</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Constants</span> {
+
+    <span class="type">int</span> MAX = <span class="number">100</span>;
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- INTERFACE CONSTANT -->
+            <section class="card">
+
+                <h2>Using Interface Constants</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Constants</span> {
+
+    <span class="type">int</span> MAX = <span class="number">100</span>;
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        System.out.println(Constants.MAX);
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+100
+                </div>
+
+            </section>
+
+
+            <!-- INTERFACE ABSTRACTION -->
+            <section class="card full">
+
+                <h2>Interface and Abstraction</h2>
+
+                <p>
+                    Interfaces are widely used for abstraction because they
+                    allow a class to depend on a contract rather than on a
+                    specific implementation.
+                </p>
+
+                <div class="info-box">
+                    <strong>Example:</strong>
+                    A payment system can define a
+                    <code>pay()</code> method. UPI, card, and wallet
+                    classes can each implement the method differently.
+                </div>
+
+            </section>
+
+
+            <!-- REAL WORLD -->
+            <section class="card full">
+
+                <h2>Real-World Example: Payment</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">interface</span> <span class="type">Payment</span> {
+
+    <span class="keyword">void</span> <span class="function">pay</span>();
+}
+
+<span class="keyword">class</span> <span class="type">UPI</span> <span class="keyword">implements</span> <span class="type">Payment</span> {
+
+    <span class="keyword">public void</span> <span class="function">pay</span>() {
+        System.out.println(<span class="string">"Payment through UPI"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Card</span> <span class="keyword">implements</span> <span class="type">Payment</span> {
+
+    <span class="keyword">public void</span> <span class="function">pay</span>() {
+        System.out.println(<span class="string">"Payment through Card"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+
+        <span class="type">Payment</span> payment =
+            <span class="keyword">new</span> <span class="type">UPI</span>();
+
+        payment.pay();
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Payment through UPI
+                </div>
+
+            </section>
+
+
+            <!-- BENEFITS -->
+            <section class="card">
+
+                <h2>Benefits of Interfaces</h2>
+
+                <ul>
+                    <li>Provides abstraction.</li>
+                    <li>Supports loose coupling.</li>
+                    <li>Allows multiple interfaces to be implemented.</li>
+                    <li>Improves flexibility.</li>
+                    <li>Encourages clean software design.</li>
+                    <li>Makes code easier to extend.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- IMPORTANT RULES -->
+            <section class="card">
+
+                <h2>Important Rules</h2>
+
+                <ul>
+                    <li>Use the <code>interface</code> keyword.</li>
+                    <li>Classes use <code>implements</code>.</li>
+                    <li>Interface methods are public by contract.</li>
+                    <li>Interface fields are constants.</li>
+                    <li>A class must implement required abstract methods.</li>
+                    <li>An interface cannot be instantiated directly.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- INTERFACE VS ABSTRACT CLASS -->
+            <section class="card full">
+
+                <h2>Interface vs Abstract Class</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Feature</th>
+                        <th>Interface</th>
+                        <th>Abstract Class</th>
+                    </tr>
+
+                    <tr>
+                        <td>Keyword</td>
+                        <td>interface</td>
+                        <td>abstract class</td>
+                    </tr>
+
+                    <tr>
+                        <td>Implemented using</td>
+                        <td>implements</td>
+                        <td>extends</td>
+                    </tr>
+
+                    <tr>
+                        <td>Constructor</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+
+                    <tr>
+                        <td>Instance fields</td>
+                        <td>No normal instance fields</td>
+                        <td>Yes</td>
+                    </tr>
+
+                    <tr>
+                        <td>Multiple inheritance</td>
+                        <td>A class can implement multiple interfaces</td>
+                        <td>A class can extend only one class</td>
+                    </tr>
+
+                    <tr>
+                        <td>Main purpose</td>
+                        <td>Define a contract</td>
+                        <td>Share common behavior and abstraction</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card full">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is an interface in Java?</li>
+                    <li>Which keyword is used to create an interface?</li>
+                    <li>Which keyword is used when a class implements an interface?</li>
+                    <li>Can we create an object of an interface?</li>
+                    <li>Why are interface methods implemented as public?</li>
+                    <li>Can multiple classes implement the same interface?</li>
+                    <li>Can a class implement multiple interfaces?</li>
+                    <li>What is the difference between an interface and an abstract class?</li>
+                    <li>What are interface variables?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card full challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create an interface called
+                    <strong>RemoteControl</strong>.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create methods <code>turnOn()</code> and <code>turnOff()</code>.</li>
+                    <li>Create a class <code>Television</code> implementing the interface.</li>
+                    <li>Implement both methods.</li>
+                    <li>Create a Television object.</li>
+                    <li>Call both methods.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Goal:</strong>
+                    Understand how an interface defines a contract
+                    and how a class provides its implementation.
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Interfaces define a contract that implementing classes
+                    must follow. They are an important part of abstraction,
+                    polymorphism, and flexible Java application design.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Interfaces are created using the <code>interface</code> keyword.</li>
+                    <li>Classes implement interfaces using <code>implements</code>.</li>
+                    <li>Interface methods are public by contract.</li>
+                    <li>Interface variables are constants.</li>
+                    <li>Multiple classes can implement the same interface.</li>
+                    <li>A class can implement multiple interfaces.</li>
+                    <li>Interfaces help create loosely coupled applications.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn how a single Java class can implement
+                    <strong>Multiple Interfaces</strong>.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson16.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson18.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 27</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #d9def0;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            color: #ff8a3d;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b9c0d4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 35px rgba(255,138,61,0.35),
+                0 0 80px rgba(255,77,109,0.2);
+        }
+
+        .hero-visual div {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            background: #101522;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            color: #ff8a3d;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b9c0d4;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 90%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 16px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff8a3d;
+            margin: 20px 0 10px;
+        }
+
+        p, li {
+            color: #c5cbdd;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            background: #0d1117;
+            border: 1px solid #222938;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #c9d1d9;
+            font-size: 13px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #e6edf3;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .keyword {
+            color:#ff7b72;
+        }
+
+        .type {
+            color:#79c0ff;
+        }
+
+        .variable {
+            color:#d2a8ff;
+        }
+
+        .string {
+            color:#a5d6ff;
+        }
+
+        .number {
+            color:#ffa657;
+        }
+
+        .function {
+            color:#d2a8ff;
+        }
+
+        .comment {
+            color:#8b949e;
+        }
+
+        .annotation {
+            color:#7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9def0;
+        }
+
+        .info {
+            margin-top: 18px;
+            padding: 16px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 8px;
+            color: #cbd1e2;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #ff8a3d;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff8a3d;
+            background: rgba(255,255,255,0.05);
+        }
+
+        td {
+            color: #c5cbdd;
+        }
+
+        .challenge {
+            border: 1px dashed #ff8a3d;
+            background: rgba(255,138,61,0.05);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 45px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,77,109,0.25);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            color: #737b91;
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual div {
+                width: 135px;
+                height: 135px;
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            main {
+                width: 92%;
+                padding-top: 35px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><span>Java</span>Learn</div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 27 / 30
+    </div>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div>
+            <div class="badge">JAVA FOUNDATION • LESSON 27</div>
+
+            <h1>The <span>Object Class</span></h1>
+
+            <p>
+                Learn about Java's most important built-in class,
+                the Object class, and understand methods such as
+                toString(), equals(), and hashCode().
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            <div>Object</div>
+        </div>
+
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="progress-section">
+
+        <div class="progress-info">
+            <span>Lesson 27 of 30</span>
+            <span>90.00% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+    </section>
+
+    <div class="grid">
+
+        <!-- WHAT IS OBJECT -->
+        <section class="card">
+            <h2>What is the Object Class?</h2>
+
+            <p>
+                The <strong>Object</strong> class is the root class of the
+                Java class hierarchy. Every Java class directly or indirectly
+                inherits from Object.
+            </p>
+
+            <div class="info">
+                This means every Java object automatically gets access to
+                important methods defined by the Object class.
+            </div>
+        </section>
+
+        <!-- INHERITANCE -->
+        <section class="card">
+            <h2>Object Class and Inheritance</h2>
+
+            <p>
+                If a class does not explicitly extend another class,
+                Java automatically makes it a subclass of Object.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    <span class="comment">// Automatically extends Object</span>
+}</pre>
+            </div>
+
+            <p style="margin-top:18px;">
+                Conceptually, Java treats it like:
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span>
+    <span class="keyword">extends</span> <span class="type">Object</span> {
+
+}</pre>
+            </div>
+        </section>
+
+        <!-- METHODS -->
+        <section class="card full">
+            <h2>Important Object Class Methods</h2>
+
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Purpose</th>
+                </tr>
+
+                <tr>
+                    <td>toString()</td>
+                    <td>Returns a string representation of an object.</td>
+                </tr>
+
+                <tr>
+                    <td>equals()</td>
+                    <td>Compares objects according to the equality logic.</td>
+                </tr>
+
+                <tr>
+                    <td>hashCode()</td>
+                    <td>Returns a hash code value for an object.</td>
+                </tr>
+
+                <tr>
+                    <td>getClass()</td>
+                    <td>Returns information about the object's runtime class.</td>
+                </tr>
+
+                <tr>
+                    <td>clone()</td>
+                    <td>Used for creating a copy of an object when supported.</td>
+                </tr>
+
+                <tr>
+                    <td>finalize()</td>
+                    <td>Legacy method associated with object finalization; deprecated in modern Java.</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- TOSTRING -->
+        <section class="card full">
+            <h2>toString() Method</h2>
+
+            <p>
+                The <strong>toString()</strong> method returns a string
+                representation of an object.
+            </p>
+
+            <p style="margin-top:12px;">
+                If you do not override it, the default implementation
+                usually produces a value containing the class name and
+                a hash-related identifier.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Student.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    String name = <span class="string">"Keerthana"</span>;
+}
+
+<span class="type">Student</span> student = <span class="keyword">new</span> <span class="type">Student</span>();
+
+System.out.println(student.toString());</pre>
+            </div>
+
+            <div class="info">
+                Instead of relying on the default representation, we can
+                override <strong>toString()</strong> to return meaningful
+                information.
+            </div>
+        </section>
+
+        <!-- OVERRIDE TOSTRING -->
+        <section class="card">
+            <h2>Overriding toString()</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Student.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    String name = <span class="string">"Keerthana"</span>;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> String <span class="function">toString</span>() {
+
+        <span class="keyword">return</span> <span class="string">"Student: "</span> + name;
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- TOSTRING OUTPUT -->
+        <section class="card">
+            <h2>toString() Output</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Student</span> student =
+    <span class="keyword">new</span> <span class="type">Student</span>();
+
+System.out.println(student);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Student: Keerthana
+            </div>
+
+            <div class="info">
+                When an object is passed to println(), Java can call
+                its toString() method automatically.
+            </div>
+        </section>
+
+        <!-- EQUALS -->
+        <section class="card full">
+            <h2>equals() Method</h2>
+
+            <p>
+                The <strong>equals()</strong> method is used to compare
+                objects for logical equality.
+            </p>
+
+            <p style="margin-top:12px;">
+                The default Object implementation compares object references.
+                Many classes override equals() to compare their actual data.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Student.java</span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Student</span> {
+
+    String name;
+
+    <span class="type">Student</span>(String name) {
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public boolean</span> <span class="function">equals</span>(Object obj) {
+
+        <span class="type">Student</span> other =
+            (<span class="type">Student</span>) obj;
+
+        <span class="keyword">return</span> name.equals(other.name);
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- EQUALS EXAMPLE -->
+        <section class="card">
+            <h2>equals() Example</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Student</span> s1 =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);
+
+<span class="type">Student</span> s2 =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);
+
+System.out.println(
+    s1.equals(s2)
+);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                true
+            </div>
+        </section>
+
+        <!-- == VS EQUALS -->
+        <section class="card">
+            <h2>== vs equals()</h2>
+
+            <ul>
+                <li><strong>==</strong> compares references when used with objects.</li>
+                <li><strong>equals()</strong> can compare logical content.</li>
+                <li>Classes can override equals() to define their own equality rules.</li>
+            </ul>
+
+            <div class="info">
+                For custom classes, if you override equals(), you should
+                generally also override hashCode().
+            </div>
+        </section>
+
+        <!-- HASHCODE -->
+        <section class="card full">
+            <h2>hashCode() Method</h2>
+
+            <p>
+                The <strong>hashCode()</strong> method returns an integer
+                hash value representing the object.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="type">Student</span> student =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);
+
+System.out.println(
+    student.hashCode()
+);</pre>
+            </div>
+
+            <div class="info">
+                Hash codes are especially important when objects are stored
+                in hash-based collections such as HashMap and HashSet.
+            </div>
+        </section>
+
+        <!-- EQUALS HASHCODE CONTRACT -->
+        <section class="card full">
+            <h2>equals() and hashCode() Contract</h2>
+
+            <p>
+                Java follows an important rule:
+            </p>
+
+            <div class="info">
+                If two objects are equal according to
+                <strong>equals()</strong>, they must return the same
+                <strong>hashCode()</strong>.
+            </div>
+
+            <p style="margin-top:18px;">
+                However, two objects having the same hash code do not
+                necessarily have to be equal.
+            </p>
+        </section>
+
+        <!-- GETCLASS -->
+        <section class="card">
+            <h2>getClass()</h2>
+
+            <p>
+                The <strong>getClass()</strong> method returns the runtime
+                class of an object.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Student</span> student =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);
+
+System.out.println(
+    student.getClass().getName()
+);</pre>
+            </div>
+
+            <div class="output">
+                Output:<br>
+                Student
+            </div>
+        </section>
+
+        <!-- OBJECT REFERENCE -->
+        <section class="card">
+            <h2>Object Reference</h2>
+
+            <p>
+                Because every class inherits from Object, an Object reference
+                can hold a reference to an object of any class.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Example.java</span>
+                </div>
+
+                <pre><span class="type">Object</span> obj =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);</pre>
+            </div>
+
+            <div class="info">
+                This is an example of upcasting because Student is
+                a subclass of Object.
+            </div>
+        </section>
+
+        <!-- OBJECT METHODS -->
+        <section class="card full">
+            <h2>Using Object Methods</h2>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                    <span>Main.java</span>
+                </div>
+
+                <pre><span class="type">Object</span> obj =
+    <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Keerthana"</span>);
+
+System.out.println(obj.toString());
+
+System.out.println(obj.getClass());
+
+System.out.println(obj.hashCode());</pre>
+            </div>
+
+            <p style="margin-top:18px;">
+                These methods are available because Student inherits
+                them from Object.
+            </p>
+        </section>
+
+        <!-- CLONE -->
+        <section class="card">
+            <h2>clone() Method</h2>
+
+            <p>
+                The <strong>clone()</strong> method is associated with
+                creating a copy of an object.
+            </p>
+
+            <div class="info">
+                Cloning has special rules and is not always the preferred
+                way to copy objects. Modern Java code often uses copy
+                constructors or other explicit copying techniques.
+            </div>
+        </section>
+
+        <!-- FINALIZE -->
+        <section class="card">
+            <h2>finalize()</h2>
+
+            <p>
+                The <strong>finalize()</strong> method was historically
+                associated with cleanup before garbage collection.
+            </p>
+
+            <div class="info">
+                <strong>Important:</strong> finalize() is deprecated and
+                should not be used in modern Java applications.
+            </div>
+        </section>
+
+        <!-- METHODS SUMMARY -->
+        <section class="card full">
+            <h2>Object Class Methods Summary</h2>
+
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Use</th>
+                </tr>
+
+                <tr>
+                    <td>toString()</td>
+                    <td>Readable string representation</td>
+                </tr>
+
+                <tr>
+                    <td>equals()</td>
+                    <td>Logical object comparison</td>
+                </tr>
+
+                <tr>
+                    <td>hashCode()</td>
+                    <td>Hash value for the object</td>
+                </tr>
+
+                <tr>
+                    <td>getClass()</td>
+                    <td>Runtime class information</td>
+                </tr>
+
+                <tr>
+                    <td>clone()</td>
+                    <td>Object copying when supported</td>
+                </tr>
+
+                <tr>
+                    <td>finalize()</td>
+                    <td>Legacy cleanup mechanism; deprecated</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- IMPORTANT -->
+        <section class="card">
+            <h2>Important Points</h2>
+
+            <ul>
+                <li>Object is the root class of Java's class hierarchy.</li>
+                <li>Every class directly or indirectly extends Object.</li>
+                <li>toString() provides a string representation.</li>
+                <li>equals() is used for logical equality.</li>
+                <li>hashCode() is important for hash-based collections.</li>
+                <li>getClass() provides runtime class information.</li>
+                <li>finalize() is deprecated in modern Java.</li>
+            </ul>
+        </section>
+
+        <!-- PRACTICE -->
+        <section class="card">
+            <h2>Practice Questions</h2>
+
+            <ol>
+                <li>What is the Object class?</li>
+                <li>Why does every Java class inherit from Object?</li>
+                <li>What is the purpose of toString()?</li>
+                <li>What is the difference between == and equals()?</li>
+                <li>Why should equals() and hashCode() usually be overridden together?</li>
+                <li>What does getClass() return?</li>
+                <li>What is the purpose of hashCode()?</li>
+            </ol>
+        </section>
+
+        <!-- CHALLENGE -->
+        <section class="card challenge">
+            <h2>Mini Challenge</h2>
+
+            <p>
+                Create a class called <strong>Book</strong> with:
+            </p>
+
+            <br>
+
+            <ul>
+                <li>title</li>
+                <li>author</li>
+            </ul>
+
+            <br>
+
+            <p>
+                Override <strong>toString()</strong> so that printing the
+                object displays the book title and author.
+            </p>
+
+            <div class="output">
+                Expected format:<br>
+                Book: Java Basics, Author: James
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="card full">
+            <h2>Lesson Summary</h2>
+
+            <p>
+                The Object class is the root of the Java class hierarchy.
+                Because every class inherits from Object, every object has
+                access to important methods such as toString(), equals(),
+                hashCode(), and getClass().
+            </p>
+
+            <br>
+
+            <p>
+                Understanding these methods is essential for writing
+                well-designed Java classes and working effectively with
+                collections and object-oriented programs.
+            </p>
+        </section>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="buttons">
+        <a href="lesson26.html" class="btn secondary">
+            ← Previous Lesson
+        </a>
+
+        <a href="lesson28.html" class="btn">
+            Next Lesson →
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>

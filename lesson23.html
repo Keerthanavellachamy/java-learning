@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 23 - Custom Exceptions | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .lesson-pill {
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #dce3f7;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff9b5c;
+            border: 1px solid rgba(255,138,61,0.3);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 65px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b7bfd6;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                0 0 40px rgba(255,138,61,0.25),
+                0 0 80px rgba(255,77,109,0.15);
+        }
+
+        .hero-visual-inner {
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background: #0d111c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            text-align: center;
+        }
+
+        .hero-visual-inner strong {
+            font-size: 32px;
+            color: #ff8a3d;
+        }
+
+        .hero-visual-inner small {
+            color: #c4cbe0;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #b7bfd6;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 76.67%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ff9b5c;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        p, li {
+            color: #c2c9dc;
+            line-height: 1.75;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-editor {
+            margin-top: 18px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0b0f18;
+        }
+
+        .editor-header {
+            height: 35px;
+            background: #151a25;
+            display: flex;
+            align-items: center;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 22px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword {
+            color: #ff7b72;
+        }
+
+        .type {
+            color: #79c0ff;
+        }
+
+        .variable {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .number {
+            color: #ffa657;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .annotation {
+            color: #7ee787;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 16px 18px;
+            background: #090d15;
+            border-left: 4px solid #ff4d6d;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #dce3f7;
+            white-space: pre-line;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: rgba(255,138,61,0.07);
+            border-left: 4px solid #ff8a3d;
+            border-radius: 10px;
+        }
+
+        .info-box strong {
+            color: #ff9b5c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 13px;
+            text-align: left;
+        }
+
+        th {
+            color: #ff9b5c;
+            background: rgba(255,138,61,0.08);
+        }
+
+        td {
+            color: #c2c9dc;
+        }
+
+        .challenge {
+            background: linear-gradient(
+                135deg,
+                rgba(255,138,61,0.09),
+                rgba(255,77,109,0.06)
+            );
+            border: 1px solid rgba(255,138,61,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,77,109,0.2);
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737d96;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-visual-inner {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-visual-inner strong {
+                font-size: 28px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .lesson-pill {
+                font-size: 12px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <span>Java</span>Learn
+        </div>
+
+        <div class="lesson-pill">
+            Java OOP Masterclass • Lesson 23 / 30
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+                <div class="badge">
+                    ERROR HANDLING • LESSON 23
+                </div>
+
+                <h1>
+                    <span>Custom Exceptions</span>
+                </h1>
+
+                <p>
+                    Learn how to create your own exception classes in Java
+                    for handling application-specific errors clearly and
+                    professionally.
+                </p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-inner">
+                    <strong>throw</strong>
+                    <small>your own error</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-section">
+
+            <div class="progress-info">
+                <span>Lesson 23 of 30</span>
+                <span>76.67% Complete</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+        </section>
+
+
+        <div class="grid">
+
+            <!-- INTRODUCTION -->
+            <section class="card full">
+
+                <h2>What is a Custom Exception?</h2>
+
+                <p>
+                    Java provides many built-in exceptions such as
+                    <code>ArithmeticException</code>,
+                    <code>NullPointerException</code>, and
+                    <code>ArrayIndexOutOfBoundsException</code>.
+                </p>
+
+                <p style="margin-top:15px;">
+                    Sometimes an application needs an error type that
+                    represents a specific business rule. In that case,
+                    we can create our own exception class.
+                </p>
+
+                <div class="info-box">
+                    <strong>Example:</strong>
+                    A banking application could create
+                    <code>InsufficientBalanceException</code> when a user
+                    tries to withdraw more money than the available balance.
+                </div>
+
+            </section>
+
+
+            <!-- WHY CUSTOM -->
+            <section class="card">
+
+                <h2>Why Create Custom Exceptions?</h2>
+
+                <ul>
+                    <li>Represent application-specific errors.</li>
+                    <li>Make error messages more meaningful.</li>
+                    <li>Improve code readability.</li>
+                    <li>Separate business rules from normal logic.</li>
+                    <li>Make large applications easier to maintain.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- BASIC STRUCTURE -->
+            <section class="card">
+
+                <h2>Basic Structure</h2>
+
+                <p>
+                    A custom checked exception can be created by extending
+                    the <code>Exception</code> class.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">MyException</span>
+    <span class="keyword">extends</span> <span class="type">Exception</span> {
+
+    <span class="keyword">public</span> <span class="type">MyException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- SIMPLE CUSTOM -->
+            <section class="card full">
+
+                <h2>Creating a Simple Custom Exception</h2>
+
+                <p>
+                    Let's create an exception called
+                    <code>InvalidAgeException</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">InvalidAgeException</span>
+    <span class="keyword">extends</span> <span class="type">Exception</span> {
+
+    <span class="keyword">public</span> <span class="type">InvalidAgeException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}</pre>
+
+                </div>
+
+                <p style="margin-top:18px;">
+                    The constructor passes the error message to the
+                    parent <code>Exception</code> class using
+                    <code>super()</code>.
+                </p>
+
+            </section>
+
+
+            <!-- USING CUSTOM -->
+            <section class="card full">
+
+                <h2>Using the Custom Exception</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">InvalidAgeException</span>
+    <span class="keyword">extends</span> <span class="type">Exception</span> {
+
+    <span class="keyword">public</span> <span class="type">InvalidAgeException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">static void</span> <span class="function">checkAge</span>(
+        <span class="keyword">int</span> age
+    ) <span class="keyword">throws</span> <span class="type">InvalidAgeException</span> {
+
+        <span class="keyword">if</span> (age &lt; <span class="number">18</span>) {
+
+            <span class="keyword">throw new</span> <span class="type">InvalidAgeException</span>(
+                <span class="string">"Age must be 18 or above"</span>
+            );
+        }
+
+        System.out.println(
+            <span class="string">"You are eligible"</span>
+        );
+    }
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(
+        String[] args
+    ) {
+
+        <span class="keyword">try</span> {
+            checkAge(<span class="number">16</span>);
+        }
+        <span class="keyword">catch</span> (<span class="type">InvalidAgeException</span> e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Age must be 18 or above
+                </div>
+
+            </section>
+
+
+            <!-- CUSTOM RUNTIME -->
+            <section class="card full">
+
+                <h2>Custom Unchecked Exception</h2>
+
+                <p>
+                    A custom exception can also extend
+                    <code>RuntimeException</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">InvalidAmountException</span>
+    <span class="keyword">extends</span> <span class="type">RuntimeException</span> {
+
+    <span class="keyword">public</span> <span class="type">InvalidAmountException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}</pre>
+
+                </div>
+
+                <div class="info-box">
+                    <strong>Remember:</strong>
+                    Extending <code>Exception</code> creates a checked
+                    exception, while extending <code>RuntimeException</code>
+                    creates an unchecked exception.
+                </div>
+
+            </section>
+
+
+            <!-- CHECKED VS UNCHECKED -->
+            <section class="card full">
+
+                <h2>Checked vs Unchecked Custom Exceptions</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Checked</th>
+                        <th>Unchecked</th>
+                    </tr>
+
+                    <tr>
+                        <td>Extends <code>Exception</code></td>
+                        <td>Extends <code>RuntimeException</code></td>
+                    </tr>
+
+                    <tr>
+                        <td>Compiler requires handling or declaration</td>
+                        <td>Compiler does not require handling</td>
+                    </tr>
+
+                    <tr>
+                        <td>Useful for recoverable conditions</td>
+                        <td>Useful for programming or validation errors</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- BANK EXAMPLE -->
+            <section class="card full">
+
+                <h2>Real-World Example: Banking</h2>
+
+                <p>
+                    Let's create an
+                    <code>InsufficientBalanceException</code>.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">InsufficientBalanceException</span>
+    <span class="keyword">extends</span> <span class="type">Exception</span> {
+
+    <span class="keyword">public</span> <span class="type">InsufficientBalanceException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">BankAccount</span> {
+
+    <span class="keyword">private double</span> balance = <span class="number">5000</span>;
+
+    <span class="keyword">public void</span> <span class="function">withdraw</span>(
+        <span class="keyword">double</span> amount
+    ) <span class="keyword">throws</span> <span class="type">InsufficientBalanceException</span> {
+
+        <span class="keyword">if</span> (amount &gt; balance) {
+
+            <span class="keyword">throw new</span>
+                <span class="type">InsufficientBalanceException</span>(
+                    <span class="string">"Insufficient balance"</span>
+                );
+        }
+
+        balance -= amount;
+
+        System.out.println(
+            <span class="string">"Withdrawal successful"</span>
+        );
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- MAIN BANK -->
+            <section class="card full">
+
+                <h2>Handling the Banking Exception</h2>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">public class</span> <span class="type">Main</span> {
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(
+        String[] args
+    ) {
+
+        <span class="type">BankAccount</span> account =
+            <span class="keyword">new</span> <span class="type">BankAccount</span>();
+
+        <span class="keyword">try</span> {
+
+            account.withdraw(<span class="number">7000</span>);
+
+        }
+        <span class="keyword">catch</span> (
+            <span class="type">InsufficientBalanceException</span> e
+        ) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}</pre>
+
+                </div>
+
+                <div class="output">
+Insufficient balance
+                </div>
+
+            </section>
+
+
+            <!-- CONSTRUCTOR -->
+            <section class="card">
+
+                <h2>Exception Constructor</h2>
+
+                <p>
+                    A custom exception can have a constructor that accepts
+                    a message.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">public</span> <span class="type">MyException</span>(
+    <span class="type">String</span> message
+) {
+
+    <span class="keyword">super</span>(message);
+}</pre>
+
+                </div>
+
+                <p style="margin-top:15px;">
+                    This allows the calling code to provide a useful
+                    description of the error.
+                </p>
+
+            </section>
+
+
+            <!-- MULTIPLE CONSTRUCTORS -->
+            <section class="card">
+
+                <h2>Multiple Constructors</h2>
+
+                <p>
+                    A custom exception can have multiple constructors,
+                    just like any other Java class.
+                </p>
+
+                <div class="code-editor">
+
+                    <div class="editor-header">
+                        <div class="dot"></div>
+                    </div>
+
+<pre><span class="keyword">class</span> <span class="type">MyException</span>
+    <span class="keyword">extends</span> <span class="type">Exception</span> {
+
+    <span class="keyword">public</span> <span class="type">MyException</span>() {
+        <span class="keyword">super</span>();
+    }
+
+    <span class="keyword">public</span> <span class="type">MyException</span>(
+        <span class="type">String</span> message
+    ) {
+        <span class="keyword">super</span>(message);
+    }
+}</pre>
+
+                </div>
+
+            </section>
+
+
+            <!-- BEST PRACTICES -->
+            <section class="card full">
+
+                <h2>Best Practices</h2>
+
+                <ul>
+                    <li>Give custom exceptions meaningful names.</li>
+                    <li>End exception class names with <code>Exception</code>.</li>
+                    <li>Provide useful error messages.</li>
+                    <li>Use checked exceptions when callers should handle the condition.</li>
+                    <li>Use unchecked exceptions for programming or validation errors when appropriate.</li>
+                    <li>Do not create custom exceptions for every small error.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- COMMON NAMES -->
+            <section class="card full">
+
+                <h2>Common Custom Exception Names</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Exception</th>
+                        <th>Possible Use</th>
+                    </tr>
+
+                    <tr>
+                        <td><code>InvalidAgeException</code></td>
+                        <td>Invalid age entered by a user</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>InsufficientBalanceException</code></td>
+                        <td>Bank balance is too low</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>InvalidPasswordException</code></td>
+                        <td>Password does not satisfy requirements</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>OutOfStockException</code></td>
+                        <td>Product is unavailable</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>InvalidMarkException</code></td>
+                        <td>Marks are outside the valid range</td>
+                    </tr>
+
+                </table>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+            <section class="card">
+
+                <h2>Practice Questions</h2>
+
+                <ol>
+                    <li>What is a custom exception?</li>
+                    <li>Why do we create custom exceptions?</li>
+                    <li>How do you create a checked custom exception?</li>
+                    <li>How do you create an unchecked custom exception?</li>
+                    <li>What is the purpose of super() in an exception constructor?</li>
+                    <li>What is the difference between Exception and RuntimeException?</li>
+                    <li>Why should exception names end with Exception?</li>
+                </ol>
+
+            </section>
+
+
+            <!-- CHALLENGE -->
+            <section class="card challenge">
+
+                <h2>Mini Challenge</h2>
+
+                <p>
+                    Create a custom exception for a student registration
+                    system.
+                </p>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Create <code>InvalidMarkException</code>.</li>
+                    <li>Extend <code>Exception</code>.</li>
+                    <li>Create a method called <code>checkMark()</code>.</li>
+                    <li>Allow marks only from 0 to 100.</li>
+                    <li>Throw the custom exception for invalid marks.</li>
+                    <li>Handle it using try-catch.</li>
+                </ul>
+
+            </section>
+
+
+            <!-- SUMMARY -->
+            <section class="card full">
+
+                <h2>Lesson Summary</h2>
+
+                <p>
+                    Custom exceptions allow developers to create meaningful
+                    error types for specific application requirements.
+                </p>
+
+                <ul style="margin-top:15px;">
+                    <li>Extend <code>Exception</code> for checked exceptions.</li>
+                    <li>Extend <code>RuntimeException</code> for unchecked exceptions.</li>
+                    <li>Use <code>throw</code> to create and throw an exception.</li>
+                    <li>Use <code>throws</code> to declare an exception.</li>
+                    <li>Custom exceptions make business rules clearer.</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Next Lesson:</strong>
+                    You will learn about
+                    <strong>Inner Classes</strong> and how classes can
+                    be declared inside other classes.
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="buttons">
+
+            <a href="lesson22.html" class="btn secondary">
+                ← Previous Lesson
+            </a>
+
+            <a href="lesson24.html" class="btn">
+                Next Lesson →
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java OOP Masterclass
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,2316 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Java Interview Preparation | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.86);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .course-label {
+            background: rgba(255,138,61,0.12);
+            border: 1px solid rgba(255,138,61,0.3);
+            color: #ffb07a;
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 0 80px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255,138,61,0.12);
+            border: 1px solid rgba(255,138,61,0.3);
+            color: #ff9c5c;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb6ca;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .stat {
+            padding: 10px 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #d9deeb;
+            font-size: 14px;
+        }
+
+        .hero-visual {
+            width: 250px;
+            height: 250px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff3d81);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 95px;
+            box-shadow: 0 0 70px rgba(255,88,80,0.25);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .course-info {
+            color: #aeb6ca;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .topic {
+            padding: 9px 14px;
+            border-radius: 10px;
+            background: rgba(121,192,255,0.1);
+            border: 1px solid rgba(121,192,255,0.18);
+            color: #79c0ff;
+            font-size: 14px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.06);
+            color: white;
+            outline: none;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-box::placeholder {
+            color: #7f8799;
+        }
+
+        .question {
+            margin-bottom: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 13px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.035);
+        }
+
+        .question summary {
+            cursor: pointer;
+            padding: 17px 20px;
+            color: #f3f5ff;
+            font-weight: 600;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .question summary::after {
+            content: "+";
+            color: #ff8a3d;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .question[open] summary::after {
+            content: "−";
+        }
+
+        .answer {
+            padding: 0 20px 20px;
+            color: #aeb6ca;
+            line-height: 1.8;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .answer strong {
+            color: #ff9c5c;
+        }
+
+        .answer code {
+            color: #79c0ff;
+            background: rgba(121,192,255,0.08);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .tip {
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-left: 3px solid #ff8a3d;
+            background: rgba(255,138,61,0.07);
+            border-radius: 7px;
+            color: #c8cfdf;
+        }
+
+        .progress {
+            color: #79c0ff;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737c91;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 200px;
+                height: 200px;
+                font-size: 75px;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .course-label {
+                font-size: 11px;
+                padding: 7px 10px;
+            }
+        }
+        /* Final Home Button */
+.final-home {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+}
+
+.final-home a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: transparent;
+    color: #ff8a3d;
+    border: 2px solid #ff8a3d;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.final-home a:hover {
+    background: #ff8a3d;
+    color: #080b14;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 138, 61, 0.35);
+}
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><span>Java</span>Learn</div>
+    <div class="course-label">Java Interview Preparation</div>
+</nav>
+
+<main>
+
+    <section class="hero">
+
+        <div>
+            <div class="badge">INTERVIEW PREPARATION</div>
+
+            <h1>
+                Java <span>Interview</span> Preparation
+            </h1>
+
+            <p>
+                Practise the questions interviewers actually ask, with clear
+                model answers. Prepare for Java interviews from basic concepts
+                to advanced topics and project-based questions.
+            </p>
+
+            <div class="stats">
+                <div class="stat">⏱ 3 Weeks</div>
+                <div class="stat">📚 150+ Questions</div>
+                <div class="stat">☕ Java</div>
+                <div class="stat">⭐ 4.6</div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            💻
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <h2>Course Overview</h2>
+
+        <p class="course-info">
+            This interview preparation course covers important Java questions
+            commonly discussed in technical interviews. Each question includes
+            a simple model answer and an interview tip to help you explain
+            concepts clearly.
+        </p>
+
+        <div class="topics">
+            <span class="topic">Java Basics</span>
+            <span class="topic">OOP</span>
+            <span class="topic">Strings</span>
+            <span class="topic">Arrays</span>
+            <span class="topic">Collections</span>
+            <span class="topic">Exceptions</span>
+            <span class="topic">Multithreading</span>
+            <span class="topic">Java 8+</span>
+            <span class="topic">JDBC</span>
+            <span class="topic">Advanced Java</span>
+            <span class="topic">HR Questions</span>
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <h2>Find an Interview Question</h2>
+
+        <input
+            type="text"
+            id="search"
+            class="search-box"
+            placeholder="Search questions... Example: inheritance, String, ArrayList"
+            onkeyup="searchQuestions()"
+        >
+
+        <div class="progress">
+            150+ Java Interview Questions
+        </div>
+
+    </section>
+
+
+    <!-- JAVA BASICS -->
+
+    <section class="card">
+
+        <h2>Java Basics — Questions 1–25</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>1. What is Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java is a high-level, object-oriented and
+                        platform-independent programming language developed by
+                        Sun Microsystems.
+                    </p>
+                    <div class="tip">
+                        Interview Tip: Mention Java's platform independence.
+                    </div>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>2. What are the main features of Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Important features include platform independence,
+                        object-oriented programming, robustness, security,
+                        multithreading and automatic memory management.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>3. Why is Java platform independent?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java source code is compiled into bytecode. The bytecode
+                        runs on the Java Virtual Machine, allowing the same
+                        compiled program to run on different operating systems.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>4. What is JVM?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        JVM stands for Java Virtual Machine. It executes Java
+                        bytecode and provides the environment required to run
+                        Java applications.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>5. What is JDK?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        JDK stands for Java Development Kit. It contains tools
+                        required to develop, compile and run Java programs.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>6. What is JRE?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        JRE stands for Java Runtime Environment. It provides
+                        the libraries and JVM required to run Java applications.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>7. Difference between JDK, JRE and JVM?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        JVM executes bytecode. JRE provides the environment to
+                        run Java applications. JDK contains development tools,
+                        JRE and JVM.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>8. What is bytecode?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Bytecode is the intermediate code generated by the Java
+                        compiler. It is stored in a <code>.class</code> file
+                        and executed by the JVM.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>9. What is the main method in Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The main method is the starting point of a standard
+                        Java application.
+                    </p>
+                    <p>
+                        It is commonly written as
+                        <code>public static void main(String[] args)</code>.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>10. What are primitive data types?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java has eight primitive data types:
+                        byte, short, int, long, float, double, char and boolean.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>11. What is a variable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A variable is a named memory location used to store
+                        data that can be used by a program.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>12. What is type casting?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Type casting is the process of converting one data type
+                        into another compatible data type.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>13. What is the difference between == and equals()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        For objects, <code>==</code> generally compares
+                        references, while <code>equals()</code> is used to
+                        compare logical content when properly overridden.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>14. What is a constructor?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A constructor is a special member of a class used to
+                        initialize objects. It has the same name as the class
+                        and has no return type.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>15. Can a constructor be overloaded?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. A class can have multiple constructors with
+                        different parameter lists.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>16. What is the difference between local and instance variables?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Local variables are declared inside methods or blocks.
+                        Instance variables belong to an object and are declared
+                        inside a class but outside methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>17. What is a static variable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A static variable belongs to the class rather than
+                        individual objects, so it is shared among instances.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>18. What is a static method?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A static method belongs to the class and can be called
+                        without creating an object of that class.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>19. What is the final keyword?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The final keyword can be used with variables, methods
+                        and classes. A final variable cannot be reassigned, a
+                        final method cannot be overridden, and a final class
+                        cannot be inherited.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>20. What is a package?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A package is a namespace used to organize related
+                        classes and interfaces.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>21. What is an import statement?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The import statement allows a Java program to use
+                        classes and interfaces from another package without
+                        writing their fully qualified names.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>22. What is garbage collection?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Garbage collection automatically identifies and removes
+                        objects that are no longer reachable, helping manage
+                        memory.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>23. What is an object?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An object is an instance of a class. It contains state
+                        represented by fields and behavior represented by
+                        methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>24. What is a class?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A class is a blueprint or template used to create
+                        objects. It defines fields and methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>25. Is Java completely object-oriented?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java is strongly object-oriented, but it also supports
+                        primitive data types, so it is not purely object-oriented.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- OOP -->
+
+    <section class="card">
+
+        <h2>Object-Oriented Programming — Questions 26–50</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>26. What is OOP?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        OOP stands for Object-Oriented Programming. It organizes
+                        programs around objects and classes.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>27. What are the four pillars of OOP?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Encapsulation, Inheritance, Polymorphism and Abstraction.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>28. What is encapsulation?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Encapsulation combines data and methods inside a class
+                        and controls access to the data using access modifiers.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>29. What is inheritance?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Inheritance allows one class to acquire properties and
+                        behavior from another class.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>30. What is polymorphism?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Polymorphism means one interface or method name can
+                        represent different behaviors.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>31. What is abstraction?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Abstraction hides implementation details and exposes
+                        only the necessary functionality.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>32. What is method overloading?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Method overloading means having multiple methods with
+                        the same name but different parameter lists.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>33. What is method overriding?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Method overriding occurs when a subclass provides its
+                        own implementation of an inherited method.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>34. Difference between overloading and overriding?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Overloading usually occurs within the same class and
+                        changes parameters. Overriding occurs between a parent
+                        and child class.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>35. What is an abstract class?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An abstract class cannot normally be instantiated and
+                        can contain both abstract and concrete methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>36. What is an interface?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An interface defines a contract that implementing
+                        classes agree to follow.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>37. Can a class implement multiple interfaces?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. A Java class can implement multiple interfaces.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>38. Can Java support multiple inheritance using classes?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java does not support multiple inheritance of classes,
+                        mainly to avoid ambiguity. Multiple interfaces can be
+                        implemented.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>39. What is super?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The super keyword refers to members of the immediate
+                        parent class.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>40. What is this?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The this keyword refers to the current object.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>41. What is composition?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Composition represents a strong has-a relationship
+                        where one object contains another object as part of
+                        its structure.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>42. What is aggregation?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Aggregation is a weaker has-a relationship where the
+                        contained object can exist independently.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>43. What are access modifiers?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Java provides public, protected, default and private
+                        access levels.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>44. What is private access?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A private member can be accessed directly only within
+                        the class where it is declared.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>45. What is protected access?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Protected members are accessible within the same
+                        package and through inheritance under Java's access
+                        rules.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>46. Can an abstract class have a constructor?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. An abstract class can have constructors, which can
+                        initialize common state when a subclass object is created.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>47. Can an interface have methods with implementation?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. Modern Java interfaces can contain default and
+                        static methods with implementations.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>48. What is dynamic method dispatch?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        It is the mechanism where an overridden method is
+                        selected at runtime based on the actual object type.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>49. What is upcasting?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Upcasting means referring to a child-class object using
+                        a parent-class reference.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>50. What is downcasting?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Downcasting converts a parent reference back to a
+                        compatible child reference. It should be done carefully.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- STRINGS AND ARRAYS -->
+
+    <section class="card">
+
+        <h2>Strings & Arrays — Questions 51–65</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>51. What is String in Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        String is a class used to represent a sequence of
+                        characters.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>52. Why is String immutable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Once a String object is created, its content cannot be
+                        changed. Operations that appear to modify it create
+                        another String object.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>53. Difference between String and StringBuilder?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        String is immutable, while StringBuilder is mutable and
+                        is useful when many string modifications are required.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>54. What is StringBuffer?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        StringBuffer is a mutable character sequence designed
+                        with synchronized methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>55. Difference between StringBuilder and StringBuffer?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        StringBuilder is generally preferred for single-threaded
+                        use, while StringBuffer provides synchronized methods.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>56. What is the String pool?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The String pool is a JVM-managed area where string
+                        literals can be reused to reduce duplicate objects.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>57. What is an array?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An array is a fixed-size data structure that stores
+                        elements of the same type.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>58. Can an array store objects?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. Java arrays can store references to objects.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>59. What is a multidimensional array?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        It is an array whose elements can themselves be arrays,
+                        such as a two-dimensional array.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>60. What is ArrayIndexOutOfBoundsException?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        It occurs when a program tries to access an array
+                        using an invalid index.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>61. How do you find the length of an array?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Use the array's <code>length</code> property.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>62. How do you find the length of a String?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Use the <code>length()</code> method.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>63. What is charAt()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        charAt() returns the character at a specified index in
+                        a String.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>64. What is substring()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        substring() returns a portion of a String based on
+                        specified indexes.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>65. How can a String be converted to an array?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Depending on the requirement, methods such as
+                        <code>toCharArray()</code> or <code>split()</code>
+                        can be used.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- COLLECTIONS -->
+
+    <section class="card">
+
+        <h2>Collections — Questions 66–85</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>66. What is the Java Collections Framework?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        It is a set of interfaces and classes used to store,
+                        retrieve and manipulate groups of objects.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>67. What is List?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        List is an ordered collection that can contain duplicate
+                        elements.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>68. What is ArrayList?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        ArrayList is a resizable-array implementation of the
+                        List interface.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>69. What is LinkedList?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        LinkedList is a List and Deque implementation based on
+                        linked nodes.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>70. ArrayList vs LinkedList?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        ArrayList is generally better for frequent indexed
+                        access, while LinkedList can be useful for operations
+                        involving its linked structure.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>71. What is Set?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Set is a collection that does not allow duplicate
+                        elements.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>72. What is HashSet?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        HashSet is a Set implementation that uses hashing and
+                        does not guarantee insertion order.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>73. What is LinkedHashSet?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        LinkedHashSet maintains insertion order while providing
+                        Set behavior.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>74. What is TreeSet?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        TreeSet is a sorted Set implementation based on a tree
+                        structure.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>75. What is Map?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Map stores data as key-value pairs.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>76. What is HashMap?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        HashMap is a Map implementation that stores key-value
+                        pairs using hashing.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>77. HashMap vs Hashtable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        HashMap is generally unsynchronized and permits a null
+                        key and null values, while Hashtable is synchronized
+                        and does not permit null keys or values.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>78. What is LinkedHashMap?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        LinkedHashMap maintains a predictable iteration order,
+                        normally insertion order.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>79. What is TreeMap?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        TreeMap stores key-value pairs in sorted key order.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>80. What is Iterator?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Iterator is used to traverse elements of a collection.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>81. What is Comparable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Comparable defines a natural ordering for objects using
+                        the compareTo() method.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>82. What is Comparator?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Comparator defines custom ordering separately from the
+                        class being compared.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>83. Comparable vs Comparator?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Comparable defines natural ordering inside the class,
+                        while Comparator allows separate custom sorting logic.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>84. What are generics?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Generics allow classes, interfaces and methods to work
+                        with specified types while providing compile-time type
+                        safety.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>85. Why are generics useful?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Generics reduce type-casting and help detect type
+                        errors during compilation.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- EXCEPTION HANDLING -->
+
+    <section class="card">
+
+        <h2>Exception Handling — Questions 86–95</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>86. What is an exception?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An exception is an event that disrupts the normal flow
+                        of program execution.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>87. What is exception handling?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Exception handling provides mechanisms to detect and
+                        handle exceptional conditions.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>88. What is try?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The try block contains code that may throw an exception.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>89. What is catch?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The catch block handles an exception thrown from a
+                        corresponding try block.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>90. What is finally?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The finally block is commonly used for cleanup code and
+                        generally executes after try/catch processing.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>91. Difference between checked and unchecked exceptions?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Checked exceptions are checked by the compiler.
+                        Unchecked exceptions are RuntimeException subclasses
+                        and are not required to be declared or caught.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>92. What is throw?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        throw is used to explicitly throw an exception.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>93. What is throws?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        throws declares exceptions that a method may pass to
+                        its caller.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>94. Can we have multiple catch blocks?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Yes. A try block can be followed by multiple catch
+                        blocks for different exception types.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>95. What is a custom exception?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A custom exception is a user-defined exception class
+                        created for application-specific error conditions.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- MULTITHREADING -->
+
+    <section class="card">
+
+        <h2>Multithreading — Questions 96–105</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>96. What is a thread?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A thread is a lightweight unit of execution within a
+                        process.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>97. What is multithreading?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Multithreading allows multiple threads to execute
+                        concurrently within a program.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>98. How can a thread be created?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Common approaches include extending Thread or
+                        implementing Runnable.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>99. What is Runnable?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Runnable is a functional interface representing an
+                        operation that can be executed by a thread.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>100. What is thread lifecycle?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A thread moves through states such as new, runnable,
+                        blocked/waiting, timed waiting and terminated.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>101. What is sleep()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        sleep() pauses the currently executing thread for a
+                        specified period.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>102. What is join()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        join() allows one thread to wait for another thread to
+                        complete.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>103. What is synchronization?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Synchronization controls concurrent access to shared
+                        resources to help prevent race conditions.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>104. What is a race condition?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A race condition occurs when program behavior depends
+                        on the timing of concurrent operations on shared data.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>105. What is deadlock?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Deadlock occurs when threads wait indefinitely for
+                        resources held by each other.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- JAVA 8 -->
+
+    <section class="card">
+
+        <h2>Java 8+ Features — Questions 106–120</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>106. What is a lambda expression?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A lambda expression provides a concise way to represent
+                        behavior, especially for functional interfaces.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>107. What is a functional interface?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A functional interface has exactly one abstract method.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>108. What is Stream API?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Stream API provides a declarative way to process
+                        collections and other data sources.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>109. What is filter() in streams?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        filter() selects elements that satisfy a given
+                        condition.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>110. What is map() in streams?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        map() transforms each stream element into another value.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>111. What is collect()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        collect() is a terminal stream operation used to gather
+                        processed elements into a result such as a List.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>112. What is Optional?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Optional is a container type designed to represent a
+                        value that may or may not be present.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>113. What is a method reference?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A method reference is a shorter syntax for referring
+                        to an existing method or constructor.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>114. What is a default method in an interface?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A default method is an interface method that contains
+                        an implementation.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>115. What is an interface static method?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A static method belongs to the interface itself and can
+                        be called using the interface name.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>116. What is forEach()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        forEach() performs an action for each element in a
+                        collection or stream.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>117. What is Predicate?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Predicate is a functional interface that represents a
+                        boolean-valued condition.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>118. What is Consumer?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Consumer is a functional interface that accepts a value
+                        and returns no result.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>119. What is Function?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Function is a functional interface that accepts one
+                        argument and produces a result.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>120. What is Supplier?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Supplier is a functional interface that provides a
+                        result without taking an input argument.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- JDBC -->
+
+    <section class="card">
+
+        <h2>JDBC & Database — Questions 121–135</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>121. What is JDBC?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        JDBC stands for Java Database Connectivity. It provides
+                        an API for Java applications to interact with databases.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>122. What is a JDBC driver?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A JDBC driver enables Java applications to communicate
+                        with a particular database system.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>123. What is Connection?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Connection represents a session between a Java
+                        application and a database.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>124. What is Statement?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Statement is used to execute SQL statements against a
+                        database.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>125. What is PreparedStatement?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        PreparedStatement represents a precompiled SQL statement
+                        and supports parameterized queries.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>126. Why is PreparedStatement preferred?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        It supports parameterized queries, improves reuse and
+                        helps reduce SQL injection risks.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>127. What is ResultSet?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        ResultSet represents data returned by a query and allows
+                        the application to iterate through rows.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>128. What is executeQuery()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        executeQuery() is commonly used for SQL statements that
+                        return a ResultSet, such as SELECT.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>129. What is executeUpdate()?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        executeUpdate() is commonly used for INSERT, UPDATE and
+                        DELETE statements and returns the affected row count.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>130. What is database connection pooling?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Connection pooling reuses database connections instead
+                        of creating a new connection for every operation.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>131. What is SQL injection?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        SQL injection is an attack where malicious SQL input
+                        changes the intended database query.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>132. How can SQL injection be prevented?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Parameterized queries using PreparedStatement are a
+                        common defense.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>133. What is a transaction?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        A transaction is a group of database operations treated
+                        as a logical unit of work.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>134. What is commit?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Commit permanently saves the changes made during a
+                        database transaction.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>135. What is rollback?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Rollback reverses changes made during a transaction
+                        since the relevant transaction boundary.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- ADVANCED -->
+
+    <section class="card">
+
+        <h2>Advanced Java — Questions 136–145</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>136. What is reflection in Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Reflection allows a program to inspect and interact with
+                        classes, methods, fields and constructors at runtime.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>137. What is serialization?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Serialization converts an object's state into a form
+                        that can be stored or transmitted.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>138. What is deserialization?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Deserialization reconstructs an object from its stored
+                        serialized representation.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>139. What is transient?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        The transient keyword can prevent a field from being
+                        included in default Java serialization.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>140. What is an immutable class?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An immutable class is designed so that its observable
+                        state cannot be changed after object creation.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>141. How can you create an immutable class?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Common practices include making the class final, fields
+                        private and final, initializing through constructors,
+                        and avoiding methods that modify state.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>142. What is an enum?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An enum is a special type used to represent a fixed set
+                        of named constants.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>143. What is an annotation?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        An annotation provides metadata about program elements
+                        such as classes, methods and fields.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>144. What is dependency injection?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        Dependency injection provides an object's required
+                        dependencies from outside rather than making the
+                        object create them itself.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>145. What is an API?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Answer:</strong>
+                        API stands for Application Programming Interface. It
+                        defines ways for software components to communicate or
+                        use provided functionality.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- HR AND PROJECT -->
+
+    <section class="card">
+
+        <h2>HR & Project Interview Questions — 146–155</h2>
+
+        <div class="questions">
+
+            <details class="question">
+                <summary>146. Tell me about yourself.</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Give a short introduction covering your education,
+                        technical skills, projects, strengths and career goal.
+                    </p>
+
+                    <div class="tip">
+                        Interview Tip: Keep your introduction clear and around
+                        1–2 minutes.
+                    </div>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>147. Why did you choose Java?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Java has strong object-oriented concepts, a large
+                        ecosystem, good industry usage and supports development
+                        of reliable applications.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>148. What Java project have you worked on?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Explain your project name, objective, technologies,
+                        your role, important features and what you learned.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>149. What was your role in the project?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Clearly describe the parts you personally designed,
+                        developed, tested or documented.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>150. What challenges did you face in your project?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Explain one real technical problem, the steps you took
+                        to solve it and what you learned from the experience.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>151. How do you debug a Java program?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Reproduce the issue, inspect the error message and
+                        stack trace, use debugging tools or logs, isolate the
+                        cause and test the fix.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>152. What are your strengths?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Mention strengths relevant to the role, such as
+                        willingness to learn, problem solving, consistency,
+                        teamwork and technical curiosity.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>153. What is your weakness?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Choose a genuine but manageable weakness and explain
+                        the practical steps you are taking to improve it.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>154. Where do you see yourself in five years?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Describe a realistic career direction focused on
+                        technical growth, responsibility and continuous learning.
+                    </p>
+                </div>
+            </details>
+
+            <details class="question">
+                <summary>155. Why should we hire you?</summary>
+                <div class="answer">
+                    <p>
+                        <strong>Model Answer:</strong>
+                        Connect your relevant technical skills, project
+                        experience, learning attitude and ability to contribute
+                        to the role.
+                    </p>
+
+                    <div class="tip">
+                        Interview Tip: Give specific evidence instead of only
+                        using general statements.
+                    </div>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <section class="card">
+
+        <h2>Interview Preparation Checklist</h2>
+
+        <div class="topics">
+            <span class="topic">✓ Revise Java Basics</span>
+            <span class="topic">✓ Practice OOP</span>
+            <span class="topic">✓ Learn Collections</span>
+            <span class="topic">✓ Revise Exceptions</span>
+            <span class="topic">✓ Practice Java 8</span>
+            <span class="topic">✓ Learn JDBC</span>
+            <span class="topic">✓ Prepare Projects</span>
+            <span class="topic">✓ Practice HR Questions</span>
+        </div>
+
+        <div class="tip" style="margin-top:20px;">
+            <strong>Final Tip:</strong>
+            Do not memorize every answer word-for-word. Understand the concept
+            and explain it in your own words during the interview.
+        </div>
+
+    </section>
+
+</main>
+
+<div class="final-home">
+    <a href="/index.html">
+        🏠 Back to Home
+    </a>
+</div>
+
+<footer>
+    ☕ JavaLearn • Java Interview Preparation
+</footer>
+
+
+<script>
+    function searchQuestions() {
+
+        const input = document
+            .getElementById("search")
+            .value
+            .toLowerCase();
+
+        const questions = document.querySelectorAll(".question");
+
+        questions.forEach(question => {
+
+            const text = question.textContent.toLowerCase();
+
+            if (text.includes(input)) {
+                question.style.display = "block";
+            } else {
+                question.style.display = "none";
+            }
+
+        });
+    }
+</script>
+
+</body>
+</html>
+```

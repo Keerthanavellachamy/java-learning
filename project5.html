@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Management System | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.82);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .logo span {
+            color: #ff8a3d;
+        }
+
+        .course-label {
+            background: rgba(255, 138, 61, 0.12);
+            border: 1px solid rgba(255, 138, 61, 0.3);
+            color: #ffb07a;
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 0 80px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 55px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255, 138, 61, 0.12);
+            border: 1px solid rgba(255, 138, 61, 0.3);
+            color: #ff9c5c;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #aeb6ca;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .stat {
+            padding: 10px 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d9deeb;
+            font-size: 14px;
+        }
+
+        .hero-visual {
+            width: 250px;
+            height: 250px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff3d81);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 95px;
+            box-shadow: 0 0 70px rgba(255, 88, 80, 0.25);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        .card p {
+            color: #aeb6ca;
+            line-height: 1.8;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            color: #c7cede;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li::before {
+            content: "✓";
+            color: #ff8a3d;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 9px 14px;
+            border-radius: 10px;
+            background: rgba(121, 192, 255, 0.1);
+            border: 1px solid rgba(121, 192, 255, 0.18);
+            color: #79c0ff;
+            font-size: 14px;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            padding: 18px;
+            border-left: 4px solid #ff8a3d;
+            background: rgba(255, 138, 61, 0.08);
+            border-radius: 8px;
+            color: #c7cede;
+            line-height: 1.7;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 15px;
+        }
+
+        .module {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.045);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            color: #dce2f0;
+            text-align: center;
+        }
+
+        .module strong {
+            display: block;
+            color: #ff9c5c;
+            margin-bottom: 6px;
+        }
+
+        pre {
+            background: #05070d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 22px;
+            border-radius: 12px;
+            overflow-x: auto;
+            color: #79c0ff;
+            line-height: 1.7;
+            font-family: Consolas, monospace;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 45px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            border-color: #ff8a3d;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #ff8a3d, #ff3d81);
+            border: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #737c91;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 200px;
+                height: 200px;
+                font-size: 75px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 15px 4%;
+            }
+
+            .course-label {
+                font-size: 11px;
+                padding: 7px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo"><span>Java</span>Learn</div>
+        <div class="course-label">Java Projects • Project 5 / 5</div>
+    </nav>
+
+    <main>
+
+        <section class="hero">
+            <div>
+                <div class="badge">ADVANCED PROJECT • PROJECT 5</div>
+
+                <h1>
+                    E-Commerce <span>Management System</span>
+                </h1>
+
+                <p>
+                    Build a complete Java-based E-Commerce Management System
+                    using Object-Oriented Programming, Collections, Interfaces,
+                    Exception Handling, Cart and Order Management.
+                </p>
+
+                <div class="stats">
+                    <div class="stat">⏱ 6 Weeks Course</div>
+                    <div class="stat">☕ Java</div>
+                    <div class="stat">📚 Project 5 of 5</div>
+                    <div class="stat">⭐ 4.9</div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                🛒
+            </div>
+        </section>
+
+
+        <section class="grid">
+
+            <div class="card">
+                <h2>Project Overview</h2>
+
+                <p>
+                    This project helps you understand how an e-commerce
+                    application can be organized using Java and Object-Oriented
+                    Programming concepts.
+                </p>
+
+                <div class="info-box">
+                    You will work with products, customers, shopping carts,
+                    orders and checkout operations to understand the structure
+                    of a real-world e-commerce system.
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h2>Project Features</h2>
+
+                <ul>
+                    <li>Add Products</li>
+                    <li>View Products</li>
+                    <li>Search Products</li>
+                    <li>Add Products to Cart</li>
+                    <li>Remove Products from Cart</li>
+                    <li>Update Product Quantity</li>
+                    <li>Place Orders</li>
+                    <li>View Order History</li>
+                    <li>Calculate Order Total</li>
+                </ul>
+            </div>
+
+
+            <div class="card">
+                <h2>Java Concepts</h2>
+
+                <div class="tags">
+                    <span class="tag">Classes & Objects</span>
+                    <span class="tag">Encapsulation</span>
+                    <span class="tag">Inheritance</span>
+                    <span class="tag">Polymorphism</span>
+                    <span class="tag">Interfaces</span>
+                    <span class="tag">Collections</span>
+                    <span class="tag">Exception Handling</span>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h2>Technologies Used</h2>
+
+                <div class="tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">OOP</span>
+                    <span class="tag">Collections</span>
+                    <span class="tag">ArrayList</span>
+                    <span class="tag">HashMap</span>
+                    <span class="tag">Interfaces</span>
+                    <span class="tag">Exception Handling</span>
+                    <span class="tag">File Handling</span>
+                </div>
+            </div>
+
+
+            <div class="card full">
+                <h2>E-Commerce Modules</h2>
+
+                <div class="module-grid">
+
+                    <div class="module">
+                        <strong>Product Management</strong>
+                        Add, view and search products
+                    </div>
+
+                    <div class="module">
+                        <strong>Customer Management</strong>
+                        Manage customer information
+                    </div>
+
+                    <div class="module">
+                        <strong>Shopping Cart</strong>
+                        Manage selected products
+                    </div>
+
+                    <div class="module">
+                        <strong>Order Management</strong>
+                        Manage customer orders
+                    </div>
+
+                    <div class="module">
+                        <strong>Checkout</strong>
+                        Simulated checkout process
+                    </div>
+
+                    <div class="module">
+                        <strong>Search</strong>
+                        Find products easily
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h2>Product Details</h2>
+
+                <ul>
+                    <li>Product ID</li>
+                    <li>Product Name</li>
+                    <li>Category</li>
+                    <li>Price</li>
+                    <li>Quantity / Stock</li>
+                    <li>Product Description</li>
+                </ul>
+            </div>
+
+
+            <div class="card">
+                <h2>Shopping Cart</h2>
+
+                <ul>
+                    <li>Add Product</li>
+                    <li>Remove Product</li>
+                    <li>Update Quantity</li>
+                    <li>View Cart</li>
+                    <li>Calculate Subtotal</li>
+                    <li>Checkout</li>
+                </ul>
+            </div>
+
+
+            <div class="card full">
+                <h2>Project Structure</h2>
+
+                <pre>ECommerceManagement/
+├── Product.java
+├── Customer.java
+├── Cart.java
+├── Order.java
+├── ProductManager.java
+└── Main.java</pre>
+            </div>
+
+
+            <div class="card full">
+                <h2>Application Menu</h2>
+
+                <pre>E-COMMERCE MANAGEMENT SYSTEM
+
+1. Add Product
+2. View Products
+3. Search Product
+4. Add to Cart
+5. View Cart
+6. Remove from Cart
+7. Place Order
+8. View Orders
+9. Exit</pre>
+            </div>
+
+
+            <div class="card full">
+                <h2>Portfolio Skills</h2>
+
+                <div class="tags">
+                    <span class="tag">Java OOP</span>
+                    <span class="tag">Collections</span>
+                    <span class="tag">Interfaces</span>
+                    <span class="tag">Cart Management</span>
+                    <span class="tag">Order Management</span>
+                    <span class="tag">Exception Handling</span>
+                </div>
+
+                <div class="info-box">
+                    By completing this project, you will have completed all
+                    five Java Projects in the JavaLearn Advanced Project course.
+                </div>
+            </div>
+
+        </section>
+
+
+        <div class="navigation">
+    <a href="project4.html" class="btn">
+        ← Previous Project
+    </a>
+
+    <a href="/index.html" class="btn primary">
+        Finish Course →
+    </a>
+</div>
+
+    </main>
+
+
+    <footer>
+        ☕ JavaLearn • Java Projects
+    </footer>
+
+</body>
+</html>
+```

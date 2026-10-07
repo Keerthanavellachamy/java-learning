@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaMaster Academy – Learn Java by Building</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#home" class="logo">☕ JavaMaster Academy</a>
+    <nav class="links" id="links">
+      <a href="#home">Home</a><a href="#courses">Courses</a><a href="#roadmap">Roadmap</a>
+      <a href="#projects">Projects</a><a href="#practice">Practice</a><a href="#about">About</a>
+      <a href="#courses" class="btn sm mob-only">Start Learning</a>
+    </nav>
+    <div class="nav-r">
+      <button class="icon-btn" id="searchBtn" aria-label="Search courses">🔍</button>
+      <a href="#courses" class="btn sm desk-only">Start Learning</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap hero-in">
+    <div>
+      <h1>Master Java.<br>Build Real Applications.</h1>
+      <p class="lead">Learn Java from beginner fundamentals to advanced development through practical lessons, coding exercises and real-world projects.</p>
+      <div class="row"><a href="#courses" class="btn">Start Learning</a><a href="#courses" class="btn ghost">Explore Courses</a></div>
+    </div>
+    <div class="visual">
+      <div class="code-win">
+        <div class="dots"><i></i><i></i><i></i></div>
+<pre><span class="k">public class</span> <span class="t">Developer</span> {
+  <span class="k">private</span> String skill = <span class="s">"Java"</span>;
+  <span class="k">public void</span> <span class="f">build</span>() {
+    System.out.println(<span class="s">"Shipping apps!"</span>);
+  }
+}</pre>
+      </div>
+      <div class="float f1"><b>100+</b> Lessons</div>
+      <div class="float f2"><b>25+</b> Exercises</div>
+      <div class="float f3"><b>10+</b> Projects</div>
+      <div class="float f4">Beginner → Advanced</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY JAVA -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <h2>Why Learn Java?</h2>
+    <div class="grid g4" id="why"></div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec dark" id="roadmap">
+  <div class="wrap">
+    <h2>Java Learning Roadmap</h2>
+    <div class="road" id="road"></div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="sec" id="courses">
+  <div class="wrap">
+    <h2>Explore Java Courses</h2>
+    <div class="tools">
+      <input type="search" id="search" placeholder="Search courses..." aria-label="Search courses">
+      <div class="filters" id="filters">
+        <button class="chip on" data-f="All">All</button><button class="chip" data-f="Beginner">Beginner</button>
+        <button class="chip" data-f="Intermediate">Intermediate</button><button class="chip" data-f="Advanced">Advanced</button>
+      </div>
+    </div>
+    <div class="grid g3" id="courseGrid"></div>
+    <p class="empty" id="empty" hidden>No courses match your search. Try a different keyword.</p>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="sec tint">
+  <div class="wrap">
+    <h2>Your Learning Dashboard</h2>
+    <div class="dash">
+      <p class="welcome">Welcome back, Alex 👋</p>
+      <div class="grid g4">
+        <div class="stat"><b data-count="68" data-suf="%">0</b>Course Progress</div>
+        <div class="stat"><b data-count="42">0</b>Lessons Completed</div>
+        <div class="stat"><b data-count="28">0</b>Coding Problems</div>
+        <div class="stat"><b data-count="3">0</b>Projects Completed</div>
+      </div>
+      <div class="bar"><div class="fill" data-w="68"></div></div>
+      <div class="dash-cols">
+        <div class="card"><h3>🔥 Learning Streak</h3><p class="streak">12 days</p><p class="muted">Keep it going – one lesson today.</p>
+          <h3 style="margin-top:20px">Recent Lessons</h3>
+          <ul class="list"><li>✅ Polymorphism Basics</li><li>✅ Abstract Classes</li><li>✅ Interfaces in Practice</li></ul></div>
+        <div class="card cont"><h3>Continue Learning</h3><p class="big">Java OOP – Inheritance</p>
+          <div class="bar sm"><div class="fill" data-w="72"></div></div><p class="muted">Progress: 72%</p>
+          <a href="#courses" class="btn">Continue Learning</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYGROUND -->
+<section class="sec" id="practice">
+  <div class="wrap">
+    <h2>Practice in the Playground</h2>
+    <div class="play">
+      <div class="pane"><div class="ph">Main.java</div>
+<textarea id="editor" spellcheck="false" aria-label="Java code editor">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}</textarea></div>
+      <div class="pane out"><div class="ph">Output</div><pre id="output">Click “Run Code” to see output.</pre></div>
+    </div>
+    <div class="row"><button class="btn" id="run">Run Code</button><button class="btn ghost-d" id="reset">Reset</button></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sec tint" id="projects">
+  <div class="wrap"><h2>Build Real Java Projects</h2><div class="grid g3" id="projGrid"></div></div>
+</section>
+
+<!-- INTERVIEW -->
+<section class="sec">
+  <div class="wrap"><h2>Prepare for Your Java Interview</h2><div class="grid g4" id="ivGrid"></div></div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec dark">
+  <div class="wrap narrow"><h2>Test Your Java Knowledge</h2>
+    <div class="quiz" id="quiz"></div></div>
+</section>
+
+<!-- CERTIFICATE -->
+<section class="sec">
+  <div class="wrap narrow center">
+    <h2>Complete Your Journey. Earn Your Certificate.</h2>
+    <div class="cert">
+      <p class="ct">Certificate of Completion</p><p>This is proudly presented to</p>
+      <p class="name">Alex Kumar</p><p>for successfully completing</p><p class="cc">Java Programming Masterclass</p>
+      <div class="cmeta"><span>Date: 30 Sep 2026</span><span>ID: JMA-2026-48213</span><span class="sig">Signature</span></div>
+    </div>
+    <button class="btn" id="viewCert">View Certificate</button>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec tint">
+  <div class="wrap narrow center"><h2>What Students Say</h2>
+    <div class="slider"><div class="track" id="track"></div></div>
+    <div class="row c"><button class="icon-btn" id="prev" aria-label="Previous">‹</button><div id="dots" class="dotsn"></div><button class="icon-btn" id="next" aria-label="Next">›</button></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="wrap narrow"><h2>Frequently Asked Questions</h2><div id="faq"></div></div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap center"><h2>Ready to Become a Java Developer?</h2>
+    <p class="lead">Start learning Java today and build your skills through practical projects.</p>
+    <div class="row c"><a href="#courses" class="btn">Start Learning</a><a href="#courses" class="btn ghost">Explore Courses</a></div></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap fcols">
+    <div><a class="logo" href="#home">☕ JavaMaster Academy</a><p class="muted">Practical Java education, from first program to first job.</p>
+      <div class="soc"><a href="#" aria-label="X">𝕏</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="YouTube">▶</a><a href="#" aria-label="GitHub">GH</a></div></div>
+    <div><h4>Quick Links</h4><a href="#home">Home</a><a href="#courses">Courses</a><a href="#roadmap">Roadmap</a><a href="#projects">Projects</a><a href="#practice">Practice</a></div>
+    <div><h4>Resources</h4><a href="#courses">Java Tutorials</a><a href="#practice">Interview Questions</a><a href="#practice">Coding Practice</a><a href="#projects">Projects</a></div>
+    <div><h4>Contact</h4><span>hello@javamaster.academy</span><span>+91 98765 43210</span><span>Chennai, India</span></div>
+  </div>
+  <p class="copy">© 2026 JavaMaster Academy. All Rights Reserved.</p>
+</footer>
+
+<button class="totop" id="totop" aria-label="Back to top">↑</button>
+
+<!-- SHARED MODAL -->
+<div class="modal" id="modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button class="x" id="mx" aria-label="Close">✕</button><div id="mbody"></div></div></div>
+
+<script src="script.js"></script>
+</body>
+</html>

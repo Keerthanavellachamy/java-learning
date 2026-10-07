@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Coding Challenges | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            padding: 18px 8%;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .navbar h2 {
+            color: #ff8a3d;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff8a3d;
+            border: 1px solid rgba(255,138,61,0.3);
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #aeb5c7;
+            font-size: 17px;
+        }
+
+        .challenge {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .challenge h3 {
+            color: #ffb07a;
+            margin-bottom: 12px;
+        }
+
+        .challenge p {
+            color: #c4c9d5;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .code {
+            background: #05070d;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 18px;
+            color: #dce2f0;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+        }
+
+        .answer {
+            display: none;
+            background: rgba(255,138,61,0.08);
+            border-left: 3px solid #ff8a3d;
+            padding: 15px;
+            border-radius: 8px;
+            color: #f5f7ff;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff8a3d, #ff4f81);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .home {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .home a {
+            color: #ff8a3d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>☕ JavaLearn</h2>
+    </div>
+
+    <div class="container">
+
+        <div class="hero">
+            <div class="badge">💻 CODING CHALLENGES</div>
+
+            <h1>Java Coding Challenges</h1>
+
+            <p>
+                Practice common Java coding problems and improve your problem-solving skills.
+            </p>
+        </div>
+
+        <div class="challenge">
+
+            <h3>1. Reverse a String</h3>
+
+            <p>
+                Write a Java program to reverse a given string without using
+                <strong>StringBuilder</strong>.
+            </p>
+
+            <div class="code">Input: Hello
+Output: olleH</div>
+
+            <button class="btn" onclick="showAnswer(1)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer1">
+                <strong>Solution:</strong>
+                <div class="code">String str = "Hello";
+String reverse = "";
+
+for(int i = str.length() - 1; i >= 0; i--) {
+    reverse += str.charAt(i);
+}
+
+System.out.println(reverse);</div>
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>2. Check Whether a Number is Prime</h3>
+
+            <p>
+                Write a Java program to check whether a given number is prime.
+            </p>
+
+            <div class="code">Input: 7
+Output: Prime</div>
+
+            <button class="btn" onclick="showAnswer(2)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer2">
+                <strong>Solution:</strong>
+
+                <div class="code">int n = 7;
+boolean prime = true;
+
+if(n <= 1) {
+    prime = false;
+}
+
+for(int i = 2; i <= n / 2; i++) {
+    if(n % i == 0) {
+        prime = false;
+        break;
+    }
+}
+
+System.out.println(prime ? "Prime" : "Not Prime");</div>
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>3. Find the Second Largest Element</h3>
+
+            <p>
+                Write a Java program to find the second largest number
+                in an integer array.
+            </p>
+
+            <div class="code">Input: 10, 20, 5, 30, 15
+Output: 20</div>
+
+            <button class="btn" onclick="showAnswer(3)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer3">
+
+                <strong>Solution:</strong>
+
+                <div class="code">int[] arr = {10, 20, 5, 30, 15};
+
+int largest = Integer.MIN_VALUE;
+int second = Integer.MIN_VALUE;
+
+for(int n : arr) {
+
+    if(n > largest) {
+        second = largest;
+        largest = n;
+    }
+    else if(n > second && n != largest) {
+        second = n;
+    }
+}
+
+System.out.println(second);</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>4. Check Palindrome String</h3>
+
+            <p>
+                Write a Java program to check whether a string is a palindrome.
+            </p>
+
+            <div class="code">Input: madam
+Output: Palindrome</div>
+
+            <button class="btn" onclick="showAnswer(4)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer4">
+
+                <strong>Solution:</strong>
+
+                <div class="code">String str = "madam";
+String reverse = "";
+
+for(int i = str.length() - 1; i >= 0; i--) {
+    reverse += str.charAt(i);
+}
+
+if(str.equals(reverse)) {
+    System.out.println("Palindrome");
+}
+else {
+    System.out.println("Not Palindrome");
+}</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>5. Find Factorial of a Number</h3>
+
+            <p>
+                Write a Java program to find the factorial of a number.
+            </p>
+
+            <div class="code">Input: 5
+Output: 120</div>
+
+            <button class="btn" onclick="showAnswer(5)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer5">
+
+                <strong>Solution:</strong>
+
+                <div class="code">int n = 5;
+int factorial = 1;
+
+for(int i = 1; i <= n; i++) {
+    factorial *= i;
+}
+
+System.out.println(factorial);</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>6. Find Largest Element in an Array</h3>
+
+            <p>
+                Write a Java program to find the largest element in an array.
+            </p>
+
+            <div class="code">Input: 5, 12, 8, 20, 3
+Output: 20</div>
+
+            <button class="btn" onclick="showAnswer(6)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer6">
+
+                <strong>Solution:</strong>
+
+                <div class="code">int[] arr = {5, 12, 8, 20, 3};
+
+int largest = arr[0];
+
+for(int n : arr) {
+    if(n > largest) {
+        largest = n;
+    }
+}
+
+System.out.println(largest);</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="challenge">
+
+            <h3>7. Count Vowels in a String</h3>
+
+            <p>
+                Write a Java program to count the number of vowels
+                in a given string.
+            </p>
+
+            <div class="code">Input: Java Programming
+Output: 5</div>
+
+            <button class="btn" onclick="showAnswer(7)">
+                Show Solution
+            </button>
+
+            <div class="answer" id="answer7">
+
+                <strong>Solution:</strong>
+
+                <div class="code">String str = "Java Programming";
+int count = 0;
+
+for(char ch : str.toLowerCase().toCharArray()) {
+
+    if(ch == 'a' || ch == 'e' ||
+       ch == 'i' || ch == 'o' ||
+       ch == 'u') {
+
+        count++;
+    }
+}
+
+System.out.println(count);</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="home">
+            <a href="/index.html">🏠 Back to Home</a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function showAnswer(number) {
+
+            const answer = document.getElementById("answer" + number);
+
+            if(answer.style.display === "block") {
+                answer.style.display = "none";
+            }
+            else {
+                answer.style.display = "block";
+            }
+        }
+
+    </script>
+
+</body>
+</html>

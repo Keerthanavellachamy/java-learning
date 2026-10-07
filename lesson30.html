@@ -1,0 +1,911 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Masterclass - Lesson 30</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo .java {
+            color: #ff8a3d;
+        }
+
+        .logo .learn {
+            color: white;
+        }
+
+        .lesson-pill {
+            background: rgba(255, 138, 61, 0.12);
+            border: 1px solid rgba(255, 138, 61, 0.35);
+            color: #ffb07a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        main {
+            width: 88%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 77, 109, 0.12);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            color: #ff7f9a;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        h1 span {
+            color: #ff8a3d;
+        }
+
+        .hero p {
+            color: #b8bfd4;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 680px;
+        }
+
+        .hero-visual {
+            width: 220px;
+            height: 220px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 800;
+            box-shadow:
+                0 0 45px rgba(255, 77, 109, 0.35),
+                0 0 90px rgba(255, 138, 61, 0.15);
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+            color: #c7cce0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a3d, #ff4d6d);
+            border-radius: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        h2::before {
+            content: "// ";
+            color: #ff8a3d;
+        }
+
+        h3 {
+            color: #ffb07a;
+            margin: 22px 0 12px;
+        }
+
+        p, li {
+            color: #c4c9da;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .principle {
+            font-size: 20px;
+            color: #ff8a3d;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .code-editor {
+            background: #0d1117;
+            border: 1px solid #252b36;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .editor-header {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #252b36;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 50%;
+            background: #ff4d6d;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #e6edf3;
+        }
+
+        .keyword { color:#ff7b72; }
+        .type { color:#79c0ff; }
+        .variable { color:#d2a8ff; }
+        .string { color:#a5d6ff; }
+        .number { color:#ffa657; }
+        .function { color:#d2a8ff; }
+        .comment { color:#8b949e; }
+        .annotation { color:#7ee787; }
+
+        .output {
+            background: #0a0e16;
+            border-left: 4px solid #ff4d6d;
+            padding: 15px 18px;
+            margin-top: 14px;
+            border-radius: 7px;
+            font-family: Consolas, monospace;
+            color: #d9deea;
+        }
+
+        .info {
+            background: rgba(255,138,61,0.08);
+            border-left: 4px solid #ff8a3d;
+            padding: 17px;
+            margin-top: 18px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: #ffb07a;
+        }
+
+        td {
+            color: #c4c9da;
+        }
+
+        .completion {
+            text-align: center;
+            padding: 35px;
+            background: rgba(255,138,61,0.08);
+            border: 1px solid rgba(255,138,61,0.2);
+            border-radius: 18px;
+        }
+
+        .completion h2::before {
+            content: "";
+        }
+
+        .completion h2 {
+            font-size: 32px;
+        }
+
+        .completion p {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff8a3d, #ff4d6d);
+            color: white;
+            font-weight: 700;
+        }
+
+        .btn.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8d94a8;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                width: 180px;
+                height: 180px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            nav {
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <span class="java">Java</span><span class="learn">Learn</span>
+    </div>
+
+    <div class="lesson-pill">
+        Java OOP Masterclass • Lesson 30 / 30
+    </div>
+</nav>
+
+<main>
+
+    <section class="hero">
+        <div>
+            <div class="badge">FINAL LESSON • DESIGN PRINCIPLES</div>
+
+            <h1>SOLID <span>Principles</span></h1>
+
+            <p>
+                Learn the five SOLID principles and how they help you design
+                clean, flexible, maintainable, and scalable object-oriented
+                Java applications.
+            </p>
+        </div>
+
+        <div class="hero-visual">
+            SOLID
+        </div>
+    </section>
+
+    <section class="progress-card">
+        <div class="progress-top">
+            <strong>Lesson 30 of 30</strong>
+            <span>100% Complete</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </section>
+
+    <section class="cards">
+
+        <div class="card full">
+            <h2>What Are SOLID Principles?</h2>
+
+            <p>
+                SOLID is a group of five object-oriented design principles.
+                They help developers write code that is easier to understand,
+                maintain, test, and extend.
+            </p>
+
+            <div class="info">
+                SOLID does not mean that every class must always follow every
+                principle perfectly. Use these principles as guidelines for
+                making design decisions.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="principle">S — Single Responsibility Principle</div>
+
+            <p>
+                A class should have one clear responsibility and one main
+                reason to change.
+            </p>
+
+            <div class="info">
+                Keep related responsibilities together instead of putting
+                unrelated tasks into one large class.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="principle">O — Open/Closed Principle</div>
+
+            <p>
+                Software entities should be open for extension but closed
+                for modification.
+            </p>
+
+            <div class="info">
+                Add new behavior through extension instead of repeatedly
+                changing stable existing code.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="principle">L — Liskov Substitution Principle</div>
+
+            <p>
+                Objects of a child class should be usable wherever the parent
+                class is expected without breaking the program's behavior.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="principle">I — Interface Segregation Principle</div>
+
+            <p>
+                A class should not be forced to implement methods that it
+                does not need.
+            </p>
+
+            <div class="info">
+                Prefer small, focused interfaces instead of one large
+                interface containing unrelated methods.
+            </div>
+        </div>
+
+        <div class="card full">
+            <div class="principle">
+                D — Dependency Inversion Principle
+            </div>
+
+            <p>
+                High-level modules should depend on abstractions rather than
+                directly depending on low-level implementation details.
+            </p>
+
+            <div class="info">
+                Interfaces are commonly used to create flexible dependencies.
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Single Responsibility Principle</h2>
+
+            <h3>Problem</h3>
+
+            <p>
+                Imagine one class responsible for employee information,
+                database operations, and report generation.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Employee</span> {
+
+    <span class="keyword">void</span> <span class="function">saveToDatabase</span>() {
+        <span class="comment">// Database code</span>
+    }
+
+    <span class="keyword">void</span> <span class="function">generateReport</span>() {
+        <span class="comment">// Report code</span>
+    }
+
+    <span class="keyword">void</span> <span class="function">calculateSalary</span>() {
+        <span class="comment">// Salary calculation</span>
+    }
+}</pre>
+            </div>
+
+            <h3>Better Design</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Employee</span> {
+    <span class="comment">// Employee information</span>
+}
+
+<span class="keyword">class</span> <span class="type">EmployeeRepository</span> {
+    <span class="comment">// Database operations</span>
+}
+
+<span class="keyword">class</span> <span class="type">EmployeeReport</span> {
+    <span class="comment">// Report generation</span>
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Open/Closed Principle</h2>
+
+            <p>
+                Instead of changing existing code every time a new type is
+                added, use abstraction and inheritance to extend behavior.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Payment</span> {
+    <span class="keyword">void</span> <span class="function">pay</span>();
+}
+
+<span class="keyword">class</span> <span class="type">UPIPayment</span>
+        <span class="keyword">implements</span> <span class="type">Payment</span> {
+
+    <span class="keyword">public void</span> <span class="function">pay</span>() {
+        System.out.println(<span class="string">"Paid using UPI"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">CardPayment</span>
+        <span class="keyword">implements</span> <span class="type">Payment</span> {
+
+    <span class="keyword">public void</span> <span class="function">pay</span>() {
+        System.out.println(<span class="string">"Paid using Card"</span>);
+    }
+}</pre>
+            </div>
+
+            <div class="info">
+                A new payment method can be added by creating another
+                implementation instead of rewriting the existing payment
+                classes.
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Liskov Substitution Principle</h2>
+
+            <p>
+                A subclass should behave in a way that remains compatible
+                with the expectations of its parent type.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">class</span> <span class="type">Bird</span> {
+    <span class="keyword">void</span> <span class="function">eat</span>() {
+        System.out.println(<span class="string">"Bird is eating"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Sparrow</span>
+        <span class="keyword">extends</span> <span class="type">Bird</span> {
+
+    <span class="keyword">void</span> <span class="function">fly</span>() {
+        System.out.println(<span class="string">"Sparrow is flying"</span>);
+    }
+}</pre>
+            </div>
+
+            <p style="margin-top:16px;">
+                Sparrow can be used wherever a Bird is expected without
+                breaking the basic behavior defined by Bird.
+            </p>
+        </div>
+
+        <div class="card full">
+            <h2>Interface Segregation Principle</h2>
+
+            <h3>Large Interface Problem</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Worker</span> {
+
+    <span class="keyword">void</span> <span class="function">work</span>();
+
+    <span class="keyword">void</span> <span class="function">eat</span>();
+
+    <span class="keyword">void</span> <span class="function">sleep</span>();
+}</pre>
+            </div>
+
+            <p style="margin-top:16px;">
+                If a class does not need all these operations, it should not
+                be forced to implement them.
+            </p>
+
+            <h3>Better Design</h3>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">Workable</span> {
+    <span class="keyword">void</span> <span class="function">work</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Eatable</span> {
+    <span class="keyword">void</span> <span class="function">eat</span>();
+}
+
+<span class="keyword">interface</span> <span class="type">Sleepable</span> {
+    <span class="keyword">void</span> <span class="function">sleep</span>();
+}</pre>
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Dependency Inversion Principle</h2>
+
+            <p>
+                High-level classes should depend on abstractions rather than
+                concrete implementation classes.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="keyword">interface</span> <span class="type">NotificationService</span> {
+    <span class="keyword">void</span> <span class="function">send</span>(<span class="type">String</span> message);
+}
+
+<span class="keyword">class</span> <span class="type">EmailService</span>
+        <span class="keyword">implements</span> <span class="type">NotificationService</span> {
+
+    <span class="keyword">public void</span> <span class="function">send</span>(<span class="type">String</span> message) {
+        System.out.println(<span class="string">"Email: "</span> + message);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">OrderService</span> {
+
+    <span class="keyword">private</span> <span class="type">NotificationService</span> notification;
+
+    <span class="type">OrderService</span>(
+            <span class="type">NotificationService</span> notification) {
+
+        <span class="keyword">this</span>.notification = notification;
+    }
+
+    <span class="keyword">void</span> <span class="function">placeOrder</span>() {
+        notification.<span class="function">send</span>(<span class="string">"Order placed"</span>);
+    }
+}</pre>
+            </div>
+
+            <div class="info">
+                OrderService depends on the NotificationService interface,
+                not directly on EmailService.
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>Dependency Injection</h2>
+
+            <p>
+                The previous example demonstrates a simple form of
+                constructor dependency injection.
+            </p>
+
+            <div class="code-editor">
+                <div class="editor-header">
+                    <span class="dot"></span>
+                </div>
+
+                <pre><span class="type">NotificationService</span> service =
+        <span class="keyword">new</span> <span class="type">EmailService</span>();
+
+<span class="type">OrderService</span> order =
+        <span class="keyword">new</span> <span class="type">OrderService</span>(service);
+
+order.<span class="function">placeOrder</span>();</pre>
+            </div>
+
+            <div class="output">
+                Email: Order placed
+            </div>
+        </div>
+
+        <div class="card full">
+            <h2>SOLID Summary</h2>
+
+            <table>
+                <tr>
+                    <th>Letter</th>
+                    <th>Principle</th>
+                    <th>Main Idea</th>
+                </tr>
+
+                <tr>
+                    <td>S</td>
+                    <td>Single Responsibility</td>
+                    <td>One clear responsibility</td>
+                </tr>
+
+                <tr>
+                    <td>O</td>
+                    <td>Open/Closed</td>
+                    <td>Extend without repeatedly modifying stable code</td>
+                </tr>
+
+                <tr>
+                    <td>L</td>
+                    <td>Liskov Substitution</td>
+                    <td>Subclasses should remain compatible with parent types</td>
+                </tr>
+
+                <tr>
+                    <td>I</td>
+                    <td>Interface Segregation</td>
+                    <td>Prefer small focused interfaces</td>
+                </tr>
+
+                <tr>
+                    <td>D</td>
+                    <td>Dependency Inversion</td>
+                    <td>Depend on abstractions</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Good OOP Design</h2>
+
+            <ul>
+                <li>Keep classes focused.</li>
+                <li>Use meaningful names.</li>
+                <li>Hide internal implementation details.</li>
+                <li>Prefer composition when appropriate.</li>
+                <li>Use interfaces for flexible dependencies.</li>
+                <li>Avoid unnecessary inheritance.</li>
+                <li>Keep methods small and understandable.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Common Design Problems</h2>
+
+            <ul>
+                <li>Very large classes</li>
+                <li>Too many responsibilities</li>
+                <li>Tight coupling</li>
+                <li>Repeated code</li>
+                <li>Deep and unnecessary inheritance</li>
+                <li>Large interfaces</li>
+                <li>Direct dependency on implementations</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>OOP Design Checklist</h2>
+
+            <ol>
+                <li>Does each class have a clear responsibility?</li>
+                <li>Can new functionality be added without changing too much existing code?</li>
+                <li>Are subclasses compatible with their parent types?</li>
+                <li>Are interfaces small and focused?</li>
+                <li>Do high-level classes depend on abstractions?</li>
+                <li>Is the code easy to test?</li>
+                <li>Is the code easy for another developer to understand?</li>
+            </ol>
+        </div>
+
+        <div class="card full">
+            <h2>Final Practice Project</h2>
+
+            <p>
+                Build a small <strong>Library Management System</strong>
+                using everything learned throughout this OOP Masterclass.
+            </p>
+
+            <h3>Suggested Classes</h3>
+
+            <ul>
+                <li>Book</li>
+                <li>Student</li>
+                <li>Librarian</li>
+                <li>Library</li>
+                <li>BookRepository</li>
+                <li>NotificationService</li>
+            </ul>
+
+            <h3>Use These Concepts</h3>
+
+            <ul>
+                <li>Classes and objects</li>
+                <li>Constructors</li>
+                <li>Encapsulation</li>
+                <li>Inheritance</li>
+                <li>Polymorphism</li>
+                <li>Abstraction</li>
+                <li>Interfaces</li>
+                <li>Generics</li>
+                <li>Collections</li>
+                <li>SOLID principles</li>
+            </ul>
+        </div>
+
+        <div class="card full">
+            <h2>Final Practice Questions</h2>
+
+            <ol>
+                <li>What does SOLID stand for?</li>
+                <li>Explain the Single Responsibility Principle.</li>
+                <li>What is the Open/Closed Principle?</li>
+                <li>Explain the Liskov Substitution Principle.</li>
+                <li>Why is Interface Segregation useful?</li>
+                <li>What is Dependency Inversion?</li>
+                <li>What is dependency injection?</li>
+                <li>Why should classes have focused responsibilities?</li>
+                <li>How do interfaces reduce coupling?</li>
+                <li>How can SOLID principles improve a Java project?</li>
+            </ol>
+        </div>
+
+        <div class="card full completion">
+            <h2>🎉 Congratulations!</h2>
+
+            <p>
+                You have completed all 30 lessons of the
+                <strong>Java OOP Masterclass</strong>.
+                You have learned the core concepts of object-oriented
+                programming, from classes and objects to SOLID design
+                principles.
+            </p>
+
+            <div class="info">
+                You are now ready to apply these concepts in Java projects,
+                coding interviews, and real-world applications.
+            </div>
+        </div>
+
+    </section>
+
+    <div class="buttons">
+    <a href="lesson29.html" class="btn secondary">
+        ← Previous Lesson
+    </a>
+
+    <a href="/index.html" class="btn">
+        Finish Course →
+    </a>
+</div>
+</main>
+
+<footer>
+    ☕ JavaLearn • Java OOP Masterclass
+</footer>
+
+</body>
+</html>
+```

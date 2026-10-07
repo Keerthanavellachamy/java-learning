@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OOP Interview | JavaLearn</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #32145f 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #0b4f6c 0%, transparent 35%),
+                #080b14;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            padding: 18px 8%;
+            background: rgba(8, 11, 20, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .navbar h2 {
+            color: #ff8a3d;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255,138,61,0.12);
+            color: #ff8a3d;
+            border: 1px solid rgba(255,138,61,0.3);
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #aeb5c7;
+            font-size: 17px;
+        }
+
+        .question {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #ffb07a;
+        }
+
+        .option {
+            display: block;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            background: rgba(255,138,61,0.12);
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .btn-area {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        button {
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff8a3d, #ff4f81);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        #result {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 15px;
+            background: rgba(255,138,61,0.1);
+            border: 1px solid rgba(255,138,61,0.3);
+        }
+
+        #result h2 {
+            color: #ff8a3d;
+            margin-bottom: 10px;
+        }
+
+        .home {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .home a {
+            color: #ff8a3d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>☕ JavaLearn</h2>
+    </div>
+
+    <div class="container">
+
+        <div class="hero">
+            <div class="badge">🧩 OOP INTERVIEW</div>
+
+            <h1>Java OOP Interview Practice</h1>
+
+            <p>
+                Test your understanding of Object-Oriented Programming concepts in Java.
+            </p>
+        </div>
+
+        <form id="quizForm">
+
+            <div class="question">
+                <h3>1. What does OOP stand for?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="a">
+                    Object Oriented Programming
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="b">
+                    Object Operating Program
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="c">
+                    Ordered Object Programming
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q1" value="d">
+                    Operating Object Program
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>2. Which concept hides internal implementation details?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="a">
+                    Inheritance
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="b">
+                    Encapsulation
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="c">
+                    Polymorphism
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q2" value="d">
+                    Inheritance
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>3. Which keyword is used to inherit a class in Java?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="a">
+                    implements
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="b">
+                    extends
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="c">
+                    inherits
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q3" value="d">
+                    super
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>4. Which OOP concept allows one interface to have multiple implementations?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="a">
+                    Encapsulation
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="b">
+                    Inheritance
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="c">
+                    Polymorphism
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q4" value="d">
+                    Compilation
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>5. Which keyword refers to the current object?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="a">
+                    super
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="b">
+                    this
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="c">
+                    current
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q5" value="d">
+                    self
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>6. Which keyword is used to refer to the parent class?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="a">
+                    this
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="b">
+                    parent
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="c">
+                    super
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q6" value="d">
+                    base
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>7. What is method overloading?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="a">
+                    Same method name with different parameters
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="b">
+                    Same method with same parameters
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="c">
+                    Removing a method
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q7" value="d">
+                    Inheriting a method
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>8. Which OOP concept is achieved using method overriding?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="a">
+                    Polymorphism
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="b">
+                    Encapsulation
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="c">
+                    Compilation
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q8" value="d">
+                    Packaging
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>9. Which feature allows a child class to acquire properties of a parent class?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="a">
+                    Encapsulation
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="b">
+                    Inheritance
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="c">
+                    Abstraction
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q9" value="d">
+                    Compilation
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>10. Which access modifier provides the highest restriction?</h3>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="a">
+                    public
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="b">
+                    protected
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="c">
+                    private
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="q10" value="d">
+                    default
+                </label>
+            </div>
+
+            <div class="btn-area">
+                <button type="button" onclick="checkAnswers()">
+                    Submit OOP Practice
+                </button>
+            </div>
+
+        </form>
+
+        <div id="result">
+            <h2>Your Result</h2>
+            <p id="score"></p>
+        </div>
+
+        <div class="home">
+            <a href="/index.html">🏠 Back to Home</a>
+        </div>
+
+    </div>
+
+    <script>
+        const answers = {
+            q1: "a",
+            q2: "b",
+            q3: "b",
+            q4: "c",
+            q5: "b",
+            q6: "c",
+            q7: "a",
+            q8: "a",
+            q9: "b",
+            q10: "c"
+        };
+
+        function checkAnswers() {
+
+            let score = 0;
+
+            for (let question in answers) {
+
+                const selected = document.querySelector(
+                    `input[name="${question}"]:checked`
+                );
+
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            document.getElementById("result").style.display = "block";
+
+            document.getElementById("score").innerHTML =
+                `You scored <strong>${score} / 10</strong>`;
+        }
+    </script>
+
+</body>
+</html>
